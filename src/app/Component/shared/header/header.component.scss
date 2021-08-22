@@ -1,0 +1,208 @@
+/* Begin header */
+/* Begin header */
+.header {
+    background: url("/assets/images/bg_header_img.jpg");
+    width: 100%;
+    height: 60px;
+
+}
+
+// .header .navbar {
+
+// }
+
+.header .navbar .container {
+    /* top right bottom left */
+    padding: 4px 0px 0px 30px;
+    justify-content: normal;
+}
+
+.header .navbar .container .logo {
+    margin-top: 2px;
+}
+
+// .header .navbar .container .logo a {
+
+// }
+
+.header .navbar .container .search {
+    /* top right bottom left */
+    margin: 0px 0px 2px 85px;
+    display: flex;
+    position: relative;
+}
+
+.header .navbar .container .search input {
+    width: 400px;
+    /* top right bottom left */
+    padding: 4px 0px 4px 12px;
+}
+
+.header .navbar .container .search .search-btn {
+    position: absolute;
+    height: 94%;
+    width: 40px;
+    text-align: center;
+    right: 1px;
+    top: 1px;
+    cursor: pointer;
+}
+
+.header .navbar .container .search .search-btn:hover {
+    background-color: rgb(239, 239, 239);
+}
+
+.header .navbar .container .search .search-btn i {
+    margin-top: 10px;
+}
+
+.header .navbar .container .notification {
+    margin-left: 60px;
+}
+
+.header .navbar .container .notification i {
+    color: white;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.header .navbar .container .nav-account {
+    display: flex;
+    list-style: none;
+    /* top right bottom left */
+    margin: -4px 0px 0px 50px;
+}
+
+.header .navbar .container .nav-account .login-link::after {
+    content: "/";
+    color: #fff;
+    padding-left: 2px;
+}
+
+/* End of header */
+
+/* main-menu */
+// .main-nav {
+
+// }
+
+.scroll-nav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999 !important;
+}
+
+.main-nav .inner {
+    background-color: #e4e4e4;
+}
+
+.main-nav .inner .container {
+    /* top right bottom left */
+    padding: 0px 0px 0px 0px;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu {
+    list-style: none;
+    display: flex;
+    margin-bottom: 0;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu > li {
+    border-right: solid 1px #ddd;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu > li:hover {
+    background-color: white;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .open {
+    background-color: #f3f3f3;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .open > a {
+    color: #ae4ad9 !important;
+    text-decoration: none;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .open > a > i {
+    color: #ae4ad9;
+}
+
+/*active*/
+.main-nav .inner .container .ModuleContent .main-menu .active {
+    background-color: white;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .active > a > i {
+    color: #ae4ad9;
+}
+
+/* curr */
+/*end active*/
+.main-nav .inner .container .ModuleContent .main-menu > li > a {
+    text-transform: uppercase;
+    padding: 0 10px;
+    line-height: 40px;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .dropdown .main-menu-dropdown {
+    z-index: 100 !important;
+    display: none;
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    border: 1px solid #ddd;
+    background-color: white;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .dropdown .main-menu-dropdown .div-main-menu-dropdown {
+    display: flex;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .dropdown .main-menu-dropdown .div-main-menu-dropdown > div > ul {
+    list-style: none;
+    /* top right bottom left */
+    padding: 0px 10px 20px 10px;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .dropdown .main-menu-dropdown .div-main-menu-dropdown > div > ul > li {
+    /* top right bottom left */
+    cursor: pointer;
+    padding: 10px 15px 5px 5px;
+    width: 120px;
+}
+
+.main-nav .inner .container .ModuleContent .main-menu .dropdown .main-menu-dropdown .div-main-menu-dropdown > div > ul > li:hover {
+    /* top right bottom left */
+    color: #ae4ad9;
+}
+
+/* End of main-menu */
+
+/* back to top */
+#back-to-top {
+    visibility: hidden;
+    opacity: 0;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: #ee2c74;
+    border-radius: 3px;
+    float: left;
+    position: fixed;
+    right: 10px;
+    bottom: 30px;
+    z-index: 900;
+    transition: all 0.5s 0s ease;
+}
+
+#back-to-top .fa {
+    font-size: 32px;
+    margin-right: 0;
+}
+/* end of back to top */

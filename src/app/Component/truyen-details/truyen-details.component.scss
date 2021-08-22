@@ -1,0 +1,233 @@
+/* bộ 3 cao nhất */
+main {
+
+}
+
+main .container {
+
+}
+
+main .container .row {
+
+}
+
+/* end of bộ 3 cao nhất */
+
+/* đây là body chính */
+main .container .row .divCenter {
+    width: 720px;
+    background-color: #f9f9f9;
+}
+
+/*đây là header( cái link trên đầu)*/
+main .container .row .divCenter .breadcrumb {
+    background-color: #f9f9f9;
+}
+
+/*end of đây là header( cái link trên đầu)*/
+
+/* đây là article */
+main .container .row .divCenter article {
+
+}
+
+main .container .row .divCenter article .title-detail {
+    font-weight: 400;
+    font-size: 21px;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0;
+    line-height: 1.2;
+    color: #34393e;
+}
+
+main .container .row .divCenter article .small {
+    line-height: 1;
+    font-size: 13px;
+    font-style: italic;
+    opacity: .7;
+    display: block;
+    text-align: center;
+    padding: 5px 0 10px 0;
+}
+
+main .container .row .divCenter article .detail-info {
+    display: flex;
+}
+
+main .container .row .divCenter article .detail-info .col-image {
+    display: inline-block;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 33.333333333333333333%;
+    margin-top: 10px;
+}
+
+main .container .row .divCenter article .detail-info .col-image img {
+    width: 100%;
+    height: auto;
+}
+
+main .container .row .divCenter article .detail-info .col-info {
+    margin-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 479px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .list-info {
+    list-style: none;
+    /* top right bottom left */
+    padding: 2px 0 6px 0;
+    margin: 0;
+}
+
+main .container .row .divCenter article .detail-info .col-info .list-info > li {
+    display: flex;
+}
+
+main .container .row .divCenter article .detail-info .col-info .list-info > li .name {
+    min-width: 160px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .list-info > li > p {
+    margin: 0;
+    /* top right bottom left */
+    padding: 2px 5px 2px 5px;
+    font-weight: 400;
+    font-size: 16px;
+    text-transform: inherit;
+    color: #777676;
+}
+
+main .container .row .divCenter article .detail-info .col-info .rating-detail {
+    padding-top: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    padding-left: 6px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .rating {
+    padding-top: 8px;
+    padding-left: 1px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .rating > span {
+    padding-left: 4px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .rating .checked {
+    color: yellow;
+}
+
+main .container .row .divCenter article .detail-info .col-info .follow {
+    padding-top: 12px;
+    padding-left: 6px;
+    font-size: 14px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .follow a {
+    font-size: 14px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .read-action {
+    padding-top: 12px;
+    padding-left: 6px;
+}
+
+main .container .row .divCenter article .detail-info .col-info .read-action a {
+    font-size: 14px;
+    color: white;
+}
+
+main .container .row .divCenter article .detail-content {
+    /* top right bottom left */
+    padding: 5px 15px 0px 15px;
+}
+
+main .container .row .divCenter article .detail-content .list-title {
+    color: #2980b9;
+    border-bottom: 2px solid #2980b9;
+    font-weight: 300;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin: 10px 0 10px;
+    padding-bottom: 4px;
+}
+
+main .container .row .divCenter article .detail-content p {
+    position: relative;
+    /* top right bottom left */
+    margin: 0;
+}
+
+main .container .row .divCenter article .detail-content .shortened {
+    max-height: 60px;
+    overflow: hidden;
+}
+
+main .container .row .divCenter article .detail-content .shortened::before {
+    position: absolute;
+    content: '';
+    display: block;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 20px;
+    background: linear-gradient(rgba(255, 255, 255, 0), #fff);
+}
+
+main .container .row .divCenter article .list-chapter {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+main .container .row .divCenter article .list-chapter .list-title {
+    color: #2980b9;
+    border-bottom: 2px solid #2980b9;
+    font-weight: 300;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin: 10px 0 10px;
+    padding-bottom: 4px;
+}
+
+main .container .row .divCenter article .list-chapter nav ul {
+    padding: 0;
+}
+
+main .container .row .divCenter article .list-chapter nav ul li {
+    border-bottom: 1px dashed #ddd;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 0;
+    /* top right bottom left */
+    padding: 4px 0px 0px 0px;
+}
+
+main .container .row .divCenter article .list-chapter .heading {
+    padding: 5px 0 10px 0;
+    font-size: 16px;
+}
+
+main .container .row .divCenter article .list-chapter nav ul li .col-xs-5 {
+    width: 41.66666667%;
+}
+
+main .container .row .divCenter article .list-chapter nav ul li .col-xs-4 {
+    width: 33.33333333%;
+}
+
+main .container .row .divCenter article .list-chapter nav ul li .col-xs-3 {
+    width: 25%;
+}
+main .container .row .divCenter article .list-chapter nav ul li div a {
+    color: black;
+}
+main .container .row .divCenter article .list-chapter nav ul li div a:hover {
+    color: #337ab7;
+}
+/* end of đây là article */
+
+
+/* end of đây là body chính */

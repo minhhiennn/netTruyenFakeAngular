@@ -10,6 +10,7 @@ namespace backend.Controllers
     {
         [HttpGet]
         [Authorize(Roles = "Operator")]
+        //[AllowAnonymous]
         public IEnumerable<string> Get()
         {
             return new string[] { "John Doe", "Jane Doe" };

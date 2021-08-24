@@ -86,7 +86,17 @@ export class HomeComponent implements OnInit {
       })
     }).subscribe(response => {
       const token = (<any>response).token;
+      
       localStorage.setItem("token", token);
+    }, err => { console.log(err) });
+  }
+  auth1() {
+    this.http.get("https://localhost:5001/api/Customers", {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    }).subscribe(response => {
+     console.log(response);
     }, err => { console.log(err) });
   }
 }

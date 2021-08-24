@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './Component/shared/header/header.component';
 import { JwtModule } from "@auth0/angular-jwt";
 
+
 export function tokenGetter() {
-  return localStorage.getItem("token");
+  return localStorage.getItem('token');
 }
 
 @NgModule({
@@ -15,6 +16,7 @@ export function tokenGetter() {
     AppComponent,
     HeaderComponent
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -22,8 +24,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['localhost: 5001'],
-        disallowedRoutes: []
+        whitelistedDomains : ['localhost:5001']
       }
     })
   ],

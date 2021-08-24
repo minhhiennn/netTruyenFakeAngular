@@ -72,7 +72,7 @@ namespace backend.Controllers
             {
                 return NotFound();
             }
-
+            
             var manga = await _context.Manga.FindAsync(id);
             if (manga == null)
             {

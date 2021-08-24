@@ -14,7 +14,6 @@ a:hover {
     padding: 0;
     .container {
         height: 100%;
-        border: 1px solid red;
         .top {
             margin: 0;
             border: 1px solid white;
@@ -33,9 +32,13 @@ a:hover {
                 i {
                     font-weight: 400;
                     font-size: 14px;
-                    margin: 0 0 7px 7px;
+                    margin: 0 0 0 7px;
                 }
             }
+        }
+        .reading-control{
+            border: 1px solid red;
+            height: 100px;
         }
     }
 }

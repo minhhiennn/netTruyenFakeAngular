@@ -1,0 +1,16 @@
+.main-parent{
+    width: 100%;
+    height: 1000px;
+    background-color: black;
+    .container{
+        height: 100%;
+        border: 1px solid red;
+        .breadcrumb{
+            background-color: white;
+            border-radius: 0%;
+            li{
+                color: #288ad6;
+            }
+        }
+    }
+}

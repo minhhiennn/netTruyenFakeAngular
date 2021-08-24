@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     let x = document.getElementsByClassName("main-menu")[0];
-    console.log(x);
     let childOfx = x.getElementsByClassName("child-main-menu");
     for (let i = 0; i < childOfx.length; i++) {
       childOfx[i].addEventListener("mouseover", () => {

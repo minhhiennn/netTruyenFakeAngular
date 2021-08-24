@@ -1,4 +1,6 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-home',
@@ -10,7 +12,7 @@ export class HomeComponent implements OnInit {
   count: number = 0;
   wait: boolean = false;
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     // hover pagination
@@ -33,15 +35,15 @@ export class HomeComponent implements OnInit {
       });
     }
   }
-  TopComicsScrollLeft(){
+  TopComicsScrollLeft() {
     let y = document.getElementsByClassName("owl-wrapper-outer")[0];
-      if (y.scrollLeft <= 0) {
-        y.scroll({ left: 194 * 4, behavior: 'smooth' });
-      } else {
-        y.scroll({ left: y.scrollLeft - 194, behavior: 'smooth' });
-      }
+    if (y.scrollLeft <= 0) {
+      y.scroll({ left: 194 * 4, behavior: 'smooth' });
+    } else {
+      y.scroll({ left: y.scrollLeft - 194, behavior: 'smooth' });
+    }
   }
-  TopComicsScrollRight(){
+  TopComicsScrollRight() {
     let y = document.getElementsByClassName("owl-wrapper-outer")[0];
     if (this.back == false) {
       if (y.scrollLeft >= 194 * 4 || y.scrollLeft > 194 * 3) {
@@ -71,10 +73,20 @@ export class HomeComponent implements OnInit {
       this.wait = true;
     }
   }
-  checkFastClick(scrollLeft: any){
+  checkFastClick(scrollLeft: any) {
     if (scrollLeft % 194 != 0 && scrollLeft < 194 * 4) {
       return true;
     }
     return false;
+  }
+  auth() {
+    this.http.post("https://localhost:5001/api/auth/login", {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    }).subscribe(response => {
+      const token = (<any>response).token;
+      localStorage.setItem("token", token);
+    }, err => { console.log(err) });
   }
 }

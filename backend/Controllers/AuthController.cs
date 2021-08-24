@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class AuthController : ControllerBase
     {
+        // https://localhost:5001/api/auth/login
+        
         [HttpPost, Route("login")]
+        [AllowAnonymous]
         public IActionResult Login()
         {    
             {

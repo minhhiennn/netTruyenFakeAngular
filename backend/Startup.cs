@@ -79,6 +79,7 @@ namespace backend
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseCors("EnableCORS");
 
             app.UseRouting();

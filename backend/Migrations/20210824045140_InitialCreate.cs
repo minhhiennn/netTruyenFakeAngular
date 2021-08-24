@@ -47,6 +47,21 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Manga",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Genre = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Manga", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -206,6 +221,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Manga");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

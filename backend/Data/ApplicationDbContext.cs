@@ -15,5 +15,7 @@ namespace backend.Data
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<backend.Models.Manga> Manga { get; set; }
     }
 }

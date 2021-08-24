@@ -1,27 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Data\\Space\\GIT\\NewAPPwithServer\\backend\\backend.csproj": {}
+    "C:\\Users\\minhh\\Desktop\\netTruyenFake\\netTruyenFake\\backend\\backend.csproj": {}
   },
   "projects": {
-    "D:\\Data\\Space\\GIT\\NewAPPwithServer\\backend\\backend.csproj": {
+    "C:\\Users\\minhh\\Desktop\\netTruyenFake\\netTruyenFake\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Data\\Space\\GIT\\NewAPPwithServer\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\minhh\\Desktop\\netTruyenFake\\netTruyenFake\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "D:\\Data\\Space\\GIT\\NewAPPwithServer\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\shegg\\.nuget\\packages\\",
-        "outputPath": "D:\\Data\\Space\\GIT\\NewAPPwithServer\\backend\\obj\\",
+        "projectPath": "C:\\Users\\minhh\\Desktop\\netTruyenFake\\netTruyenFake\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\minhh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\minhh\\Desktop\\netTruyenFake\\netTruyenFake\\backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\shegg\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\minhh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "https://www.nuget.org/api/v2": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
@@ -67,7 +72,7 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[5.6.3, )"
+              "version": "[6.1.5, )"
             }
           },
           "imports": [
@@ -80,12 +85,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[5.0.5, 5.0.5]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -94,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.5.21302.13\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

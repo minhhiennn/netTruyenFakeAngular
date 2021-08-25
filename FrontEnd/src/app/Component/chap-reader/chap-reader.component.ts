@@ -18,12 +18,15 @@ export class ChapReaderComponent implements OnInit {
     let childOfX = x.getElementsByTagName('li');
     for (let i = 0; i < childOfX.length; i++) {
       if (i != 0) {
-         let y = document.createElement('span');
-         y.style.padding = '0 5px';
-         y.style.color = '#ccc';
-         y.textContent = '»';
-         childOfX[i].before(y);
+        let y = document.createElement('span');
+        y.style.padding = '0 5px';
+        y.style.color = '#ccc';
+        y.textContent = '»';
+        childOfX[i].before(y);
       }
     }
+  } 
+  counter(i: number) {
+    return new Array(i);
   }
 }

@@ -65,7 +65,7 @@ namespace backend
                     .AllowAnyMethod();
                 });
             });
-      
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
@@ -86,7 +86,6 @@ namespace backend
             app.UseCors("EnableCORS");
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles(new StaticFileOptions()
@@ -94,13 +93,12 @@ namespace backend
                 OnPrepareResponse = (context) =>
                 {
                     // && context.Context.Request.Path.StartsWithSegments("/00001")
-                    if (!context.Context.User.Identity.IsAuthenticated )
+                    if (!context.Context.User.Identity.IsAuthenticated)
                     {
                         throw new Exception("Not authenticated");
                     }
                 }
             });
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

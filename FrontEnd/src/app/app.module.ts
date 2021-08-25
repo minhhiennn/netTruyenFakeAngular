@@ -8,6 +8,7 @@ import { JwtModule } from "@auth0/angular-jwt";
 
 
 export function tokenGetter() {
+  console.log('bùn');
   return localStorage.getItem('token');
 }
 
@@ -16,7 +17,7 @@ export function tokenGetter() {
     AppComponent,
     HeaderComponent
   ],
-  
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -24,12 +25,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-<<<<<<< HEAD
-        allowedDomains: ['localhost:5001'],
-        disallowedRoutes: []
-=======
-        whitelistedDomains : ['localhost:5001']
->>>>>>> a9d1e72961a407ffdbb2a000f86fde09763d3935
+        whitelistedDomains: ['localhost:5001']
       }
     })
   ],

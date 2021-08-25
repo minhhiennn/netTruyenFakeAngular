@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
       })
     }).subscribe(response => {
       const token = (<any>response).token;
-      
+      console.log(token);
       localStorage.setItem("token", token);
     }, err => { console.log(err) });
   }

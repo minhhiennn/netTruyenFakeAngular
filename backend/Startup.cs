@@ -65,12 +65,7 @@ namespace backend
                     .AllowAnyMethod();
                 });
             });
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
+      
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
@@ -88,19 +83,24 @@ namespace backend
             }
             app.UseHttpsRedirection();
 
-
             app.UseCors("EnableCORS");
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseStaticFiles(new StaticFileOptions
+            app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "wwwroot/00001")),
-                RequestPath = "/StaticFiles"
+                OnPrepareResponse = (context) =>
+                {
+                    // && context.Context.Request.Path.StartsWithSegments("/00001")
+                    if (!context.Context.User.Identity.IsAuthenticated )
+                    {
+                        throw new Exception("Not authenticated");
+                    }
+                }
             });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

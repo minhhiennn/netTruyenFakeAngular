@@ -29,7 +29,6 @@ namespace backend.Controllers
                     new Claim(ClaimTypes.Name, "sa"), 
                     new Claim(ClaimTypes.Role, "Operator")
                 };
-
                 var tokeOptions = new JwtSecurityToken(
                     issuer: "https://localhost:5001",
                     audience: "https://localhost:5001",
@@ -43,5 +42,5 @@ namespace backend.Controllers
             }
           
         }
-    }
+        }
 }

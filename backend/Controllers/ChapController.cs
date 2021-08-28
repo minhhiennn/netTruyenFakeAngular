@@ -6,55 +6,52 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
-using backend.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class MangaController : ControllerBase
+    public class ChapController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public MangaController(ApplicationDbContext context)
+
+        public ChapController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Manga
+        // GET: api/Chap
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Manga>>> GetManga()
+        public async Task<ActionResult<IEnumerable<Chap>>> GetChap()
         {
-
-            return await _context.Manga.ToListAsync();
+            return await _context.Chap.ToListAsync();
         }
 
-        // GET: api/Manga/5
-        
+        // GET: api/Chap/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Manga>> GetManga(string id)
+        public async Task<ActionResult<Chap>> GetChap(string id)
         {
-            var manga = await _context.Manga.Where(b => b.id == id).Include(b => b.detail).Include(b => b.chaps).FirstOrDefaultAsync();
-            if (manga == null)
+            var chap = await _context.Chap.FindAsync(id);
+
+            if (chap == null)
             {
                 return NotFound();
             }
 
-            return manga;
+            return chap;
         }
 
-        // PUT: api/Manga/5
+        // PUT: api/Chap/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutManga(string id, Manga manga)
+        public async Task<IActionResult> PutChap(string id, Chap chap)
         {
-            if (id != manga.id)
+            if (id != chap.id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(manga).State = EntityState.Modified;
+            _context.Entry(chap).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +59,7 @@ namespace backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MangaExists(id))
+                if (!ChapExists(id))
                 {
                     return NotFound();
                 }
@@ -75,19 +72,19 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Manga
+        // POST: api/Chap
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Manga>> PostManga(Manga manga)
+        public async Task<ActionResult<Chap>> PostChap(Chap chap)
         {
-            _context.Manga.Add(manga);
+            _context.Chap.Add(chap);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (MangaExists(manga.id))
+                if (ChapExists(chap.id))
                 {
                     return Conflict();
                 }
@@ -97,28 +94,28 @@ namespace backend.Controllers
                 }
             }
 
-            return CreatedAtAction("GetManga", new { id = manga.id }, manga);
+            return CreatedAtAction("GetChap", new { id = chap.id }, chap);
         }
 
-        // DELETE: api/Manga/5
+        // DELETE: api/Chap/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteManga(string id)
+        public async Task<IActionResult> DeleteChap(string id)
         {
-            var manga = await _context.Manga.FindAsync(id);
-            if (manga == null)
+            var chap = await _context.Chap.FindAsync(id);
+            if (chap == null)
             {
                 return NotFound();
             }
 
-            _context.Manga.Remove(manga);
+            _context.Chap.Remove(chap);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MangaExists(string id)
+        private bool ChapExists(string id)
         {
-            return _context.Manga.Any(e => e.id == id);
+            return _context.Chap.Any(e => e.id == id);
         }
     }
 }

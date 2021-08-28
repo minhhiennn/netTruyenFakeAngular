@@ -1,4 +1,6 @@
+
 <main class="main-parent">
+  
     <div class="container">
         <div class="top">
             <ul class="breadcrumb" id="header-menu">
@@ -71,9 +73,11 @@
                 </a>
             </div>
         </div>
+        <!-- <img [src]="imageToShow"> -->
         <div style="text-align: center;">
-            <div *ngFor='let in of counter(100) ;let i = index'>
-                <img src="https://localhost:5001/00001/{{i}}.jpg" alt="">
+            <div *ngFor='let in of counter(pageCount) ;let i = index'>
+            <!-- <img [src]="list[i]"> -->
+            <img id="img{{i}}" src="" alt="">
             </div>
         </div>
     </div>

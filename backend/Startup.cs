@@ -3,11 +3,9 @@ using System.Net;
 using System.Text;
 using backend.Data;
 using backend.Models;
-using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +22,6 @@ namespace backend
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
@@ -63,7 +60,6 @@ namespace backend
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
             });
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -73,7 +69,7 @@ namespace backend
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend v1"));
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseCors("EnableCORS");
@@ -88,9 +84,9 @@ namespace backend
                 {
                     if (ctx.Context.Request.Path.StartsWithSegments("/00001"))
                     {
-                        Console.Writeline(ctx.Context.User.Identity.IsAuthenticated);
+
                         ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
-                        
+
                         if (!ctx.Context.User.Identity.IsAuthenticated)
                         {
                             ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
@@ -100,9 +96,6 @@ namespace backend
                     }
                 }
             });
-
-
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

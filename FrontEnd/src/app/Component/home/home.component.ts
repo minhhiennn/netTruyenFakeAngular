@@ -1,5 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+
+
 
 
 @Component({
@@ -7,12 +10,17 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent implements OnInit {
   back: boolean = false;
   count: number = 0;
   wait: boolean = false;
+  token: any;
+  thumbnail: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+  }
 
   ngOnInit(): void {
     // hover pagination
@@ -91,12 +99,13 @@ export class HomeComponent implements OnInit {
     }, err => { console.log(err) });
   }
   auth1() {
-    this.http.get("https://localhost:5001/api/Customers", {
+    this.http.get("https://localhost:5001/api/Customers/BannerImage", {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
     }).subscribe(response => {
-     console.log(response);
+      console.log(response);
     }, err => { console.log(err) });
   }
+ 
 }

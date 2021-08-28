@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 namespace backend.Controllers
@@ -20,7 +21,6 @@ namespace backend.Controllers
         public IActionResult Login()
         {    
             {
-                Console.WriteLine("asd");
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
@@ -36,8 +36,8 @@ namespace backend.Controllers
                     expires: DateTime.Now.AddMinutes(5),
                     signingCredentials: signinCredentials
                 );
-
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                
                 return Ok(new { Token = tokenString });
             }
           

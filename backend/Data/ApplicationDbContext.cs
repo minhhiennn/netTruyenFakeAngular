@@ -16,6 +16,12 @@ namespace backend.Data
             base.OnModelCreating(builder);
         }
 
+        public DbSet<Chap> Chap { get; set; }
+
+        public DbSet<Detail> Detail { get; set; }
+
         public DbSet<backend.Models.Manga> Manga { get; set; }
+
+      
     }
 }

@@ -6,55 +6,52 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
-using backend.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
-    public class MangaController : ControllerBase
+    public class DetailController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public MangaController(ApplicationDbContext context)
+
+        public DetailController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Manga
+        // GET: api/Detail
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Manga>>> GetManga()
+        public async Task<ActionResult<IEnumerable<Detail>>> GetDetail()
         {
-
-            return await _context.Manga.ToListAsync();
+            return await _context.Detail.ToListAsync();
         }
 
-        // GET: api/Manga/5
-        
+        // GET: api/Detail/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Manga>> GetManga(string id)
+        public async Task<ActionResult<Detail>> GetDetail(string id)
         {
-            var manga = await _context.Manga.Where(b => b.id == id).Include(b => b.detail).Include(b => b.chaps).FirstOrDefaultAsync();
-            if (manga == null)
+            var detail = await _context.Detail.FindAsync(id);
+
+            if (detail == null)
             {
                 return NotFound();
             }
 
-            return manga;
+            return detail;
         }
 
-        // PUT: api/Manga/5
+        // PUT: api/Detail/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutManga(string id, Manga manga)
+        public async Task<IActionResult> PutDetail(string id, Detail detail)
         {
-            if (id != manga.id)
+            if (id != detail.MangaId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(manga).State = EntityState.Modified;
+            _context.Entry(detail).State = EntityState.Modified;
 
             try
             {
@@ -62,7 +59,7 @@ namespace backend.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MangaExists(id))
+                if (!DetailExists(id))
                 {
                     return NotFound();
                 }
@@ -75,19 +72,19 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Manga
+        // POST: api/Detail
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Manga>> PostManga(Manga manga)
+        public async Task<ActionResult<Detail>> PostDetail(Detail detail)
         {
-            _context.Manga.Add(manga);
+            _context.Detail.Add(detail);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (MangaExists(manga.id))
+                if (DetailExists(detail.MangaId))
                 {
                     return Conflict();
                 }
@@ -97,28 +94,28 @@ namespace backend.Controllers
                 }
             }
 
-            return CreatedAtAction("GetManga", new { id = manga.id }, manga);
+            return CreatedAtAction("GetDetail", new { id = detail.MangaId }, detail);
         }
 
-        // DELETE: api/Manga/5
+        // DELETE: api/Detail/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteManga(string id)
+        public async Task<IActionResult> DeleteDetail(string id)
         {
-            var manga = await _context.Manga.FindAsync(id);
-            if (manga == null)
+            var detail = await _context.Detail.FindAsync(id);
+            if (detail == null)
             {
                 return NotFound();
             }
 
-            _context.Manga.Remove(manga);
+            _context.Detail.Remove(detail);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MangaExists(string id)
+        private bool DetailExists(string id)
         {
-            return _context.Manga.Any(e => e.id == id);
+            return _context.Detail.Any(e => e.MangaId == id);
         }
     }
 }

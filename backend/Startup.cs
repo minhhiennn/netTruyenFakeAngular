@@ -4,12 +4,14 @@ using System.Text;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -55,6 +57,12 @@ namespace backend
                     .AllowAnyMethod();
                 });
             });
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
@@ -69,32 +77,19 @@ namespace backend
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "backend v1"));
             }
-            
-            app.UseHttpsRedirection();
 
-            app.UseCors("EnableCORS");
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors("EnableCORS");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseStaticFiles(new StaticFileOptions
             {
-                OnPrepareResponse = ctx =>
-                {
-                    if (ctx.Context.Request.Path.StartsWithSegments("/00001"))
-                    {
-
-                        ctx.Context.Response.Headers.Add("Cache-Control", "no-store");
-
-                        if (!ctx.Context.User.Identity.IsAuthenticated)
-                        {
-                            ctx.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                            ctx.Context.Response.ContentLength = 0;
-                            ctx.Context.Response.Body = Stream.Null;
-                        }
-                    }
-                }
+                FileProvider = new PhysicalFileProvider(
+                       Path.Combine(env.ContentRootPath, "storage")),
+                RequestPath = "/storage"
             });
             app.UseEndpoints(endpoints =>
             {

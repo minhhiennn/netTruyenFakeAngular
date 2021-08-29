@@ -29,7 +29,6 @@ namespace backend.Controllers
 
             return await _context.Manga.ToListAsync();
         }
-
         // GET: api/Manga/5
         
         [HttpGet("{id}")]

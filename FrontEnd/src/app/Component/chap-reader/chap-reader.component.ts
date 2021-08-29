@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 declare var myTest: any;
 
 @Component({
@@ -10,12 +11,14 @@ declare var myTest: any;
 export class ChapReaderComponent implements OnInit {
   imageToShow: any;
   list: any[] = [];
-  manga: string = "";
-  chap: number = 0;
+  manga: any ;
+  chap: any ;
   pageCount: number = 0;
-  constructor(private http: HttpClient) {
-    this.manga = "00001";
-    this.chap = 97;
+  constructor(private route: ActivatedRoute, private http: HttpClient) {
+    
+    this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
+    this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap','');
+    console.log(this.manga +" "+ this.chap)
     this.loadManga();
 
   }
@@ -42,7 +45,7 @@ export class ChapReaderComponent implements OnInit {
   loadManga() {
     this.http.get("https://localhost:5001/api/manga/" + this.manga).subscribe((data: any) =>
       data["chaps"].forEach((element: any) => {
-        if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`https://localhost:5001/${element["id"]}`, 0, element["pageCount"]) };
+        if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`https://localhost:5001/storage/${element["id"]}`, 1, element["pageCount"]) };
       }
       ));
   }

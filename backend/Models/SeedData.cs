@@ -40,7 +40,7 @@ namespace backend.Models
                         author = "",
                         condition = false,
                         genre = "Action-Adventure-Cultivation-Fantasy-Manhwa-Martial Arts",
-                        stars = 0,
+                        stars = "0-0-0-0-0",
                         views = 0,
                         follows = 0,
                         summary = ""

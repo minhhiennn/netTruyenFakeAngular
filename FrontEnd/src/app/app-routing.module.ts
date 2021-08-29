@@ -8,10 +8,9 @@ import { ChapReaderComponent } from './Component/chap-reader/chap-reader.compone
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'truyen-tranh/toan-chuc-phap-su-17023', component: TruyenDetailsComponent },
-  { path: 'truyen-tranh/toan-chuc-phap-su-17023/chap-227/755181', component: ChapReaderComponent }
+  { path: 'truyen-tranh/:nameM', component: TruyenDetailsComponent },
+  { path: 'truyen-tranh/:nameM/:nameC/:idC', component: ChapReaderComponent },
 ];
-
 @NgModule({
   declarations: [
     HomeComponent,

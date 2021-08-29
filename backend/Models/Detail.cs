@@ -16,7 +16,7 @@ public class Detail
     // public DateTime ReleaseDate { get; set; }
     public bool condition { get; set; }
     public String genre { get; set; }
-    public int stars { get; set; }
+    public string stars { get; set; }
     public int views { get; set; }
     public int follows { get; set; }
     public string summary { get; set; }

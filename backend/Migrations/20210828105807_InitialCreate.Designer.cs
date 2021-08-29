@@ -9,7 +9,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210827104310_InitialCreate")]
+    [Migration("20210828105807_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,8 +62,8 @@ namespace backend.Migrations
                     b.Property<string>("genre")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("stars")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("stars")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("summary")
                         .HasColumnType("TEXT");

@@ -60,8 +60,8 @@ namespace backend.Migrations
                     b.Property<string>("genre")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("stars")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("stars")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("summary")
                         .HasColumnType("TEXT");

@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-truyen-details',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TruyenDetailsComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  chap: any;
+  chapID: number = 0;
+  chapNumber: number = 0;
+  routerPara : any;
   ngOnInit(): void {
+    this.routerPara = this.route.snapshot.paramMap.get('nameM');
+    var id = (this.routerPara?.split("-").pop());
+    this.http.get("https://localhost:5001/api/manga/" + id).subscribe((data: any) => {
+      this.chap = data['chaps'][0];
+      this.chapID = this.chap['id'];
+      this.chapNumber = this.chap['number'];
+    });
+
     let x = document.getElementsByClassName("breadcrumb")[0];
     let y = x.getElementsByTagName("li");
     for (let i = 0; i < y.length; i++) {

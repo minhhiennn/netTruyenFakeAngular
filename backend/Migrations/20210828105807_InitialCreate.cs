@@ -55,7 +55,7 @@ namespace backend.Migrations
                     author = table.Column<string>(type: "TEXT", nullable: true),
                     condition = table.Column<bool>(type: "INTEGER", nullable: false),
                     genre = table.Column<string>(type: "TEXT", nullable: true),
-                    stars = table.Column<int>(type: "INTEGER", nullable: false),
+                    stars = table.Column<string>(type: "TEXT", nullable: true),
                     views = table.Column<int>(type: "INTEGER", nullable: false),
                     follows = table.Column<int>(type: "INTEGER", nullable: false),
                     summary = table.Column<string>(type: "TEXT", nullable: true)

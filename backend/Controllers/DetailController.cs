@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class DetailController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -46,7 +48,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDetail(string id, Detail detail)
         {
-            if (id != detail.MangaId)
+            if (id != detail.id)
             {
                 return BadRequest();
             }
@@ -84,7 +86,7 @@ namespace backend.Controllers
             }
             catch (DbUpdateException)
             {
-                if (DetailExists(detail.MangaId))
+                if (DetailExists(detail.id))
                 {
                     return Conflict();
                 }
@@ -94,7 +96,7 @@ namespace backend.Controllers
                 }
             }
 
-            return CreatedAtAction("GetDetail", new { id = detail.MangaId }, detail);
+            return CreatedAtAction("GetDetail", new { id = detail.id }, detail);
         }
 
         // DELETE: api/Detail/5
@@ -115,7 +117,7 @@ namespace backend.Controllers
 
         private bool DetailExists(string id)
         {
-            return _context.Detail.Any(e => e.MangaId == id);
+            return _context.Detail.Any(e => e.id == id);
         }
     }
 }

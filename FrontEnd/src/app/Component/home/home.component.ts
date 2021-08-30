@@ -98,6 +98,7 @@ export class HomeComponent implements OnInit {
       const token = (<any>response).token;
       console.log(token);
       localStorage.setItem("token", token);
+      this.http.get(`${this.baseUrl}${ApiPaths.Manga}`).subscribe(data => console.log(data))
     }, err => { console.log(err) });
   }
   auth1() {

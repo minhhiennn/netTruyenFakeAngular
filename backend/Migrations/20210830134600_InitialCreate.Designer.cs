@@ -9,7 +9,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210828105807_InitialCreate")]
+    [Migration("20210830134600_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,9 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Detail", b =>
                 {
+                    b.Property<string>("id")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("MangaId")
                         .HasColumnType("TEXT");
 
@@ -74,7 +77,10 @@ namespace backend.Migrations
                     b.Property<int>("views")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("MangaId");
+                    b.HasKey("id");
+
+                    b.HasIndex("MangaId")
+                        .IsUnique();
 
                     b.ToTable("Detail");
                 });
@@ -276,15 +282,10 @@ namespace backend.Migrations
                     b.Property<string>("id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("detailMangaId")
-                        .HasColumnType("TEXT");
-
                     b.Property<DateTime>("lastUpdate")
                         .HasColumnType("TEXT");
 
                     b.HasKey("id");
-
-                    b.HasIndex("detailMangaId");
 
                     b.ToTable("Manga");
                 });
@@ -294,6 +295,13 @@ namespace backend.Migrations
                     b.HasOne("backend.Models.Manga", null)
                         .WithMany("chaps")
                         .HasForeignKey("MangaId");
+                });
+
+            modelBuilder.Entity("Detail", b =>
+                {
+                    b.HasOne("backend.Models.Manga", null)
+                        .WithOne("detail")
+                        .HasForeignKey("Detail", "MangaId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -349,16 +357,9 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Manga", b =>
                 {
-                    b.HasOne("Detail", "detail")
-                        .WithMany()
-                        .HasForeignKey("detailMangaId");
+                    b.Navigation("chaps");
 
                     b.Navigation("detail");
-                });
-
-            modelBuilder.Entity("backend.Models.Manga", b =>
-                {
-                    b.Navigation("chaps");
                 });
 #pragma warning restore 612, 618
         }

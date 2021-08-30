@@ -23,8 +23,7 @@ namespace backend.Models
                 context.Chap.AddRange(
                     new Chap
                     {
-                        id = "00001",
-
+                        id = "00002",
                         number = 97,
                         ReleaseDate = DateTime.Now,
                         views = 0,
@@ -35,7 +34,7 @@ namespace backend.Models
                 context.Detail.AddRange(
                     new Detail
                     {
-                        MangaId = "00001",
+                        id = "00001",
                         title = "Bắc Kiếm Giang Hồ-Legend of the Northern Blade",
                         author = "",
                         condition = false,
@@ -43,7 +42,8 @@ namespace backend.Models
                         stars = "0-0-0-0-0",
                         views = 0,
                         follows = 0,
-                        summary = ""
+                        summary = "",
+                        MangaId = "00001"
                     }
                 );
                 context.Manga.AddRange(

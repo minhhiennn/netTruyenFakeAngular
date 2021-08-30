@@ -6,9 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Detail
 {
-    [Key]
-    [ForeignKey("Manga")]
-    public String MangaId { get; set; }
+    [Key]    
+    public String id { get; set; }
     public string title { get; set; }
     public string author { get; set; }
 
@@ -20,6 +19,9 @@ public class Detail
     public int views { get; set; }
     public int follows { get; set; }
     public string summary { get; set; }
+    [ForeignKey("Manga")]
+    public String MangaId { get; set; }
+
 
 
 }

@@ -21,6 +21,7 @@ export class TruyenDetailsComponent implements OnInit {
     this.routerPara = this.route.snapshot.paramMap.get('nameM');
     var id = (this.routerPara?.split("-").pop());
     this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + id).subscribe((data: any) => {
+      console.log(data);
       this.chap = data['chaps'][0];
       this.chapID = this.chap['id'];
       this.chapNumber = this.chap['number'];

@@ -47,22 +47,15 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Detail",
+                name: "Manga",
                 columns: table => new
                 {
-                    MangaId = table.Column<string>(type: "TEXT", nullable: false),
-                    title = table.Column<string>(type: "TEXT", nullable: true),
-                    author = table.Column<string>(type: "TEXT", nullable: true),
-                    condition = table.Column<bool>(type: "INTEGER", nullable: false),
-                    genre = table.Column<string>(type: "TEXT", nullable: true),
-                    stars = table.Column<string>(type: "TEXT", nullable: true),
-                    views = table.Column<int>(type: "INTEGER", nullable: false),
-                    follows = table.Column<int>(type: "INTEGER", nullable: false),
-                    summary = table.Column<string>(type: "TEXT", nullable: true)
+                    id = table.Column<string>(type: "TEXT", nullable: false),
+                    lastUpdate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Detail", x => x.MangaId);
+                    table.PrimaryKey("PK_Manga", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,25 +165,6 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Manga",
-                columns: table => new
-                {
-                    id = table.Column<string>(type: "TEXT", nullable: false),
-                    lastUpdate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    detailMangaId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Manga", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Manga_Detail_detailMangaId",
-                        column: x => x.detailMangaId,
-                        principalTable: "Detail",
-                        principalColumn: "MangaId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Chap",
                 columns: table => new
                 {
@@ -206,6 +180,32 @@ namespace backend.Migrations
                     table.PrimaryKey("PK_Chap", x => x.id);
                     table.ForeignKey(
                         name: "FK_Chap_Manga_MangaId",
+                        column: x => x.MangaId,
+                        principalTable: "Manga",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Detail",
+                columns: table => new
+                {
+                    id = table.Column<string>(type: "TEXT", nullable: false),
+                    title = table.Column<string>(type: "TEXT", nullable: true),
+                    author = table.Column<string>(type: "TEXT", nullable: true),
+                    condition = table.Column<bool>(type: "INTEGER", nullable: false),
+                    genre = table.Column<string>(type: "TEXT", nullable: true),
+                    stars = table.Column<string>(type: "TEXT", nullable: true),
+                    views = table.Column<int>(type: "INTEGER", nullable: false),
+                    follows = table.Column<int>(type: "INTEGER", nullable: false),
+                    summary = table.Column<string>(type: "TEXT", nullable: true),
+                    MangaId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Detail", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Detail_Manga_MangaId",
                         column: x => x.MangaId,
                         principalTable: "Manga",
                         principalColumn: "id",
@@ -255,9 +255,10 @@ namespace backend.Migrations
                 column: "MangaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Manga_detailMangaId",
-                table: "Manga",
-                column: "detailMangaId");
+                name: "IX_Detail_MangaId",
+                table: "Detail",
+                column: "MangaId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -281,6 +282,9 @@ namespace backend.Migrations
                 name: "Chap");
 
             migrationBuilder.DropTable(
+                name: "Detail");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -288,9 +292,6 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Manga");
-
-            migrationBuilder.DropTable(
-                name: "Detail");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class MangaController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -27,7 +27,9 @@ namespace backend.Controllers
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga()
         {
 
-            return await _context.Manga.ToListAsync();
+            
+            
+            return await _context.Manga.Include(b => b.detail).Include(b => b.chaps).ToListAsync();
         }
         // GET: api/Manga/5
         

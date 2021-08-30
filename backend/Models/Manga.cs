@@ -12,6 +12,7 @@ namespace backend.Models
         public DateTime lastUpdate { get; set; }
         public Detail detail { get; set; }
         public List<Chap> chaps { get; set; }
+        
 
     }
    

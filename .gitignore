@@ -1,3 +1,4 @@
 .vscode/*
 backend/obj/Debug/*
-# backend/wwwroot/00001/*
+backend/wwwroot/*
+backend/storage/*

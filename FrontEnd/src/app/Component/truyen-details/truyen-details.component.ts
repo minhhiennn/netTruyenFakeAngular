@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-truyen-details',
@@ -10,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class TruyenDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  baseUrl = environment.baseUrl;
   chap: any;
   chapID: number = 0;
   chapNumber: number = 0;
@@ -17,7 +20,7 @@ export class TruyenDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.routerPara = this.route.snapshot.paramMap.get('nameM');
     var id = (this.routerPara?.split("-").pop());
-    this.http.get("https://localhost:5001/api/manga/" + id).subscribe((data: any) => {
+    this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + id).subscribe((data: any) => {
       this.chap = data['chaps'][0];
       this.chapID = this.chap['id'];
       this.chapNumber = this.chap['number'];

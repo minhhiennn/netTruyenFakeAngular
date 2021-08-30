@@ -1,6 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -17,7 +19,7 @@ export class HomeComponent implements OnInit {
   wait: boolean = false;
   token: any;
   thumbnail: any;
-
+  baseUrl = environment.baseUrl;
   constructor(private http: HttpClient) {
 
   }
@@ -88,7 +90,7 @@ export class HomeComponent implements OnInit {
     return false;
   }
   auth() {
-    this.http.post("https://localhost:5001/api/auth/login", {
+    this.http.post(`${this.baseUrl}${ApiPaths.Auth}/login`, {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })

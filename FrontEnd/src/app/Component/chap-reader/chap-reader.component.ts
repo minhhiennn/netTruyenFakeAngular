@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
+import { environment } from 'src/environments/environment';
 declare var myTest: any;
 
 @Component({
@@ -9,6 +11,7 @@ declare var myTest: any;
   styleUrls: ['./chap-reader.component.scss']
 })
 export class ChapReaderComponent implements OnInit {
+  baseUrl = environment.baseUrl;
   imageToShow: any;
   list: any[] = [];
   manga: any ;
@@ -43,7 +46,7 @@ export class ChapReaderComponent implements OnInit {
     return new Array(i);
   }
   loadManga() {
-    this.http.get("https://localhost:5001/api/manga/" + this.manga).subscribe((data: any) =>
+    this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + this.manga).subscribe((data: any) =>
       data["chaps"].forEach((element: any) => {
         if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`https://localhost:5001/storage/${element["id"]}`, 1, element["pageCount"]) };
       }

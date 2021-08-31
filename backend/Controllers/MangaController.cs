@@ -13,7 +13,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class MangaController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -30,18 +30,16 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
-
             if (page != 0)
             {
                 int take = 8;
                 int skip = (page - 1) * 8;
-                return await _context.Manga.OrderBy(x => x.id).Skip(skip).Take(take).ToListAsync();
+                return await _context.Manga.Include(b => b.detail).Include(b => b.chaps).OrderBy(x => x.id).Skip(skip).Take(take).ToListAsync();
             }
             else
             {
-                return await _context.Manga.OrderBy(x => x.id).Skip(0).Take(8).ToListAsync();
+                return await _context.Manga.Include(b => b.detail).Include(b => b.chaps).OrderBy(x => x.id).Skip(0).Take(8).ToListAsync();
             }
-
         }
         // GET: api/Manga/5
 

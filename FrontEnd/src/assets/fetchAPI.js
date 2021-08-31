@@ -8,7 +8,7 @@ function myTest(url, index, indexM) {
                 myTest(url, index + 1, indexM)
             }).catch((error) => {
                 console.log(error, index)
-                //myTest(url, index + 1, indexM)
+                myTest(url, index + 1, indexM)
             });
     }
 

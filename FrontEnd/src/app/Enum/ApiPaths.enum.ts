@@ -1,1 +1,1 @@
-export enum ApiPaths { Auth = '/auth', Chap = '/chap', Manga = '/manga', Detail = '/detail' }
+export enum ApiPaths { Auth = '/api/auth', Chap = '/api/chap', Manga = '/api/manga', Detail = '/api/detail', Storage = '/storage' }

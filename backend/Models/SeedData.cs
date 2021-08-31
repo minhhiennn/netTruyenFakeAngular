@@ -23,7 +23,7 @@ namespace backend.Models
                 context.Chap.AddRange(
                     new Chap
                     {
-                        id = "00002",
+                        id = "00001",
                         number = 97,
                         ReleaseDate = DateTime.Now,
                         views = 0,

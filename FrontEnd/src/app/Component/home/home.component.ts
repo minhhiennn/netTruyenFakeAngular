@@ -4,9 +4,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
 import { environment } from 'src/environments/environment';
 
-
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,7 +17,14 @@ export class HomeComponent implements OnInit {
   token: any;
   thumbnail: any;
   baseUrl = environment.baseUrl;
+  nameM: any;
+  idM: any;
   constructor(private http: HttpClient) {
+    this.http.get(`${this.baseUrl}${ApiPaths.Manga}`).subscribe((data: any) => {
+      this.idM = data[0]['id'];
+      this.nameM = data[0]['detail']['title'].split("-")[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-").toLowerCase()
+      
+    })
 
   }
 
@@ -96,9 +100,9 @@ export class HomeComponent implements OnInit {
       })
     }).subscribe(response => {
       const token = (<any>response).token;
-      console.log(token);
+      
       localStorage.setItem("token", token);
-      this.http.get(`${this.baseUrl}${ApiPaths.Manga}`).subscribe(data => console.log(data))
+    
     }, err => { console.log(err) });
   }
   auth1() {
@@ -110,5 +114,4 @@ export class HomeComponent implements OnInit {
       console.log(response);
     }, err => { console.log(err) });
   }
- 
 }

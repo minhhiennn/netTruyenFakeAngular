@@ -16,12 +16,15 @@ export class TruyenDetailsComponent implements OnInit {
   chap: any;
   chapID: number = 0;
   chapNumber: number = 0;
-  routerPara : any;
+  routerPara: any;
+  name: any;
   ngOnInit(): void {
     this.routerPara = this.route.snapshot.paramMap.get('nameM');
     var id = (this.routerPara?.split("-").pop());
+    this.name = this.routerPara?.split("-").slice(0, -1).join('-');
+    
     this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + id).subscribe((data: any) => {
-      console.log(data);
+      
       this.chap = data['chaps'][0];
       this.chapID = this.chap['id'];
       this.chapNumber = this.chap['number'];

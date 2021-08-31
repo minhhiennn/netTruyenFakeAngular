@@ -14,14 +14,14 @@ export class ChapReaderComponent implements OnInit {
   baseUrl = environment.baseUrl;
   imageToShow: any;
   list: any[] = [];
-  manga: any ;
-  chap: any ;
+  manga: any;
+  chap: any;
   pageCount: number = 0;
   constructor(private route: ActivatedRoute, private http: HttpClient) {
-    
+
     this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
-    this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap','');
-    console.log(this.manga +" "+ this.chap)
+    this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap', '');
+
     this.loadManga();
 
   }
@@ -48,7 +48,7 @@ export class ChapReaderComponent implements OnInit {
   loadManga() {
     this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + this.manga).subscribe((data: any) =>
       data["chaps"].forEach((element: any) => {
-        if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`https://localhost:5001/storage/${element["id"]}`, 1, element["pageCount"]) };
+        if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`${this.baseUrl}${ApiPaths.Storage}/${element["id"]}`, 1, element["pageCount"]) };
       }
       ));
   }

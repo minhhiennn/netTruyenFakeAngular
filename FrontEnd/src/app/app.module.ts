@@ -5,10 +5,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Component/shared/header/header.component';
 import { JwtModule } from "@auth0/angular-jwt";
+import { environment } from 'src/environments/environment';
 
 
 export function tokenGetter() {
-  console.log('bùn');
+
   return localStorage.getItem('token');
 }
 
@@ -25,7 +26,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:5001']
+        whitelistedDomains: [environment.baseUrl.replace("http://","")]
       }
     })
   ],

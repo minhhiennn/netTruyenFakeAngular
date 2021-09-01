@@ -18,7 +18,9 @@ export class TruyenDetailsComponent implements OnInit {
   chapNumber: number = 0;
   routerPara: any;
   name: any;
+  imgURL:any;
   ngOnInit(): void {
+    this.imgURL = `${this.baseUrl}/icon/00001.jpg`;
     this.routerPara = this.route.snapshot.paramMap.get('nameM');
     var id = (this.routerPara?.split("-").pop());
     this.name = this.routerPara?.split("-").slice(0, -1).join('-');

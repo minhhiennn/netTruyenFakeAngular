@@ -19,7 +19,9 @@ export class HomeComponent implements OnInit {
   baseUrl = environment.baseUrl;
   nameM: any;
   idM: any;
+  imgURL : any;
   constructor(private http: HttpClient) {
+    this.imgURL = `${this.baseUrl}/icon/00001.jpg`;
     this.http.get(`${this.baseUrl}${ApiPaths.Manga}`).subscribe((data: any) => {
       this.idM = data[0]['id'];
       this.nameM = data[0]['detail']['title'].split("-")[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-").toLowerCase()

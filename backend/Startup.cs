@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -29,6 +30,7 @@ namespace backend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DataBase")));
+            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             services.AddAuthentication(opt =>
             {
@@ -57,12 +59,12 @@ namespace backend
                     .AllowAnyMethod();
                 });
             });
-            // services.AddAuthorization(options =>
-            // {
-            //     options.FallbackPolicy = new AuthorizationPolicyBuilder()
-            //         .RequireAuthenticatedUser()
-            //         .Build();
-            // });
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
@@ -79,18 +81,23 @@ namespace backend
             }
 
             //app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = (context) =>
+                {
+                    if (!context.Context.User.Identity.IsAuthenticated && context.Context.Request.Path.StartsWithSegments("/storage"))
+                    {
+                        context.Context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        context.Context.Response.ContentLength = 0;
+                        context.Context.Response.Body = Stream.Null;
+                    }
+                }
+            });
 
             app.UseRouting();
             app.UseCors("EnableCORS");
             app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                       Path.Combine(env.ContentRootPath, "storage")),
-                RequestPath = "/storage"
-            });
+            app.UseAuthorization();        
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

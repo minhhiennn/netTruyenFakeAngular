@@ -49,7 +49,8 @@ export class UploadImgComponent implements OnInit {
           },
           (err: any) => {
             this.progressInfos[idx].value = 0;
-            const msg = 'Could not upload the file: ' + file.name;
+            console.log(err);
+            const msg = 'Could not upload the file: ' + file.name + " " + err.statusText;
             this.message.push(msg);
             if (this.selectedFiles) this.upload(idx + 1, this.selectedFiles[idx + 1], max);
           });

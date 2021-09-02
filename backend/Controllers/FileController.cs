@@ -38,7 +38,6 @@ namespace backend.Controllers
 
         public async Task<IActionResult> OnPostUploadAsync([FromForm(Name = "file")] IFormFile file)
         {
-
             if (file.Length > 0)
             {
                 var filePath = pathFileRoot + "/zip/" + file.FileName;
@@ -46,21 +45,17 @@ namespace backend.Controllers
                 {
                     try
                     {
-                        await file.CopyToAsync(stream);
-                        stream.Close();
+                        await file.CopyToAsync(stream); stream.Close();
                         String idManga = file.FileName.Split("-")[0];
+                        if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return NotFound(); }
                         int chapNumber = Int32.Parse(file.FileName.Split("-")[1].Split(".")[0]);
-
                         string chapID = (Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id) + 1) + "";
-
-                        if (_context.Manga.Where(manga => manga.id.Equals(idManga)).Where(manga => manga.chaps.Any(chap => chap.number == chapNumber)).Any())
+                        var chapExist = _context.Chap.Where(chap => chap.number == chapNumber).Where(chap => idManga.Equals(idManga));
+                        if (chapExist.Any())
                         {
-                            chapID = _context.Chap.Where(chap => chap.number == chapNumber).First().id;
+                            chapID = chapExist.First().id;
                             DirectoryInfo di1 = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
-                            foreach (FileInfo fileOld in di1.GetFiles())
-                            {
-                                fileOld.Delete();
-                            }
+                            foreach (FileInfo fileOld in di1.GetFiles()) { fileOld.Delete(); }
                             di1.Delete(true);
                         }
                         else
@@ -79,10 +74,8 @@ namespace backend.Controllers
                         DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
                         await Task.Run(() => ZipFile.ExtractToDirectory(filePath, pathFileRoot + "/storage/" + chapID));
                         System.IO.File.Delete(filePath);
-                        DirectoryInfo d = new DirectoryInfo("wwwroot/storage/" + chapID);
-                        FileInfo[] Files = d.GetFiles("*.jpg");
-
-                        _context.Chap.Find(chapID).pageCount = Files.Length;
+                        DirectoryInfo d = new DirectoryInfo("wwwroot/storage/" + chapID);                        
+                        _context.Chap.Find(chapID).pageCount = d.GetFiles("*.jpg").Length;
                         await _context.SaveChangesAsync();
                     }
                     catch (System.Exception)

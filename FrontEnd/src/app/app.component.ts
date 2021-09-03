@@ -1,4 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { ApiPaths } from './Enum/ApiPaths.enum';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +10,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'netTruyenFake';
-  constructor(){
-     // for window scroll
-     window.onscroll = () => {
+
+  baseUrl: any;
+  constructor(private http: HttpClient) {
+
+    // for window scroll
+    window.onscroll = () => {
       if (window.pageYOffset >= 60) {
         let x = document.getElementsByClassName("main-nav")[0];
         let y = document.getElementsByClassName("none-name")[0];
@@ -29,10 +35,23 @@ export class AppComponent {
       }
     }
     // end
+    this.auth();
   }
+
   // back to top
-  backToTop(){
+  backToTop() {
     window.scroll({ top: 0, behavior: 'smooth' });
   }
   // end
+  auth() {
+    this.http.post(`${environment.baseUrl}${ApiPaths.Auth}/login`, {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+
+    }).subscribe(response => {
+      const token = (<any>response).token;
+      localStorage.setItem("token", token);
+    }, err => { console.log(err) });
+  }
 }

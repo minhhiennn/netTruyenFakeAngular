@@ -10,7 +10,6 @@ import { UploadImgComponent } from './Component/upload-img/upload-img.component'
 
 
 export function tokenGetter() {
-
   return localStorage.getItem('token');
 }
 

@@ -4,6 +4,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -39,8 +41,10 @@ namespace backend.Controllers
 
         public async Task<IActionResult> OnPostUploadAsync([FromForm(Name = "file")] IFormFile file)
         {
+            
             if (file.Length > 0)
             {
+
                 var filePath = pathFileRoot + "/zip/" + file.FileName;
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -50,7 +54,7 @@ namespace backend.Controllers
                         if (checkFormatOfUnzip(filePath))
                         {
                             String idManga = file.FileName.Split("-")[0];
-                            if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return NotFound(); }
+                            if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return StatusCode(500, new { error = "Truyện này chưa có" }); }
                             int chapNumber = Int32.Parse(file.FileName.Split("-")[1].Split(".")[0]);
                             string chapID = (Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id) + 1) + "";
                             var chapExist = _context.Chap.Where(chap => chap.number == chapNumber).Where(chap => idManga.Equals(idManga));
@@ -60,6 +64,7 @@ namespace backend.Controllers
                                 DirectoryInfo di1 = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
                                 foreach (FileInfo fileOld in di1.GetFiles()) { fileOld.Delete(); }
                                 di1.Delete(true);
+                              
                             }
                             else
                             {
@@ -72,29 +77,30 @@ namespace backend.Controllers
                                     pageCount = 0,
                                     MangaId = idManga
                                 });
+                                
                             }
                             await _context.SaveChangesAsync();
                             DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
-
                             await Task.Run(() => ZipFile.ExtractToDirectory(filePath, pathFileRoot + "/storage/" + chapID));
                             System.IO.File.Delete(filePath);
                             DirectoryInfo d = new DirectoryInfo("wwwroot/storage/" + chapID);
                             _context.Chap.Find(chapID).pageCount = d.GetFiles("*.jpg").Length;
                             await _context.SaveChangesAsync();
                         }
-                        else { System.IO.File.Delete(filePath); return Conflict(); }
+                        else { System.IO.File.Delete(filePath); return StatusCode(500, new { error = "Zip này sai định dạng rồi" }); }
 
                     }
                     catch (System.Exception e)
                     {
                         System.Console.WriteLine(e);
-                        return BadRequest();
+                        return StatusCode(500, new { error = "Zip này bị sai định dạng của tên" });
                     }
                 }
             }
+            
             return Ok();
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         public Boolean checkFormatOfUnzip(string filePath)
         {
             ZipArchiveEntry prev = null;

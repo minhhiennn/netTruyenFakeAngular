@@ -21,7 +21,7 @@ namespace backend.Controllers
         {
             _context = context;
         }
-
+        [ApiExplorerSettings(IgnoreApi = true)]
         public int countAllManga()
         {
             return this._context.Manga.Count();

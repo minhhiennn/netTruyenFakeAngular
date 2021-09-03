@@ -6,17 +6,18 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './Component/shared/header/header.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { environment } from 'src/environments/environment';
+import { UploadImgComponent } from './Component/upload-img/upload-img.component';
 
 
 export function tokenGetter() {
-
   return localStorage.getItem('token');
 }
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    UploadImgComponent
   ],
 
   imports: [

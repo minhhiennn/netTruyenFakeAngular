@@ -95,25 +95,6 @@ export class HomeComponent implements OnInit {
     }
     return false;
   }
-  auth() {
-    this.http.post(`${this.baseUrl}${ApiPaths.Auth}/login`, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(response => {
-      const token = (<any>response).token;
-      
-      localStorage.setItem("token", token);
-    
-    }, err => { console.log(err) });
-  }
-  auth1() {
-    this.http.get("https://localhost:5001/api/Customers/BannerImage", {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-    }).subscribe(response => {
-      console.log(response);
-    }, err => { console.log(err) });
-  }
+  
+  
 }

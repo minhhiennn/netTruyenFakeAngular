@@ -81,6 +81,8 @@ namespace backend
             }
 
             //app.UseHttpsRedirection();
+            
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 OnPrepareResponse = (context) =>

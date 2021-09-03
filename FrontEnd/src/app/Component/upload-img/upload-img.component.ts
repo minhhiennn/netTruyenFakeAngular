@@ -67,7 +67,6 @@ export class UploadImgComponent implements OnInit {
       reportProgress: true,
       responseType: 'json'
     });
-
     return this.http.request(req);
   }
 

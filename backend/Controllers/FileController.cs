@@ -71,7 +71,7 @@ namespace backend.Controllers
                     else _context.Chap.Add(new Chap { id = chapID, number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = 0, MangaId = idManga });
                     await _context.SaveChangesAsync();
                     DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
-                    await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, extractNumber(entry.Name) + ".jpg")));
+                    await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, "("+extractNumber(entry.Name) + ").jpg")));
                     DirectoryInfo d = new DirectoryInfo("wwwroot/storage/" + chapID);
                     _context.Chap.Find(chapID).pageCount = d.GetFiles("*.jpg").Length;
                     await _context.SaveChangesAsync();

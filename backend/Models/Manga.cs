@@ -13,9 +13,5 @@ namespace backend.Models
         public Detail detail { get; set; }
         public List<Chap> chaps { get; set; }
         
-
-    }
-   
-
-   
+    }   
 }

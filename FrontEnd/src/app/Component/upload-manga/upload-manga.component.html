@@ -1,4 +1,47 @@
-<form>
-
-
+<form action="#" [formGroup]="myForm">
+    <div class="form-group">
+        <label for="exampleInputPassword1">MangaId</label>
+        <input  class="form-control"  name="mangaID" formControlName="mangaID" placeholder="MangaId">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Manga Name</label>
+        <input  class="form-control"  name="mangaName" formControlName="mangaName" placeholder="Manga Name">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Id Details</label>
+        <input  class="form-control"  name="detailsID" formControlName="detailsID"  placeholder="Id Details">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Title</label>
+        <input  class="form-control"  name="Title" formControlName="Title"  placeholder="Title">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Author</label>
+        <input  class="form-control"  name="Author" formControlName="Author"  placeholder="Author">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Condition</label>
+        <input  class="form-control"  name="Condition" formControlName="Condition"  placeholder="Condition">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">genre</label>
+        <input  class="form-control"  name="genre" formControlName="genre"  placeholder="genre">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">stars</label>
+        <input  class="form-control"  name="stars" formControlName="stars"  placeholder="stars">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">views</label>
+        <input  class="form-control"  name="views" formControlName="views"  placeholder="views">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">follows</label>
+        <input  class="form-control"  name="follows" formControlName="follows"  placeholder="follows">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">summary</label>
+        <input  class="form-control"  name="summary" formControlName="summary"  placeholder="summary">
+    </div>
+    <button class="btn btn-primary" (click)="submitss()">Submit</button>
 </form>

@@ -10,7 +10,6 @@ public class Detail
     public String id { get; set; }
     public string title { get; set; }
     public string author { get; set; }
-
     // [DataType(DataType.Date)]
     // public DateTime ReleaseDate { get; set; }
     public bool condition { get; set; }
@@ -21,7 +20,4 @@ public class Detail
     public string summary { get; set; }
     [ForeignKey("Manga")]
     public String MangaId { get; set; }
-
-
-
 }

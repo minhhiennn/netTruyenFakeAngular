@@ -7,8 +7,6 @@ import { HeaderComponent } from './Component/shared/header/header.component';
 import { JwtModule } from "@auth0/angular-jwt";
 import { environment } from 'src/environments/environment';
 import { UploadImgComponent } from './Component/upload-img/upload-img.component';
-import { UploadMangaComponent } from './Component/upload-manga/upload-manga.component';
-
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -18,8 +16,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HeaderComponent,
-    UploadImgComponent,
-    UploadMangaComponent
+    UploadImgComponent
   ],
 
   imports: [

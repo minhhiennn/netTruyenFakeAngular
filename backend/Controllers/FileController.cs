@@ -63,6 +63,7 @@ namespace backend.Controllers
                 ZipArchiveEntry entry = archive.Entries[count];
                 if (list.Contains(entry.FullName.Split(" ")[0]) && !entry.FullName.EndsWith("/"))
                 {
+                    System.Console.WriteLine(entry.FullName.Split(" ")[0] +"ok");
                     int chapNumber = Int32.Parse(entry.FullName.Split("/")[0]);
                     string chapID = ((Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id)) + 1) + "";
                     var chapExist = _context.Chap.Where(chap => chap.number == chapNumber).Where(chap => chap.MangaId.Equals(idManga));

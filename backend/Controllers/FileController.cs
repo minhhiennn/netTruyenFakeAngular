@@ -39,7 +39,6 @@ namespace backend.Controllers
                         String idManga = file.FileName.Split(".")[0];
                         if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return StatusCode(500, new { error = "Truyện này chưa có" }); }
                         List<String> list = checkFormatOfUnzip(filePath);
-                        list.ForEach(Console.Write);
                         using (ZipArchive archive = ZipFile.OpenRead(filePath)) { await mainFileUpload(archive, archive.Entries.Count(), 0, idManga, list); }
                         System.IO.File.Delete(filePath);
                     }
@@ -55,21 +54,25 @@ namespace backend.Controllers
             return Ok();
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        private async Task mainFileUpload(ZipArchive archive, int max, int count, string idManga,List<String> list)
+        private async Task mainFileUpload(ZipArchive archive, int max, int count, string idManga, List<String> list)
         {
-
             if (count < max)
             {
                 ZipArchiveEntry entry = archive.Entries[count];
-                if (list.Contains(entry.FullName.Split(" ")[0]) && !entry.FullName.EndsWith("/"))
+                System.Console.WriteLine(entry.FullName);
+                // if(list.Contains(entry.FullName.Split(" ")[0])) System.Console.WriteLine(entry.FullName);
+                if ((list.Contains(entry.FullName.Split(" ")[0]) || list.Contains(entry.FullName.Split("(")[0])) && !entry.FullName.EndsWith("/"))
                 {
-                    int chapNumber = Int32.Parse(entry.FullName.Split("/")[0]);
-                    string chapID = ((Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id)) + 1) + "";
+                    int chapNumber = 0;
+                    if (list.Contains(entry.FullName.Split(" ")[0])) chapNumber = Int32.Parse(entry.FullName.Split("/")[0]);
+                    if (list.Contains(entry.FullName.Split("(")[0])) chapNumber = Int32.Parse(entry.FullName.Split("(")[0].Replace("/", ""));
+                    int chapIDToInt = (Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id)) + 1;
+                    
+                    string chapID = chapIDToInt + "";
                     var chapExist = _context.Chap.Where(chap => chap.number == chapNumber).Where(chap => chap.MangaId.Equals(idManga));
                     if (chapExist.Any())
                     {
                         chapID = chapExist.First().id;
-
                         if (extractNumber(entry.Name) == 1)
                         {
                             DirectoryInfo di1 = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
@@ -77,7 +80,8 @@ namespace backend.Controllers
                             di1.Delete(true);
                         }
                     }
-                    else _context.Chap.Add(new Chap { id = chapID, number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = 0, MangaId = idManga });
+
+                    else { System.Console.WriteLine(chapID); _context.Chap.Add(new Chap { id = chapID, number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = 0, MangaId = idManga }); }
                     await _context.SaveChangesAsync();
                     DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
                     await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, "(" + extractNumber(entry.Name) + ").jpg")));
@@ -86,14 +90,13 @@ namespace backend.Controllers
                     await _context.SaveChangesAsync();
                 }
                 else if (!list.Contains(entry.FullName.Split(" ")[0]) && entry.FullName.EndsWith("/")) { errorFolderOutPut.Add(entry.FullName); }
-                await mainFileUpload(archive, max, count + 1, idManga,list);
+                await mainFileUpload(archive, max, count + 1, idManga, list);
             }
             else { }
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         public List<String> checkFormatOfUnzip(string filePath)
         {
-
             ZipArchiveEntry prev = null;
             bool first = true;
             bool errorFolder = false;
@@ -103,7 +106,7 @@ namespace backend.Controllers
                 {
                     if (entry.FullName.EndsWith("/"))
                     {
-                        
+
                         first = true;
                         errorFolder = false;
                         listAcceptFolder.Add(entry.FullName);
@@ -112,6 +115,7 @@ namespace backend.Controllers
                     else if (!entry.FullName.Contains("/")) { }
                     else
                     {
+
                         if (!errorFolder)
                         {
                             if (first) { first = false; if (extractNumber(entry.Name) != 1) errorFolder = true; }

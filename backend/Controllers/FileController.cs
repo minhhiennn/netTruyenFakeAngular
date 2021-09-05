@@ -42,9 +42,8 @@ namespace backend.Controllers
                         using (ZipArchive archive = ZipFile.OpenRead(filePath)) { await mainFileUpload(archive, archive.Entries.Count(), 0, idManga, list); }
                         System.IO.File.Delete(filePath);
                     }
-                    catch (System.Exception e)
+                    catch (System.Exception)
                     {
-                        System.Console.WriteLine(e);
                         System.IO.File.Delete(filePath);
                         return StatusCode(500, new { error = "Zip này bị sai định dạng của tên" });
                     }
@@ -59,15 +58,13 @@ namespace backend.Controllers
             if (count < max)
             {
                 ZipArchiveEntry entry = archive.Entries[count];
-                System.Console.WriteLine(entry.FullName);
-                // if(list.Contains(entry.FullName.Split(" ")[0])) System.Console.WriteLine(entry.FullName);
                 if ((list.Contains(entry.FullName.Split(" ")[0]) || list.Contains(entry.FullName.Split("(")[0])) && !entry.FullName.EndsWith("/"))
                 {
                     int chapNumber = 0;
                     if (list.Contains(entry.FullName.Split(" ")[0])) chapNumber = Int32.Parse(entry.FullName.Split("/")[0]);
                     if (list.Contains(entry.FullName.Split("(")[0])) chapNumber = Int32.Parse(entry.FullName.Split("(")[0].Replace("/", ""));
-                    int chapIDToInt = (Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id)) + 1;
-                    
+                    int chapIDToInt = (Int32.Parse(_context.Chap.ToList().OrderByDescending(o => int.Parse(o.id)).ToList()[0].id)) + 1;
+                    var showPiece = _context.Chap.FirstOrDefault(p => p.id == _context.Chap.Max(x => x.id));
                     string chapID = chapIDToInt + "";
                     var chapExist = _context.Chap.Where(chap => chap.number == chapNumber).Where(chap => chap.MangaId.Equals(idManga));
                     if (chapExist.Any())
@@ -81,7 +78,7 @@ namespace backend.Controllers
                         }
                     }
 
-                    else { System.Console.WriteLine(chapID); _context.Chap.Add(new Chap { id = chapID, number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = 0, MangaId = idManga }); }
+                    else {  await _context.Chap.AddAsync(new Chap { id = chapID, number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = 0, MangaId = idManga }); }
                     await _context.SaveChangesAsync();
                     DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
                     await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, "(" + extractNumber(entry.Name) + ").jpg")));

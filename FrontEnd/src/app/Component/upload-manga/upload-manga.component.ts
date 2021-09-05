@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { title } from 'process';
+
 import { Details } from 'src/app/Model/details';
 import { Manga } from 'src/app/Model/manga';
 import { DetailService } from 'src/app/Service/detail.service';
@@ -43,7 +43,8 @@ export class UploadMangaComponent implements OnInit {
       let follows = this.myForm.get('follows')?.value;
       let summary = this.myForm.get('summary')?.value;
       let manga = new Manga(mangaID);
-      let detail = new Details(detailsID, title, Author, Condition, genre, stars, views, follows, summary, mangaID);
+      let detail = new Details(detailsID, Title, Author, Condition, genre, stars, views, follows, summary, mangaID);
+      console.log(detail);
       this.mangaService.postManga(manga).subscribe(()=>{
          this.detailService.postDetail(detail).subscribe();
       });

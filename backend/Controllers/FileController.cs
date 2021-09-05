@@ -39,9 +39,14 @@ namespace backend.Controllers
                         String idManga = file.FileName.Split(".")[0];
                         if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return StatusCode(500, new { error = "Truyện này chưa có" }); }
                         using (ZipArchive archive = ZipFile.OpenRead(filePath)) { await mainFileUpload(archive, archive.Entries.Count(), 0, filePath, idManga); }
+
                         System.IO.File.Delete(filePath);
                     }
-                    catch (System.Exception) { return StatusCode(500, new { error = "Zip này bị sai định dạng của tên" }); }
+                    catch (System.Exception)
+                    {
+                        System.IO.File.Delete(filePath);
+                        return StatusCode(500, new { error = "Zip này bị sai định dạng của tên" });
+                    }
                 }
             }
             if (errorFolderOutPut.Any()) return StatusCode(500, new { error = "Lỗi ở folder sau đây " + string.Join(",", errorFolderOutPut.ToArray()) });
@@ -50,17 +55,19 @@ namespace backend.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         private async Task mainFileUpload(ZipArchive archive, int max, int count, string filePath, string idManga)
         {
+
             if (count < max)
             {
                 ZipArchiveEntry entry = archive.Entries[count];
                 if (checkFormatOfUnzip(filePath).Contains(entry.FullName.Split(" ")[0]) && !entry.FullName.EndsWith("/"))
                 {
                     int chapNumber = Int32.Parse(entry.FullName.Split("/")[0]);
-                    string chapID = (Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id) + 1) + "";
-                    var chapExist = _context.Chap.Where(chap => chap.number == chapNumber).Where(chap => idManga.Equals(idManga));
+                    string chapID = ((Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id)) + 1) + "";
+                    var chapExist = _context.Chap.Where(chap => chap.number == chapNumber).Where(chap => chap.MangaId.Equals(idManga));
                     if (chapExist.Any())
                     {
                         chapID = chapExist.First().id;
+
                         if (extractNumber(entry.Name) == 1)
                         {
                             DirectoryInfo di1 = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
@@ -71,7 +78,7 @@ namespace backend.Controllers
                     else _context.Chap.Add(new Chap { id = chapID, number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = 0, MangaId = idManga });
                     await _context.SaveChangesAsync();
                     DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
-                    await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, "("+extractNumber(entry.Name) + ").jpg")));
+                    await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, "(" + extractNumber(entry.Name) + ").jpg")));
                     DirectoryInfo d = new DirectoryInfo("wwwroot/storage/" + chapID);
                     _context.Chap.Find(chapID).pageCount = d.GetFiles("*.jpg").Length;
                     await _context.SaveChangesAsync();
@@ -84,6 +91,7 @@ namespace backend.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public List<String> checkFormatOfUnzip(string filePath)
         {
+
             ZipArchiveEntry prev = null;
             bool first = true;
             bool errorFolder = false;
@@ -114,13 +122,15 @@ namespace backend.Controllers
                                         int file2Name = Int32.Parse(Regex.Replace(prev.Name, "[^0-9]+", "", RegexOptions.Compiled));
                                         if (file1Name != (file2Name + 1)) errorFolder = true;
                                     }
+                                    else {errorFolder = true;}
                                 }
                                 catch (System.Exception) { errorFolder = true; }
                             }
                             prev = entry;
                         }
-                        else { listAcceptFolder.Remove(prev.FullName.Split("/")[0] + "/"); }
+                        if (errorFolder) { listAcceptFolder.Remove(prev.FullName.Split("/")[0] + "/"); }
                     }
+
                 }
             return listAcceptFolder;
         }

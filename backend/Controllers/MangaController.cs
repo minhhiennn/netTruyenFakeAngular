@@ -91,6 +91,7 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Manga>> PostManga(Manga manga)
         {
+           
             _context.Manga.Add(manga);
             try
             {

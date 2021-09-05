@@ -38,12 +38,14 @@ namespace backend.Controllers
                         await file.CopyToAsync(stream); stream.Close();
                         String idManga = file.FileName.Split(".")[0];
                         if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return StatusCode(500, new { error = "Truyện này chưa có" }); }
-                        using (ZipArchive archive = ZipFile.OpenRead(filePath)) { await mainFileUpload(archive, archive.Entries.Count(), 0, filePath, idManga); }
-
+                        List<String> list = checkFormatOfUnzip(filePath);
+                        list.ForEach(Console.Write);
+                        using (ZipArchive archive = ZipFile.OpenRead(filePath)) { await mainFileUpload(archive, archive.Entries.Count(), 0, idManga, list); }
                         System.IO.File.Delete(filePath);
                     }
-                    catch (System.Exception)
+                    catch (System.Exception e)
                     {
+                        System.Console.WriteLine(e);
                         System.IO.File.Delete(filePath);
                         return StatusCode(500, new { error = "Zip này bị sai định dạng của tên" });
                     }
@@ -53,13 +55,13 @@ namespace backend.Controllers
             return Ok();
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        private async Task mainFileUpload(ZipArchive archive, int max, int count, string filePath, string idManga)
+        private async Task mainFileUpload(ZipArchive archive, int max, int count, string idManga,List<String> list)
         {
 
             if (count < max)
             {
                 ZipArchiveEntry entry = archive.Entries[count];
-                if (checkFormatOfUnzip(filePath).Contains(entry.FullName.Split(" ")[0]) && !entry.FullName.EndsWith("/"))
+                if (list.Contains(entry.FullName.Split(" ")[0]) && !entry.FullName.EndsWith("/"))
                 {
                     int chapNumber = Int32.Parse(entry.FullName.Split("/")[0]);
                     string chapID = ((Int32.Parse(_context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id)) + 1) + "";
@@ -83,8 +85,8 @@ namespace backend.Controllers
                     _context.Chap.Find(chapID).pageCount = d.GetFiles("*.jpg").Length;
                     await _context.SaveChangesAsync();
                 }
-                else if (!checkFormatOfUnzip(filePath).Contains(entry.FullName.Split(" ")[0]) && entry.FullName.EndsWith("/")) { errorFolderOutPut.Add(entry.FullName); }
-                await mainFileUpload(archive, max, count + 1, filePath, idManga);
+                else if (!list.Contains(entry.FullName.Split(" ")[0]) && entry.FullName.EndsWith("/")) { errorFolderOutPut.Add(entry.FullName); }
+                await mainFileUpload(archive, max, count + 1, idManga,list);
             }
             else { }
         }
@@ -101,6 +103,7 @@ namespace backend.Controllers
                 {
                     if (entry.FullName.EndsWith("/"))
                     {
+                        
                         first = true;
                         errorFolder = false;
                         listAcceptFolder.Add(entry.FullName);
@@ -117,12 +120,12 @@ namespace backend.Controllers
                                 try
                                 {
                                     int file1Name = extractNumber(entry.Name);
-                                    if (entry.Name.Equals(" (" + file1Name + ").jpg"))
+                                    if (entry.Name.Equals(" (" + file1Name + ").jpg") || entry.Name.Equals("(" + file1Name + ").jpg"))
                                     {
                                         int file2Name = Int32.Parse(Regex.Replace(prev.Name, "[^0-9]+", "", RegexOptions.Compiled));
                                         if (file1Name != (file2Name + 1)) errorFolder = true;
                                     }
-                                    else {errorFolder = true;}
+                                    else { errorFolder = true; }
                                 }
                                 catch (System.Exception) { errorFolder = true; }
                             }

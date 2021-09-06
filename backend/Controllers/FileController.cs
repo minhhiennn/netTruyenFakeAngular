@@ -39,8 +39,8 @@ namespace backend.Controllers
                         await file.CopyToAsync(stream); stream.Close();
                         String idManga = file.FileName.Split(".")[0];
                         if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return StatusCode(500, new { error = "Truyện này chưa có" }); }
-
                         Dictionary<string, int> listAcceptFolder = checkFormatOfUnzip(filePath);
+
                         using (ZipArchive archive = ZipFile.OpenRead(filePath))
                         {
                             int chapID = 0;
@@ -48,6 +48,7 @@ namespace backend.Controllers
                             {
                                 if (listAcceptFolder.Where(t => t.Key.Equals(entry.FullName)).Any())
                                 {
+
                                     chapID = await updateDbContext(listAcceptFolder.FirstOrDefault(t => t.Key.Equals(entry.FullName)).Key,
                                     listAcceptFolder.FirstOrDefault(t => t.Key.Equals(entry.FullName)).Value, idManga);
                                 }
@@ -60,7 +61,7 @@ namespace backend.Controllers
                     {
                         System.Console.WriteLine(e);
                         System.IO.File.Delete(filePath);
-                        return StatusCode(500, new { error = "Zip này bị sai định dạng của tên" });
+                        return StatusCode(500, new { error = "Zip này bị sai định dạng" });
                     }
                 }
             }
@@ -72,12 +73,8 @@ namespace backend.Controllers
             if (chapID == 0) chapID = _context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id;
             DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
             try { await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, "(" + extractNumber(entry.FullName.Split("/")[1]) + ").jpg"))); }
-            catch (System.Exception)
-            {
-                if (errorFolderOutPut.FirstOrDefault(stringToCheck => stringToCheck.Contains(entry.FullName.Split("/")[0] + "conflig")) == null) errorFolderOutPut.Add(entry.FullName.Split("/")[0] + "conflig");
-            }
+            catch (System.Exception) { if (errorFolderOutPut.FirstOrDefault(stringToCheck => stringToCheck.Contains(entry.FullName.Split("/")[0] + "conflig")) == null) errorFolderOutPut.Add(entry.FullName.Split("/")[0] + "conflig"); }
         }
-
         private async Task<int> updateDbContext(string folderNumber, int fileCount, string idManga)
         {
             int chapNumber = Int32.Parse(folderNumber.Split("/")[0]);
@@ -95,7 +92,6 @@ namespace backend.Controllers
             await _context.SaveChangesAsync();
             return chapID;
         }
-
         private Dictionary<string, int> checkFormatOfUnzip(string filePath)
         {
             ZipArchiveEntry prev = null;
@@ -109,12 +105,10 @@ namespace backend.Controllers
                     if (entry.FullName.EndsWith("/"))
                     {
                         if (errorFolder) errorFolderOutPut.Add(prev.FullName.Split("/")[0] + "/");
-
                         count = 0;
                         first = true;
                         errorFolder = false;
                         listAcceptFolder.Add(entry.FullName, 0);
-
                         try { Int32.Parse(entry.FullName.Split("/")[0]); } catch (System.Exception) { errorFolder = true; }
                     }
                     else if (!entry.FullName.Contains("/")) { }
@@ -129,7 +123,7 @@ namespace backend.Controllers
                                 try
                                 {
                                     int file1Name = extractNumber(entry.Name);
-                                    if (entry.Name.Equals(" (" + file1Name + ").jpg") || entry.Name.Equals("(" + file1Name + ").jpg"))
+                                    if (entry.Name.Equals(" (" + file1Name + ").jpg") || entry.Name.Equals("(" + file1Name + ").jpg") && entry.FullName.Split("/").Length <= 2)
                                     {
                                         int file2Name = Int32.Parse(Regex.Replace(prev.Name, "[^0-9]+", "", RegexOptions.Compiled));
                                         if (file1Name != (file2Name + 1)) errorFolder = true;
@@ -144,9 +138,9 @@ namespace backend.Controllers
                         if (prev != null && !errorFolder) listAcceptFolder[prev.FullName.Split("/")[0] + "/"] = count;
                     }
                 }
+            foreach (KeyValuePair<string, int> kvp in listAcceptFolder) { if (kvp.Value == 0) { listAcceptFolder.Remove(kvp.Key); errorFolderOutPut.Add(kvp.Key); } }
             return listAcceptFolder;
         }
-
         private int extractNumber(string txt)
         {
             return Int32.Parse(Regex.Replace(txt, "[^0-9]+", "", RegexOptions.Compiled));

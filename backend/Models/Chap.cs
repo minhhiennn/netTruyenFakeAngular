@@ -4,8 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Chap
 {
-    public String id { get; set; }
-    
+
+
+
+    [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity), Key()] public int id { get; set; }
+
     public int number { get; set; }
 
     [DataType(DataType.Date)]

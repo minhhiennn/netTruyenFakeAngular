@@ -9,7 +9,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210902041427_InitialCreate")]
+    [Migration("20210905153754_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,8 +20,9 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Chap", b =>
                 {
-                    b.Property<string>("id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MangaId")
                         .HasColumnType("TEXT");

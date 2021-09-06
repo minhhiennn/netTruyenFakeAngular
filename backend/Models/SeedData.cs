@@ -23,7 +23,6 @@ namespace backend.Models
                 context.Chap.AddRange(
                     new Chap
                     {
-                        id = "00001",
                         number = 97,
                         ReleaseDate = DateTime.Now,
                         views = 0,
@@ -57,6 +56,48 @@ namespace backend.Models
                     new Manga
                     {
                         id = "00002",
+                        lastUpdate = DateTime.Now,
+                        detail = context.Detail.FirstOrDefault(detail => detail.MangaId.Equals("00001")),
+                        chaps = context.Chap.Where(chap => chap.MangaId.Equals("00001")).ToList()
+                    },
+                    new Manga
+                    {
+                        id = "00003",
+                        lastUpdate = DateTime.Now,
+                        detail = context.Detail.FirstOrDefault(detail => detail.MangaId.Equals("00001")),
+                        chaps = context.Chap.Where(chap => chap.MangaId.Equals("00001")).ToList()
+                    },
+                    new Manga
+                    {
+                        id = "00004",
+                        lastUpdate = DateTime.Now,
+                        detail = context.Detail.FirstOrDefault(detail => detail.MangaId.Equals("00001")),
+                        chaps = context.Chap.Where(chap => chap.MangaId.Equals("00001")).ToList()
+                    },
+                    new Manga
+                    {
+                        id = "00005",
+                        lastUpdate = DateTime.Now,
+                        detail = context.Detail.FirstOrDefault(detail => detail.MangaId.Equals("00001")),
+                        chaps = context.Chap.Where(chap => chap.MangaId.Equals("00001")).ToList()
+                    },
+                    new Manga
+                    {
+                        id = "00006",
+                        lastUpdate = DateTime.Now,
+                        detail = context.Detail.FirstOrDefault(detail => detail.MangaId.Equals("00001")),
+                        chaps = context.Chap.Where(chap => chap.MangaId.Equals("00001")).ToList()
+                    },
+                    new Manga
+                    {
+                        id = "00007",
+                        lastUpdate = DateTime.Now,
+                        detail = context.Detail.FirstOrDefault(detail => detail.MangaId.Equals("00001")),
+                        chaps = context.Chap.Where(chap => chap.MangaId.Equals("00001")).ToList()
+                    },
+                    new Manga
+                    {
+                        id = "00008",
                         lastUpdate = DateTime.Now,
                         detail = context.Detail.FirstOrDefault(detail => detail.MangaId.Equals("00001")),
                         chaps = context.Chap.Where(chap => chap.MangaId.Equals("00001")).ToList()

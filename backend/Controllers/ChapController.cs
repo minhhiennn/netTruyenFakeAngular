@@ -44,7 +44,7 @@ namespace backend.Controllers
         // PUT: api/Chap/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutChap(string id, Chap chap)
+        public async Task<IActionResult> PutChap(int id, Chap chap)
         {
             if (id != chap.id)
             {
@@ -113,7 +113,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        private bool ChapExists(string id)
+        private bool ChapExists(int id)
         {
             return _context.Chap.Any(e => e.id == id);
         }

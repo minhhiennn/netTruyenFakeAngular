@@ -29,31 +29,30 @@ export class UploadImgComponent implements OnInit {
   uploadFiles(): void {
     this.message = [];
     if (this.selectedFiles) {
-      this.upload(0, this.selectedFiles[0], this.selectedFiles.length);
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.upload(i, this.selectedFiles[i]);
+      }
     }
 
   }
-  upload(idx: number, file: File, max: number): void {
-    if (idx < max) {
-      this.progressInfos[idx] = { value: 0, fileName: file.name };
-      if (file) {
-        this.uploadF(file).subscribe(
-          (event: any) => {    
-            if (event.type === HttpEventType.UploadProgress) {
-              this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
-            } else if (event instanceof HttpResponse) {
-              const msg = 'Uploaded the file successfully: ' + file.name;
-              this.message.push(msg);
-              if (this.selectedFiles) this.upload(idx + 1, this.selectedFiles[idx + 1], max);
-            }
-          },
-          (err: any) => {
-            this.progressInfos[idx].value = 0;
-            const msg = 'Could not upload the file: ' + file.name + " " + err.error.error;
+  upload(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+    if (file) {
+      this.uploadF(file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            const msg = 'Uploaded the file successfully: ' + file.name;
             this.message.push(msg);
-            if (this.selectedFiles) this.upload(idx + 1, this.selectedFiles[idx + 1], max);
-          });
-      }
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          const msg = 'Could not upload the file: ' + file.name + " " + err.error.error;
+          this.message.push(msg);
+        });
+
     }
 
   }

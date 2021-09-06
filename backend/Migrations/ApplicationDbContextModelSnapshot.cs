@@ -18,8 +18,9 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Chap", b =>
                 {
-                    b.Property<string>("id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MangaId")
                         .HasColumnType("TEXT");

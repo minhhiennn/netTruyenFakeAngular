@@ -40,19 +40,20 @@ namespace backend.Controllers
                         String idManga = file.FileName.Split(".")[0];
                         if (!_context.Manga.Any(manga => manga.id.Equals(idManga))) { System.IO.File.Delete(filePath); return StatusCode(500, new { error = "Truyện này chưa có" }); }
                         Dictionary<string, int> listAcceptFolder = checkFormatOfUnzip(filePath);
-
                         using (ZipArchive archive = ZipFile.OpenRead(filePath))
                         {
                             int chapID = 0;
                             foreach (ZipArchiveEntry entry in archive.Entries)
                             {
-                                if (listAcceptFolder.Where(t => t.Key.Equals(entry.FullName)).Any())
+                                if (entry.FullName.Split("/").Length < 3)
                                 {
-
-                                    chapID = await updateDbContext(listAcceptFolder.FirstOrDefault(t => t.Key.Equals(entry.FullName)).Key,
-                                    listAcceptFolder.FirstOrDefault(t => t.Key.Equals(entry.FullName)).Value, idManga);
+                                    if (listAcceptFolder.Where(t => t.Key.Equals(entry.FullName)).Any())
+                                    {
+                                        chapID = await updateDbContext(listAcceptFolder.FirstOrDefault(t => t.Key.Equals(entry.FullName)).Key,
+                                        listAcceptFolder.FirstOrDefault(t => t.Key.Equals(entry.FullName)).Value, idManga);
+                                    }
+                                    if ((listAcceptFolder.Where(t => t.Key.Equals(entry.FullName.Split("/")[0] + ("/"))).Any() && !entry.FullName.EndsWith("/"))) { await extractFolder(entry, chapID); }
                                 }
-                                if ((listAcceptFolder.Where(t => t.Key.Equals(entry.FullName.Split("/")[0] + ("/"))).Any() && !entry.FullName.EndsWith("/"))) { await extractFolder(entry, chapID); }
                             }
                         }
                         System.IO.File.Delete(filePath);
@@ -70,7 +71,6 @@ namespace backend.Controllers
         }
         private async Task extractFolder(ZipArchiveEntry entry, int chapID)
         {
-            if (chapID == 0) chapID = _context.Chap.OrderByDescending(p => p.id).FirstOrDefault().id;
             DirectoryInfo di = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
             try { await Task.Run(() => entry.ExtractToFile(Path.Combine(pathFileRoot + "/storage/" + chapID, "(" + extractNumber(entry.FullName.Split("/")[1]) + ").jpg"))); }
             catch (System.Exception) { if (errorFolderOutPut.FirstOrDefault(stringToCheck => stringToCheck.Contains(entry.FullName.Split("/")[0] + "conflig")) == null) errorFolderOutPut.Add(entry.FullName.Split("/")[0] + "conflig"); }
@@ -87,9 +87,15 @@ namespace backend.Controllers
                 DirectoryInfo di1 = Directory.CreateDirectory(pathFileRoot + "/storage/" + chapID);
                 foreach (FileInfo fileOld in di1.GetFiles()) { fileOld.Delete(); }
                 di1.Delete(true);
+                await _context.SaveChangesAsync();
             }
-            else { await _context.Chap.AddAsync(new Chap { number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = fileCount, MangaId = idManga }); }
-            await _context.SaveChangesAsync();
+            else
+            {
+                var newChap = new Chap { number = chapNumber, ReleaseDate = DateTime.Now, views = 0, pageCount = fileCount, MangaId = idManga };
+                await _context.Chap.AddAsync(newChap);
+                await _context.SaveChangesAsync();
+                chapID = newChap.id;
+            }
             return chapID;
         }
         private Dictionary<string, int> checkFormatOfUnzip(string filePath)
@@ -114,16 +120,17 @@ namespace backend.Controllers
                     else if (!entry.FullName.Contains("/")) { }
                     else
                     {
-                        count++;
-                        if (!errorFolder)
+
+                        if (!errorFolder && entry.FullName.Split("/").Length == 2)
                         {
+                            count++;
                             if (first) { first = false; if (extractNumber(entry.Name) != 1) errorFolder = true; }
                             else
                             {
                                 try
                                 {
                                     int file1Name = extractNumber(entry.Name);
-                                    if (entry.Name.Equals(" (" + file1Name + ").jpg") || entry.Name.Equals("(" + file1Name + ").jpg") && entry.FullName.Split("/").Length <= 2)
+                                    if (entry.Name.Equals(" (" + file1Name + ").jpg") || entry.Name.Equals("(" + file1Name + ").jpg"))
                                     {
                                         int file2Name = Int32.Parse(Regex.Replace(prev.Name, "[^0-9]+", "", RegexOptions.Compiled));
                                         if (file1Name != (file2Name + 1)) errorFolder = true;
@@ -135,10 +142,14 @@ namespace backend.Controllers
                             prev = entry;
                         }
                         if (errorFolder) { listAcceptFolder.Remove(prev.FullName.Split("/")[0] + "/"); }
-                        if (prev != null && !errorFolder) listAcceptFolder[prev.FullName.Split("/")[0] + "/"] = count;
+                        if (prev != null && !errorFolder && entry.FullName.Split("/").Length == 2) listAcceptFolder[prev.FullName.Split("/")[0] + "/"] = count;
+
                     }
                 }
-            foreach (KeyValuePair<string, int> kvp in listAcceptFolder) { if (kvp.Value == 0) { listAcceptFolder.Remove(kvp.Key); errorFolderOutPut.Add(kvp.Key); } }
+            foreach (KeyValuePair<string, int> kvp in listAcceptFolder)
+            {
+                if (kvp.Value == 0) { listAcceptFolder.Remove(kvp.Key); errorFolderOutPut.Add(kvp.Key); }
+            }
             return listAcceptFolder;
         }
         private int extractNumber(string txt)

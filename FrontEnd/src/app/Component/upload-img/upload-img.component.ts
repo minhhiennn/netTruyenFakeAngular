@@ -38,8 +38,7 @@ export class UploadImgComponent implements OnInit {
       this.progressInfos[idx] = { value: 0, fileName: file.name };
       if (file) {
         this.uploadF(file).subscribe(
-          (event: any) => {
-            
+          (event: any) => {    
             if (event.type === HttpEventType.UploadProgress) {
               this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
             } else if (event instanceof HttpResponse) {
@@ -60,9 +59,7 @@ export class UploadImgComponent implements OnInit {
   }
   uploadF(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
-
     formData.append('file', file);
-
     const req = new HttpRequest('POST', `${environment.baseUrl}${ApiPaths.File}/upload`, formData, {
       reportProgress: true,
       responseType: 'json'

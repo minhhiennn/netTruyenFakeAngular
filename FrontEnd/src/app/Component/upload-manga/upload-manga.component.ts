@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Detail } from 'src/app/Model/details';
 import { Manga } from 'src/app/Model/manga';
 import { DetailService } from 'src/app/Service/detail.service';
@@ -15,14 +15,14 @@ export class UploadMangaComponent implements OnInit {
 
   ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      mangaID: ['', [Validators.required]],
-      detailsID: ['', [Validators.required]],
-      Title: ['', [Validators.required]],
-      Author: ['', [Validators.required]],
-      genre: ['', [Validators.required]],
-      stars: ['', [Validators.required]],
-      views: ['', [Validators.required]],
-      follows: ['', [Validators.required]],
+      mangaID: ['', [Validators.required, Validators.pattern("[0-9]{5}")]],
+      detailsID: ['', [Validators.required, Validators.pattern("[0-9]{5}")]],
+      Title: ['', [Validators.required, Validators.pattern("[a-zA-Z]*")]],
+      Author: ['', [Validators.required, Validators.pattern("[a-zA-Z]*")]],
+      genre: ['', [Validators.required, Validators.pattern("[a-zA-Z]*")]],
+      stars: ['', [Validators.required, Validators.pattern("[0-9-]*")]],
+      views: ['', [Validators.required, Validators.pattern("[0-9]*")]],
+      follows: ['', [Validators.required, Validators.pattern("[0-9]*")]],
       summary: ['', [Validators.required]]
     });
   }
@@ -40,9 +40,12 @@ export class UploadMangaComponent implements OnInit {
       let manga = new Manga(mangaID);
       let detail = new Detail(detailsID, title, Author, genre, stars, views, follows, summary, mangaID);
       console.log(detail);
-      this.mangaService.postManga(manga).subscribe(()=>{
-         this.detailService.postDetail(detail).subscribe();
+      this.mangaService.postManga(manga).subscribe(() => {
+        this.detailService.postDetail(detail).subscribe(() => {
+          alert('update thành công');
+        });
       });
+      alert('update thành công');
     } else {
       alert('ghi ngu như cc');
     }

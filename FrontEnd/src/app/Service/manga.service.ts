@@ -12,6 +12,18 @@ export class MangaService {
 
   constructor(private http: HttpClient) { }
 
+  getPage() {
+    return this.http.get(this.url + "/page");
+  }
+
+  getMangaById(id: any) {
+    return this.http.get(this.url + "/" + id);
+  }
+
+  getMangaByPage(page: number) {
+    return this.http.get(this.url + "?page=" + page);
+  }
+
   postManga(manga: Manga) {
     return this.http.post(this.url, manga);
   }

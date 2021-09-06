@@ -1,9 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
 import { environment } from 'src/environments/environment';
-
+import { MangaService } from 'src/app/Service/manga.service';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,23 +13,47 @@ export class HomeComponent implements OnInit {
   back: boolean = false;
   count: number = 0;
   wait: boolean = false;
-  token: any;
-  thumbnail: any;
   baseUrl = environment.baseUrl;
-  nameM: any;
-  idM: any;
-  imgURL : any;
-  constructor(private http: HttpClient) {
-    this.imgURL = `${this.baseUrl}/icon/00001.jpg`;
-    this.http.get(`${this.baseUrl}${ApiPaths.Manga}`).subscribe((data: any) => {
-      this.idM = data[0]['id'];
-      this.nameM = data[0]['detail']['title'].split("-")[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-").toLowerCase()
-      
+  listName: any = [];
+  listnameM: any = [];
+  listidM: any = [];
+  listimgURL: any = [];
+  currentPage: any;
+  listPage: number[] = [];
+  constructor(private mangaService: MangaService, private route: ActivatedRoute, private router: Router) {
+    /////
+    this.mangaService.getPage().subscribe((data) => {
+      let page = data as number;
+      for (let i = 1; i <= page; i++) {
+        this.listPage.push(i);
+      }
     })
-
   }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((queryPara) => {
+      let page = 1;
+      if (queryPara.get('page') != null) {
+        page = parseInt(queryPara.get('page') as string);
+      }
+      this.listName = [];
+      this.listnameM = [];
+      this.listidM = [];
+      this.listimgURL = [];
+      this.mangaService.getMangaByPage(page).subscribe((data: any) => {
+        for (let i = 0; i < data.length; i++) {
+          let idM: any = data[i]['id'];
+          let nameM: any = data[i]['detail']['title'].split("-")[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-").toLowerCase();
+          let name: any = data[i]['detail']['title'];
+          let imgURL: any = `${this.baseUrl}/icon/${idM}.jpg`;
+          this.listidM.push(idM);
+          this.listnameM.push(nameM);
+          this.listimgURL.push(imgURL);
+          this.listName.push(name);
+        }
+        this.currentPage = page;
+      })
+    });
     // hover pagination
     let x1 = document.getElementsByClassName("pagination")[0];
     let childOfx1 = x1.getElementsByTagName("li");
@@ -94,5 +117,15 @@ export class HomeComponent implements OnInit {
       return true;
     }
     return false;
-  }    
+  }
+  checkActive(index: number): boolean {
+    if (this.currentPage == index) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  changeCurrentPage(index: number) {
+    this.router.navigate([''], { queryParams: { page: index } });
+  }
 }

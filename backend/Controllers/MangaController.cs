@@ -22,9 +22,21 @@ namespace backend.Controllers
             _context = context;
         }
         [ApiExplorerSettings(IgnoreApi = true)]
-        public int countAllManga()
+        private int countAllManga()
         {
             return this._context.Manga.Count();
+        }
+        [HttpGet("page")]
+        public ActionResult<int> getPage()
+        {
+            if (countAllManga() % 12 != 0)
+            {
+                return (countAllManga() / 12) + 1;
+            }
+            else
+            {
+                return countAllManga() / 12;
+            }
         }
         // GET: api/Manga
         [HttpGet]
@@ -32,13 +44,13 @@ namespace backend.Controllers
         {
             if (page != 0)
             {
-                int take = 8;
-                int skip = (page - 1) * 8;
+                int take = 12;
+                int skip = (page - 1) * 12;
                 return await _context.Manga.Include(b => b.detail).Include(b => b.chaps).OrderBy(x => x.id).Skip(skip).Take(take).ToListAsync();
             }
             else
             {
-                return await _context.Manga.Include(b => b.detail).Include(b => b.chaps).OrderBy(x => x.id).Skip(0).Take(8).ToListAsync();
+                return await _context.Manga.Include(b => b.detail).Include(b => b.chaps).OrderBy(x => x.id).Skip(0).Take(12).ToListAsync();
             }
         }
         // GET: api/Manga/5
@@ -91,7 +103,7 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Manga>> PostManga(Manga manga)
         {
-           
+
             _context.Manga.Add(manga);
             try
             {

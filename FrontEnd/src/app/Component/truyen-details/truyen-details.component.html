@@ -15,12 +15,12 @@
                     </li>
                     <li>
                         <a href="#" class="itemcrumb" style="color: #00a5f0">
-                            <span>Toàn Chức Pháp Sư</span>
+                            <span>{{name}}</span>
                         </a>
                     </li>
                 </ul>
                 <article id="item-details">
-                    <h1 class="title-detail">Toàn Chức Pháp Sư</h1>
+                    <h1 class="title-detail">{{name}}</h1>
                     <time class="small"> [Cập nhật lúc: 23:09 15/08/2021]</time>
                     <div class="detail-info">
                         <div class="col-image">
@@ -104,9 +104,11 @@
                                 </li>
                                 <li class="row">
                                     <div class="col-xs-5 chapter">
-                                        <a href="#" [routerLink]="['/truyen-tranh', routerPara,'chap'+chapNumber,chapID]" >Chapter {{chapNumber}}</a>
-                                        </div>
-                                        <div class=" col-xs-4 text-center small">11 giờ trước
+                                        <a href="#"
+                                            [routerLink]="['/truyen-tranh', routerPara,'chap'+chapNumber,chapID]">Chapter
+                                            {{chapNumber}}</a>
+                                    </div>
+                                    <div class=" col-xs-4 text-center small">11 giờ trước
                                     </div>
                                     <div class="col-xs-3 text-center small">29.341</div>
                                 </li>

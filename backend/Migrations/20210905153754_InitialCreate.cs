@@ -168,7 +168,8 @@ namespace backend.Migrations
                 name: "Chap",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "TEXT", nullable: false),
+                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
                     number = table.Column<int>(type: "INTEGER", nullable: false),
                     ReleaseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     views = table.Column<int>(type: "INTEGER", nullable: false),

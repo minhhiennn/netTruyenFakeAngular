@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
 
 namespace backend.Controllers
 {
@@ -30,6 +31,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
+
             if (page != 0)
             {
                 int take = 8;
@@ -91,7 +93,7 @@ namespace backend.Controllers
         [HttpPost]
         public async Task<ActionResult<Manga>> PostManga(Manga manga)
         {
-           
+
             _context.Manga.Add(manga);
             try
             {

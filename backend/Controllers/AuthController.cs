@@ -30,7 +30,7 @@ namespace backend.Controllers
                     new Claim(ClaimTypes.Role, "Operator")
                 };
                 var tokeOptions = new JwtSecurityToken(
-                    issuer: "https://localhost:5001",
+                    issuer: "http://localhost:5001",
                     audience: "http://localhost:4200",
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(5),

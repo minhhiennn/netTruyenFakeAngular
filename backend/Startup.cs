@@ -44,7 +44,7 @@ namespace backend
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = "https://localhost:5001",
+                    ValidIssuer = "http://localhost:5001",
                     ValidAudience = "http://localhost:4200",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                 };
@@ -59,12 +59,12 @@ namespace backend
                     .AllowAnyMethod();
                 });
             });
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
+            // services.AddAuthorization(options =>
+            // {
+            //     options.FallbackPolicy = new AuthorizationPolicyBuilder()
+            //         .RequireAuthenticatedUser()
+            //         .Build();
+            // });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "backend", Version = "v1" });
@@ -81,8 +81,10 @@ namespace backend
             }
 
             //app.UseHttpsRedirection();
-            
-
+            app.UseRouting();
+            app.UseCors("EnableCORS");
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseStaticFiles(new StaticFileOptions()
             {
                 OnPrepareResponse = (context) =>
@@ -96,10 +98,6 @@ namespace backend
                 }
             });
 
-            app.UseRouting();
-            app.UseCors("EnableCORS");
-            app.UseAuthentication();
-            app.UseAuthorization();        
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

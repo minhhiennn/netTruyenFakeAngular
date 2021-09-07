@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using System.Text;
 
 namespace backend.Controllers
 {
@@ -62,6 +63,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
+            await getProductImage();
             if (page != 0)
             {
                 int take = 12;
@@ -164,5 +166,29 @@ namespace backend.Controllers
         {
             return _context.Manga.Any(e => e.id == id);
         }
+
+        private async Task getProductImage()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("access-control-allow-origin", "*");
+                client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
+                client.DefaultRequestHeaders.Add("Pragma", "no-cache");
+                client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
+                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+                //2 thằng này quan trọng nhất
+                client.DefaultRequestHeaders.Add("Referer", "http://www.nettruyenvip.com/");
+                client.DefaultRequestHeaders.Add("Host", "vipanh.com");
+                //
+                HttpResponseMessage response = await client.GetAsync("http://vipanh.com/data/images/31023/756509/001.jpg");
+                byte[] content = await response.Content.ReadAsByteArrayAsync();
+                Console.WriteLine(Encoding.Default.GetString(content));
+                System.IO.File.WriteAllBytes(Environment.CurrentDirectory + "/wwwroot/" + "1.jpg", content);
+            }
+        }
     }
+
 }

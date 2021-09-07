@@ -14,7 +14,7 @@ namespace backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
 
     public class FileController : ControllerBase
     {
@@ -120,7 +120,6 @@ namespace backend.Controllers
                     else if (!entry.FullName.Contains("/")) { }
                     else
                     {
-
                         if (!errorFolder && entry.FullName.Split("/").Length == 2)
                         {
                             count++;
@@ -143,7 +142,6 @@ namespace backend.Controllers
                         }
                         if (errorFolder) { listAcceptFolder.Remove(prev.FullName.Split("/")[0] + "/"); }
                         if (prev != null && !errorFolder && entry.FullName.Split("/").Length == 2) listAcceptFolder[prev.FullName.Split("/")[0] + "/"] = count;
-
                     }
                 }
             foreach (KeyValuePair<string, int> kvp in listAcceptFolder)

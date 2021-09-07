@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterContentInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MangaService } from 'src/app/Service/manga.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterContentInit {
   back: boolean = false;
   count: number = 0;
   wait: boolean = false;
@@ -31,7 +31,33 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this.route.queryParamMap.subscribe((queryPara) => {
+    //   console.log('loz');
+    //   let page = 1;
+    //   if (queryPara.get('page') != null) {
+    //     page = parseInt(queryPara.get('page') as string);
+    //   }
+    //   this.listName = [];
+    //   this.listnameM = [];
+    //   this.listidM = [];
+    //   this.listimgURL = [];
+    //   this.mangaService.getMangaByPage(page).subscribe((data: any) => {
+    //     for (let i = 0; i < data.length; i++) {
+    //       let idM: any = data[i]['id'];
+    //       let nameM: any = data[i]['detail']['title'].split("-")[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-").toLowerCase();
+    //       let name: any = data[i]['detail']['title'];
+    //       let imgURL: any = `${this.baseUrl}/icon/${idM}.jpg`;
+    //       this.listidM.push(idM);
+    //       this.listnameM.push(nameM);
+    //       this.listimgURL.push(imgURL);
+    //       this.listName.push(name);
+    //     }
+    //   })
+    // });
+  }
+  ngAfterContentInit() {
     this.route.queryParamMap.subscribe((queryPara) => {
+      console.log('loz');
       let page = 1;
       if (queryPara.get('page') != null) {
         page = parseInt(queryPara.get('page') as string);
@@ -54,25 +80,6 @@ export class HomeComponent implements OnInit {
         this.currentPage = page;
       })
     });
-    // hover pagination
-    let x1 = document.getElementsByClassName("pagination")[0];
-    let childOfx1 = x1.getElementsByTagName("li");
-    for (let i = 0; i < childOfx1.length; i++) {
-      childOfx1[i].addEventListener('mouseover', () => {
-        if (!childOfx1[i].classList.contains('active')) {
-          childOfx1[i].style.backgroundColor = '#DCDCDC';
-          let y1 = childOfx1[i].getElementsByTagName('a')[0];
-          y1.style.color = 'blue';
-        }
-      });
-      childOfx1[i].addEventListener('mouseout', () => {
-        if (!childOfx1[i].classList.contains('active')) {
-          childOfx1[i].style.backgroundColor = 'white';
-          let y1 = childOfx1[i].getElementsByTagName('a')[0];
-          y1.style.color = 'darkgray';
-        }
-      });
-    }
   }
   TopComicsScrollLeft() {
     let y = document.getElementsByClassName("owl-wrapper-outer")[0];
@@ -126,6 +133,14 @@ export class HomeComponent implements OnInit {
     }
   }
   changeCurrentPage(index: number) {
-    this.router.navigate([''], { queryParams: { page: index } });
+    this.router.navigateByUrl('/?page=' + index);
+  }
+  //lỗi éo bít fix
+  checkMoveOverAndOut(index:number) {
+    if (this.currentPage != index) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

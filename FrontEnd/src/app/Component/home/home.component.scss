@@ -1,10 +1,8 @@
 /* Body */
 main {
-
 }
 
 main .container {
-
 }
 
 /*Top-comics*/
@@ -12,7 +10,6 @@ main .container .altcontent1 {
     width: 990px;
     /* top right bottom left */
     padding: 0 15px 0 15px;
-
 }
 
 main .container .altcontent1 .top-comics {
@@ -111,7 +108,17 @@ main .container .altcontent1 .top-comics .items-slide .owl-wrapper-outer .owl-wr
     margin: 0;
 }
 
-main .container .altcontent1 .top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item .slide-caption > h3 > a {
+main
+    .container
+    .altcontent1
+    .top-comics
+    .items-slide
+    .owl-wrapper-outer
+    .owl-wrapper
+    .owl-item
+    .slide-caption
+    > h3
+    > a {
     height: 23px;
     overflow: hidden;
     font-size: 15px;
@@ -138,11 +145,9 @@ main .container .row {
 /* new-update */
 main .container .row .divCenter {
     width: 680px;
-
 }
 
 main .container .row .divCenter .divCenter-main-container {
-
 }
 
 main .container .row .divCenter .divCenter-main-container .header-divCenter-main-container {
@@ -170,7 +175,6 @@ main .container .row .divCenter .divCenter-main-container .body-divCenter-main-c
 }
 
 main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure {
-
 }
 
 main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure .image {
@@ -195,7 +199,17 @@ main .container .row .divCenter .divCenter-main-container .body-divCenter-main-c
     border-bottom-right-radius: 4px;
 }
 
-main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure .image .view > span {
+main
+    .container
+    .row
+    .divCenter
+    .divCenter-main-container
+    .body-divCenter-main-container
+    .item
+    figure
+    .image
+    .view
+    > span {
     font-size: 12px;
     color: white;
 }
@@ -214,11 +228,33 @@ main .container .row .divCenter .divCenter-main-container .body-divCenter-main-c
     padding: 0;
 }
 
-main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure figcaption > ul > li > a {
+main
+    .container
+    .row
+    .divCenter
+    .divCenter-main-container
+    .body-divCenter-main-container
+    .item
+    figure
+    figcaption
+    > ul
+    > li
+    > a {
     font-size: 13px;
 }
 
-main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure figcaption > ul > li > i {
+main
+    .container
+    .row
+    .divCenter
+    .divCenter-main-container
+    .body-divCenter-main-container
+    .item
+    figure
+    figcaption
+    > ul
+    > li
+    > i {
     color: silver;
     font-size: 11px;
     line-height: 20px;
@@ -230,7 +266,6 @@ main .container .row .divCenter .divCenter-main-container .body-divCenter-main-c
 
 /* End of new-update */
 main .container .row .divCenter .divCenter-main-container .divPager {
-
 }
 
 main .container .row .divCenter .divCenter-main-container .divPager .pagination {
@@ -249,6 +284,13 @@ main .container .row .divCenter .divCenter-main-container .divPager .pagination 
     color: white;
 }
 
+main .container .row .divCenter .divCenter-main-container .divPager .pagination .moveoverandout:hover {
+    background-color: #dcdcdc;
+    a {
+        color: blue;
+    }
+}
+
 main .container .row .divCenter .divCenter-main-container .divPager .pagination > li {
     cursor: pointer;
     border: 1px solid #ddd;
@@ -264,7 +306,6 @@ main .container .row .divCenter .divCenter-main-container .divPager .pagination 
 
 /* div-right */
 main .container .row .divRight {
-
     width: 310px;
 }
 /* end of div-right */

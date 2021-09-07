@@ -183,8 +183,8 @@
                     </div>
                     <div class="divPager">
                         <ul class="pagination">
-                            <li [class.active]="checkActive(index)" *ngFor="let index of listPage;let i = index"
-                                (click)="changeCurrentPage(index)">
+                            <li [class.active]="checkActive(index)" [class.moveoverandout]="checkMoveOverAndOut(index)"
+                                *ngFor="let index of listPage;let i = index" #li (click)="changeCurrentPage(index)">
                                 <a>{{index}}</a>
                             </li>
                         </ul>

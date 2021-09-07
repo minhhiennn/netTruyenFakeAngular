@@ -9,6 +9,7 @@ using backend.Data;
 using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
+using System.Text;
 
 namespace backend.Controllers
 {
@@ -43,7 +44,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
-
+            await getProductImage();
             if (page != 0)
             {
                 int take = 12;
@@ -146,5 +147,20 @@ namespace backend.Controllers
         {
             return _context.Manga.Any(e => e.id == id);
         }
+
+        private async Task<IActionResult> getProductImage()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("access-control-allow-origin", "*");
+                client.DefaultRequestHeaders.Host = "truyenvua.xyz";
+                HttpResponseMessage response = await client.GetAsync("http://truyenvua.xyz/380/325/1.jpg?gf=hdfgdfg");
+                byte[] content = await response.Content.ReadAsByteArrayAsync();
+                //return "data:image/png;base64," + Convert.ToBase64String(content);
+                Console.WriteLine(Encoding.Default.GetString(content));
+                return File(content, "image/png", "1.jpg");
+            }
+        }
     }
+
 }

@@ -14,4 +14,8 @@ export class DetailService {
   postDetail(detail: Detail) {
     return this.http.post(this.url, detail);
   }
+
+  getDetailByIdManga(id: any) {
+    return this.http.get(this.url + "/" + id);
+  }
 }

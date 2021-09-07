@@ -1,9 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
 import { environment } from 'src/environments/environment';
-
+import { MangaService } from 'src/app/Service/manga.service';
 @Component({
   selector: 'app-truyen-details',
   templateUrl: './truyen-details.component.html',
@@ -11,26 +9,26 @@ import { environment } from 'src/environments/environment';
 })
 export class TruyenDetailsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private mangaService: MangaService) { }
   baseUrl = environment.baseUrl;
   chap: any;
   chapID: number = 0;
   chapNumber: number = 0;
-  routerPara: any;
   name: any;
-  imgURL:any;
+  imgURL: any;
+  routerPara: any;
   ngOnInit(): void {
-    this.imgURL = `${this.baseUrl}/icon/00001.jpg`;
-    this.routerPara = this.route.snapshot.paramMap.get('nameM');
-    var id = (this.routerPara?.split("-").pop());
-    this.name = this.routerPara?.split("-").slice(0, -1).join('-');
-    
-    this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + id).subscribe((data: any) => {
-      
-      this.chap = data['chaps'][0];
-      this.chapID = this.chap['id'];
-      this.chapNumber = this.chap['number'];
-    });
+    this.route.paramMap.subscribe((para) => {
+      this.routerPara = para.get('nameM');
+      let id = para.get('nameM')?.split("-").pop();
+      this.mangaService.getMangaById(id).subscribe((data: any) => {
+        this.imgURL = `${this.baseUrl}/icon/${id}.jpg`;
+        this.name = data.detail.title;
+        this.chap = data['chaps'][0];
+        this.chapID = this.chap['id'];
+        this.chapNumber = this.chap['number'];
+      });
+    })
 
     let x = document.getElementsByClassName("breadcrumb")[0];
     let y = x.getElementsByTagName("li");

@@ -1,6 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { MangaService } from 'src/app/Service/manga.service';
+import { LeechMangaService } from 'src/app/Service/leech-manga.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 @Component({
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   listimgURL: any = [];
   currentPage: any;
   listPage: number[] = [];
-  constructor(private mangaService: MangaService, private route: ActivatedRoute, private router: Router) {
+  constructor(private mangaService: MangaService, private leechMangaService: LeechMangaService, private route: ActivatedRoute, private router: Router) {
     /////
     this.mangaService.getPage().subscribe((data) => {
       let page = data as number;
@@ -41,19 +42,13 @@ export class HomeComponent implements OnInit {
       this.listnameM = [];
       this.listidM = [];
       this.listimgURL = [];
-      this.mangaService.getMangaByPage(page).subscribe((data: any) => {
-        for (let i = 0; i < data.length; i++) {
-          let idM: any = data[i]['id'];
-          let nameM: any = data[i]['detail']['title'].split("-")[0].normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll(" ", "-").toLowerCase();
-          let name: any = data[i]['detail']['title'];
-          let imgURL: any = `${this.baseUrl}/icon/${idM}.jpg`;
-          this.listidM.push(idM);
-          this.listnameM.push(nameM);
-          this.listimgURL.push(imgURL);
-          this.listName.push(name);
-        }
-        this.currentPage = page;
-      })
+      this.currentPage = page;
+      console.log(this.currentPage);
+      this.leechMangaService.leechManga(this.currentPage);
+      setTimeout(() => {
+        this.listName = this.leechMangaService.listTitle;
+        this.listimgURL = this.leechMangaService.listImgUrl;
+      }, 2000);
     });
   }
   TopComicsScrollLeft() {
@@ -110,8 +105,7 @@ export class HomeComponent implements OnInit {
   changeCurrentPage(index: number) {
     this.router.navigateByUrl('/?page=' + index);
   }
-  //lỗi éo bít fix
-  checkMoveOverAndOut(index:number) {
+  checkMoveOverAndOut(index: number) {
     if (this.currentPage != index) {
       return true;
     } else {

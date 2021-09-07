@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
@@ -20,6 +21,25 @@ namespace backend.Controllers
         public MangaController(ApplicationDbContext context)
         {
             _context = context;
+        }
+        [HttpGet("leechManga/{page}")]
+        public ActionResult<string> test(string page)
+        {
+            string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + page + ".html";
+
+            string result = "";
+
+            using (HttpClient client = new HttpClient())
+            {
+                using (HttpResponseMessage response = client.GetAsync(url).Result)
+                {
+                    using (HttpContent content = response.Content)
+                    {
+                        result = content.ReadAsStringAsync().Result;
+                    }
+                }
+            }
+            return result;
         }
         [ApiExplorerSettings(IgnoreApi = true)]
         private int countAllManga()

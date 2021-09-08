@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   listnameM: any = [];
   listidM: any = [];
   listimgURL: any = [];
+  listChap:any = [];
   currentPage: any;
   listPage: number[] = [];
   constructor(private mangaService: MangaService, private leechMangaService: LeechMangaService, private route: ActivatedRoute, private router: Router) { }
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit {
       setTimeout(() => {
         this.listName = this.leechMangaService.listTitle;
         this.listimgURL = this.leechMangaService.listImgUrl;
+        this.listChap = this.leechMangaService.listfinalChap;
       }, 500);
     });
   }

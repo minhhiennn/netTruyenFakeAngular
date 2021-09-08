@@ -20,10 +20,10 @@ export class ChapReaderComponent implements OnInit {
   pageCount: number = 0;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer) {
-
-    this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
-    this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap', '');
-    this.loadManga("http://truyenqq.net/truyen-tranh/vo-kiem-tieu-tu-9421-chap-79.html");
+    console.log('loz');
+    // this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
+    // this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap', '');
+    this.loadManga("http://truyenqqtop.com/truyen-tranh/anh-sang-cuoi-con-duong-6799-chap-119-5.html");
   }
   ngOnInit(): void {
     this.createBeforeContentHeader();
@@ -57,6 +57,7 @@ export class ChapReaderComponent implements OnInit {
         var image: any;
         let objectURL = 'data:image/png;base64,' + element;
         image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        console.log(image);
         this.list.push(image)
       });
     });

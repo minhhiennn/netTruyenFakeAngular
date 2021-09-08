@@ -27,28 +27,9 @@ namespace backend.Controllers
         [HttpGet("page")]
         public ActionResult<int> getMaxPageLeech()
         {
-            string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + 1 + ".html";
-
-            string result = "";
-            using (System.Net.Http.HttpClientHandler handler = new System.Net.Http.HttpClientHandler()
-            {
-                Proxy = new System.Net.WebProxy("http://64.124.38.142:8080"),
-                UseProxy = true,
-            })
-            {
-                using (HttpClient client = new HttpClient(handler))
-                {
-
-                    using (HttpResponseMessage response = client.GetAsync(url).Result)
-                    {
-                        using (HttpContent content = response.Content)
-                        {
-                            result = content.ReadAsStringAsync().Result;
-                        }
-                    }
-                }
-            }
-            var doc = new HtmlDocument().LoadHtml(result);
+            string url = "http://truyenqqtop.com/truyen-moi-cap-nhat/trang-" + 1 + ".html";
+            var web = new HtmlWeb();
+            var doc = web.Load(url);
             var nodes = doc.DocumentNode.SelectNodes("//ul[@class='pagination-list']")[0].SelectNodes("//a[@class='pagination-next']")[0];
             string x = nodes.GetAttributeValue("href", "nhu cc").Split('-')[4].Split('.')[0];
             return Int32.Parse(x);
@@ -56,18 +37,17 @@ namespace backend.Controllers
         [HttpGet("leechManga/{page}")]
         public ActionResult<string> leechMangaByPage(string page)
         {
-            string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + page + ".html";
+            string url = "http://truyenqqtop.com/truyen-moi-cap-nhat/trang-" + page + ".html";
 
             string result = "";
             using (System.Net.Http.HttpClientHandler handler = new System.Net.Http.HttpClientHandler()
             {
-                Proxy = new System.Net.WebProxy("http://64.124.38.142:8080"),
-                UseProxy = true,
+                // Proxy = new System.Net.WebProxy("http://64.124.38.142:8080"),
+                // UseProxy = true,
             })
             {
                 using (HttpClient client = new HttpClient(handler))
                 {
-
                     using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
                         using (HttpContent content = response.Content)
@@ -200,7 +180,7 @@ namespace backend.Controllers
         [HttpGet("leecher/{url}")]
         public async Task<List<byte[]>> leecher(string url)
         {
-            url = "http://truyenqq.net/truyen-tranh/" + url;
+            url = "http://truyenqqtop.com/truyen-tranh/" + url;
             List<string> lists = getImgUrl(url);
             List<byte[]> result = new List<byte[]>();
             int i = 0;
@@ -218,7 +198,7 @@ namespace backend.Controllers
                     client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
                     client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
                     //2 thằng này quan trọng nhất
-                    client.DefaultRequestHeaders.Add("Referer", "http://truyenqq.net/");
+                    client.DefaultRequestHeaders.Add("Referer", "http://truyenqqtop.com/");
                     client.DefaultRequestHeaders.Add("Host", lists[1].Split("//")[1].Split("/")[0]);
                     //
                     HttpResponseMessage response = await client.GetAsync(item);

@@ -10,19 +10,9 @@ export class LeechMangaService {
   listfinalChap: string[] = [];
   constructor(private mangaService: MangaService) { }
 
-  leechManga(page: number) {
+  leechManga(i: number) {
     this.listTitle = [];
     this.listImgUrl = [];
-    this.mangaService.leechManga().subscribe((data) => {
-      let x = this.parser.parseFromString(data, "text/html");
-      let x1 = x.body.getElementsByClassName('outsite ')[0].getElementsByClassName('main-content')[0].getElementsByTagName('div')[0].getElementsByTagName('nav')[0].getElementsByTagName('ul')[0].getElementsByTagName('li')[6];
-      //link 228
-      let x2: string = x1.getElementsByTagName('a')[0].href;
-      let x3 = parseInt(x2.split('-')[4].split('.')[0]);
-      this.addTitleImgUrlAndChap(page);
-    })
-  }
-  addTitleImgUrlAndChap(i: number) {
     this.mangaService.getMangaByPage(i).subscribe((data) => {
       let y = this.parser.parseFromString(data, "text/html");
       let y1 = y.body.getElementsByClassName('outsite ')[0].getElementsByClassName('main-content')[0].getElementsByTagName('div')[0].getElementsByTagName('div')[2].getElementsByTagName('div')[0].getElementsByTagName('ul')[0].getElementsByTagName('li');

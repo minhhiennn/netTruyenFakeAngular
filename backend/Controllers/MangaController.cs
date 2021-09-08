@@ -10,6 +10,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using System.Text;
+using HtmlAgilityPack;
 
 namespace backend.Controllers
 {
@@ -23,8 +24,17 @@ namespace backend.Controllers
         {
             _context = context;
         }
+        [HttpGet("page")]
+        public ActionResult<int> getMaxPageLeech()
+        {
+            string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + 1 + ".html";
+            var doc = new HtmlWeb().Load(url);
+            var nodes = doc.DocumentNode.SelectNodes("//ul[@class='pagination-list']")[0].SelectNodes("//a[@class='pagination-next']")[0];
+            string x = nodes.GetAttributeValue("href", "nhu cc").Split('-')[4].Split('.')[0];
+            return Int32.Parse(x);
+        }
         [HttpGet("leechManga/{page}")]
-        public ActionResult<string> test(string page)
+        public ActionResult<string> leechMangaByPage(string page)
         {
             string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + page + ".html";
 
@@ -41,23 +51,6 @@ namespace backend.Controllers
                 }
             }
             return result;
-        }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private int countAllManga()
-        {
-            return this._context.Manga.Count();
-        }
-        [HttpGet("page")]
-        public ActionResult<int> getPage()
-        {
-            if (countAllManga() % 12 != 0)
-            {
-                return (countAllManga() / 12) + 1;
-            }
-            else
-            {
-                return countAllManga() / 12;
-            }
         }
         // GET: api/Manga
         [HttpGet]

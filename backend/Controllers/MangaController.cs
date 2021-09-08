@@ -24,28 +24,45 @@ namespace backend.Controllers
         {
             _context = context;
         }
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private int countAllManga()
-        {
-            return this._context.Manga.Count();
-        }
         [HttpGet("page")]
-        public ActionResult<int> getPage()
+        public ActionResult<int> getMaxPageLeech()
         {
-            if (countAllManga() % 12 != 0)
+            string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + 1 + ".html";
+            var doc = new HtmlWeb().Load(url, "64.124.38.142", 8080, string.Empty, string.Empty);
+            var nodes = doc.DocumentNode.SelectNodes("//ul[@class='pagination-list']")[0].SelectNodes("//a[@class='pagination-next']")[0];
+            string x = nodes.GetAttributeValue("href", "nhu cc").Split('-')[4].Split('.')[0];
+            return Int32.Parse(x);
+        }
+        [HttpGet("leechManga/{page}")]
+        public ActionResult<string> leechMangaByPage(string page)
+        {
+            string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + page + ".html";
+
+            string result = "";
+            using (System.Net.Http.HttpClientHandler handler = new System.Net.Http.HttpClientHandler()
             {
-                return (countAllManga() / 12) + 1;
-            }
-            else
+                Proxy = new System.Net.WebProxy("http://64.124.38.142:8080"),
+                UseProxy = true,
+            })
             {
-                return countAllManga() / 12;
+                using (HttpClient client = new HttpClient(handler))
+                {
+
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        using (HttpContent content = response.Content)
+                        {
+                            result = content.ReadAsStringAsync().Result;
+                        }
+                    }
+                }
             }
+            return result;
         }
         // GET: api/Manga
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
-        
             if (page != 0)
             {
                 int take = 12;

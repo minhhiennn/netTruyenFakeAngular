@@ -9,6 +9,8 @@ using backend.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using System.Text;
+using System.Web;
+using HtmlAgilityPack;
 
 namespace backend.Controllers
 {
@@ -43,7 +45,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
-            await getProductImage();
+            getProductImage();
             if (page != 0)
             {
                 int take = 12;
@@ -168,7 +170,8 @@ namespace backend.Controllers
                 Console.WriteLine(Encoding.Default.GetString(content));
                 System.IO.File.WriteAllBytes(Environment.CurrentDirectory + "/wwwroot/" + "1.jpg", content);
             }
+
+
         }
     }
-
 }

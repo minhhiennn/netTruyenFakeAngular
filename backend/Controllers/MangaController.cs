@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
-using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using System.Text;
@@ -25,7 +24,7 @@ namespace backend.Controllers
         {
             _context = context;
         }
-        [HttpGet("page")]
+         [HttpGet("page")]
         public ActionResult<int> getMaxPageLeech()
         {
             string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + 1 + ".html";
@@ -57,7 +56,6 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
-            // getProductImage();
             if (page != 0)
             {
                 int take = 12;
@@ -161,27 +159,49 @@ namespace backend.Controllers
             return _context.Manga.Any(e => e.id == id);
         }
 
-        private async Task getProductImage()
+        private List<string> getImgUrl(string url)
         {
-            using (HttpClient client = new HttpClient())
+            var doc = new HtmlWeb().Load(url);
+            var nodes = doc.DocumentNode.SelectNodes("//img[@class='lazy']");
+            List<string> lists = new List<string>();
+            foreach (HtmlNode item in nodes)
             {
-                client.DefaultRequestHeaders.Add("access-control-allow-origin", "*");
-                client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
-                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
-                client.DefaultRequestHeaders.Add("Pragma", "no-cache");
-                client.DefaultRequestHeaders.Add("Connection", "keep-alive");
-                client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
-                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-                client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
-                //2 thằng này quan trọng nhất
-                client.DefaultRequestHeaders.Add("Referer", "http://www.nettruyenvip.com/");
-                client.DefaultRequestHeaders.Add("Host", "vipanh.com");
-                //
-                HttpResponseMessage response = await client.GetAsync("http://vipanh.com/data/images/31023/756509/001.jpg");
-                byte[] content = await response.Content.ReadAsByteArrayAsync();
-                Console.WriteLine(Encoding.Default.GetString(content));
-                System.IO.File.WriteAllBytes(Environment.CurrentDirectory + "/wwwroot/" + "1.jpg", content);
+                lists.Add(item.GetAttributeValue("src", ""));
             }
+            return lists;
+        }
+        [HttpGet("leecher/{url}")]
+        public async Task<List<byte[]>> leecher(string url)
+        {
+            url = "http://truyenqq.net/truyen-tranh/" + url;
+            System.Console.WriteLine(url);
+            List<string> lists = getImgUrl(url);
+            List<byte[]> result = new List<byte[]>();
+            int i = 0;
+            foreach (var item in lists)
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    i++;
+                    client.DefaultRequestHeaders.Add("access-control-allow-origin", "*");
+                    client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+                    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
+                    client.DefaultRequestHeaders.Add("Pragma", "no-cache");
+                    client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                    client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
+                    client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                    client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+                    //2 thằng này quan trọng nhất
+                    client.DefaultRequestHeaders.Add("Referer", "http://truyenqq.net/");
+                    client.DefaultRequestHeaders.Add("Host", lists[1].Split("//")[1].Split("/")[0]);
+                    //
+                    HttpResponseMessage response = await client.GetAsync(item);
+                    byte[] content = await response.Content.ReadAsByteArrayAsync();
+                    result.Add(content);
+                    // System.IO.File.WriteAllBytes(Environment.CurrentDirectory + "/wwwroot/" + i + ".jpg", content);
+                }
+            }
+            return result;
         }
     }
 }

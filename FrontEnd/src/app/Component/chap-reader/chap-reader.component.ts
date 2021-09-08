@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
 import { environment } from 'src/environments/environment';
@@ -17,13 +18,12 @@ export class ChapReaderComponent implements OnInit {
   manga: any;
   chap: any;
   pageCount: number = 0;
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
+
+  constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer) {
 
     this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
     this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap', '');
-
-    this.loadManga();
-
+    this.loadManga("http://truyenqq.net/truyen-tranh/vo-kiem-tieu-tu-9421-chap-79.html");
   }
   ngOnInit(): void {
     this.createBeforeContentHeader();
@@ -45,11 +45,20 @@ export class ChapReaderComponent implements OnInit {
   counter(i: number) {
     return new Array(i);
   }
-  loadManga() {
-    this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + this.manga).subscribe((data: any) =>
-      data["chaps"].forEach((element: any) => {
-        if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`${this.baseUrl}${ApiPaths.Storage}/${element["id"]}`, 1, element["pageCount"]) };
-      }
-      ));
+  loadManga(url:string) {
+    // this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + this.manga).subscribe((data: any) =>
+    //   data["chaps"].forEach((element: any) => {
+    //     if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`${this.baseUrl}${ApiPaths.Storage}/${element["id"]}`, 1, element["pageCount"]) };
+    //   }
+    //   ));
+    var realUrl = url.split("//")[1].split("/")[2];
+    this.http.get(`http://localhost:5001/api/manga/leecher/${realUrl}`).subscribe((data: any) => {
+      data.forEach((element: any) => {
+        var image: any;
+        let objectURL = 'data:image/png;base64,' + element;
+        image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        this.list.push(image)
+      });
+    });
   }
 }

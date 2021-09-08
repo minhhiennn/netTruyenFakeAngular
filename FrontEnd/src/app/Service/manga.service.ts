@@ -20,11 +20,16 @@ export class MangaService {
     return this.http.get(this.url + "/" + id);
   }
 
+  leechManga() {
+    return this.http.get(this.url + "/leechManga/" + 1, { responseType: 'text' });
+  }
+
   getMangaByPage(page: number) {
-    return this.http.get(this.url + "?page=" + page);
+    return this.http.get(this.url + "/leechManga/" + page, { responseType: 'text' });
   }
 
   postManga(manga: Manga) {
     return this.http.post(this.url, manga);
   }
+
 }

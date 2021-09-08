@@ -147,7 +147,7 @@
                         <h2>Truyện mới cập nhật <i class="fa fas fa-angle-right"></i></h2>
                     </div>
                     <div class="body-divCenter-main-container">
-                        <div class="item" *ngFor="let img of listimgURL;let i = index">
+                        <div class="item" *ngFor="let img of listimgURL | slice:0:36;let i = index">
                             <figure>
                                 <div class="image">
                                     <a [routerLink]="['truyen-tranh',listnameM[i]+'-'+listidM[i]]">

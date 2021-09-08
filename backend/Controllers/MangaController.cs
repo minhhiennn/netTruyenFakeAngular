@@ -57,7 +57,7 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Manga>>> GetManga(int page)
         {
-            getProductImage();
+            // getProductImage();
             if (page != 0)
             {
                 int take = 12;

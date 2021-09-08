@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 
 export class HomeComponent implements OnInit {
+  pageMax: number = 0;
   back: boolean = false;
   count: number = 0;
   wait: boolean = false;
@@ -21,19 +22,9 @@ export class HomeComponent implements OnInit {
   listimgURL: any = [];
   currentPage: any;
   listPage: number[] = [];
-  constructor(private mangaService: MangaService, private leechMangaService: LeechMangaService, private route: ActivatedRoute, private router: Router) {
-    /////
-    this.mangaService.getPage().subscribe((data) => {
-      let page = data as number;
-      for (let i = 1; i <= page; i++) {
-        this.listPage.push(i);
-      }
-    })
-  }
-
+  constructor(private mangaService: MangaService, private leechMangaService: LeechMangaService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((queryPara) => {
-      console.log('loz');
       let page = 1;
       if (queryPara.get('page') != null) {
         page = parseInt(queryPara.get('page') as string);
@@ -42,13 +33,31 @@ export class HomeComponent implements OnInit {
       this.listnameM = [];
       this.listidM = [];
       this.listimgURL = [];
+      this.listPage = [];
       this.currentPage = page;
-      console.log(this.currentPage);
+      this.mangaService.getPage().subscribe((data) => {
+        this.pageMax = data as number;
+        let x = this.currentPage - 2;
+        let y = this.currentPage + 2;
+        if (x <= 0) {
+          for (let i = 1; i <= 5; i++) {
+            this.listPage.push(i);
+          }
+        } else if (y >= this.pageMax) {
+          for (let i = this.pageMax - 5; i <= this.pageMax; i++) {
+            this.listPage.push(i);
+          }
+        } else {
+          for (let i = x; i <= this.currentPage + 2; i++) {
+            this.listPage.push(i);
+          }
+        }
+      })
       this.leechMangaService.leechManga(this.currentPage);
       setTimeout(() => {
         this.listName = this.leechMangaService.listTitle;
         this.listimgURL = this.leechMangaService.listImgUrl;
-      }, 2000);
+      }, 500);
     });
   }
   TopComicsScrollLeft() {

@@ -4,7 +4,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
 import { environment } from 'src/environments/environment';
-declare var myTest: any;
 
 @Component({
   selector: 'app-chap-reader',
@@ -24,7 +23,6 @@ export class ChapReaderComponent implements OnInit {
       let x = para.get('nameMAndChap');
       this.loadManga("http://truyenqqtop.com/truyen-tranh/" + x);
     })
-
   }
   ngOnInit(): void {
     this.createBeforeContentHeader();

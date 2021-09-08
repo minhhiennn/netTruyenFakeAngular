@@ -177,7 +177,6 @@ namespace backend.Controllers
             {
                 lists.Add(item.GetAttributeValue("src", ""));
             }
-            lists.ForEach(Console.WriteLine);
             return lists;
         }
         [HttpGet("leecher/{url}")]

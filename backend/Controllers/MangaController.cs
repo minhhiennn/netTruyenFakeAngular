@@ -201,7 +201,6 @@ namespace backend.Controllers
         public async Task<List<byte[]>> leecher(string url)
         {
             url = "http://truyenqq.net/truyen-tranh/" + url;
-            System.Console.WriteLine(url);
             List<string> lists = getImgUrl(url);
             List<byte[]> result = new List<byte[]>();
             int i = 0;

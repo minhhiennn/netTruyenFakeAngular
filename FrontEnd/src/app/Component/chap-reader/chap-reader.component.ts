@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { element } from 'protractor';
 import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
 import { environment } from 'src/environments/environment';
 declare var myTest: any;
@@ -54,14 +55,17 @@ export class ChapReaderComponent implements OnInit {
     //   ));
     var realUrl = url.split('/').join('@');
     this.http.get(`http://localhost:5001/api/manga/getImgUrl/${realUrl}`).subscribe((data: any) => {
-    var i = 0;
+      data.forEach((element1: any) => {
+        this.list.push(element1)
+        console.log(element1)
+      });
       data.forEach((element: any) => {
         this.http.get(`http://localhost:5001/api/manga/leecher/${element.split('/').join('@')}`).subscribe(data1 => {
           var image: any;
           let objectURL = 'data:image/png;base64,' + data1;
           image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          this.list[i] = image;
-          i++;
+          var index = this.list.indexOf(element);
+          this.list[index] = image;
         })
       });
     });

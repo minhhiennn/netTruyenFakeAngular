@@ -12,7 +12,7 @@ import { UploadMangaComponent } from './Component/upload-manga/upload-manga.comp
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'truyen-tranh/:nameM', component: TruyenDetailsComponent },
-  { path: 'truyen-tranh/:nameM/:nameC/:idC', component: ChapReaderComponent },
+  { path: 'truyen-tranh/truyen/:nameMAndChap', component: ChapReaderComponent },
   { path: 'upload', component: UploadImgComponent },
   { path: 'uploadManga', component: UploadMangaComponent }
 ];

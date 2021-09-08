@@ -20,10 +20,11 @@ export class ChapReaderComponent implements OnInit {
   pageCount: number = 0;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer) {
+    this.route.paramMap.subscribe((para) => {
+      let x = para.get('nameMAndChap');
+      this.loadManga("http://truyenqqtop.com/truyen-tranh/" + x);
+    })
 
-    this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
-    this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap', '');
-    this.loadManga("http://truyenqqtop.com/truyen-tranh/kingdom-vuong-gia-thien-ha-245-chap-690.html");
   }
   ngOnInit(): void {
     this.createBeforeContentHeader();

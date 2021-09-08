@@ -11,11 +11,7 @@ export class DetailService {
   url = environment.baseUrl + ApiPaths.Detail;
   constructor(private http: HttpClient) { }
 
-  postDetail(detail: Detail) {
-    return this.http.post(this.url, detail);
-  }
-
-  getDetailByIdManga(id: any) {
-    return this.http.get(this.url + "/" + id);
+  getDetailsLeechManga(nameAndId: string) {
+    return this.http.get(`${this.url}/${nameAndId}`, { responseType: 'text' });
   }
 }

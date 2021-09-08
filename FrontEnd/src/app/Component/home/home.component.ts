@@ -17,11 +17,11 @@ export class HomeComponent implements OnInit {
   wait: boolean = false;
   baseUrl = environment.baseUrl;
   listName: any = [];
-  listnameM: any = [];
-  listidM: any = [];
   listimgURL: any = [];
-  currentPage: any;
+  listChap: any = [];
   listPage: number[] = [];
+  listNameMandIdM: string[] = []
+  currentPage: any;
   constructor(private mangaService: MangaService, private leechMangaService: LeechMangaService, private route: ActivatedRoute, private router: Router) { }
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((queryPara) => {
@@ -29,13 +29,9 @@ export class HomeComponent implements OnInit {
       if (queryPara.get('page') != null) {
         page = parseInt(queryPara.get('page') as string);
       }
-      this.listName = [];
-      this.listnameM = [];
-      this.listidM = [];
-      this.listimgURL = [];
-      this.listPage = [];
       this.currentPage = page;
       this.mangaService.getPage().subscribe((data) => {
+        this.listPage = [];
         this.pageMax = data as number;
         let x = this.currentPage - 2;
         let y = this.currentPage + 2;
@@ -57,6 +53,8 @@ export class HomeComponent implements OnInit {
       setTimeout(() => {
         this.listName = this.leechMangaService.listTitle;
         this.listimgURL = this.leechMangaService.listImgUrl;
+        this.listChap = this.leechMangaService.listfinalChap;
+        this.listNameMandIdM = this.leechMangaService.listaHref;
       }, 500);
     });
   }

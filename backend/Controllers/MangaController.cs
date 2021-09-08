@@ -24,11 +24,11 @@ namespace backend.Controllers
         {
             _context = context;
         }
-         [HttpGet("page")]
+        [HttpGet("page")]
         public ActionResult<int> getMaxPageLeech()
         {
             string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + 1 + ".html";
-            var doc = new HtmlWeb().Load(url);
+            var doc = new HtmlWeb().Load(url, "64.124.38.142", 8080, string.Empty, string.Empty);
             var nodes = doc.DocumentNode.SelectNodes("//ul[@class='pagination-list']")[0].SelectNodes("//a[@class='pagination-next']")[0];
             string x = nodes.GetAttributeValue("href", "nhu cc").Split('-')[4].Split('.')[0];
             return Int32.Parse(x);
@@ -39,14 +39,21 @@ namespace backend.Controllers
             string url = "http://truyenqq.net/truyen-moi-cap-nhat/trang-" + page + ".html";
 
             string result = "";
-
-            using (HttpClient client = new HttpClient())
+            using (System.Net.Http.HttpClientHandler handler = new System.Net.Http.HttpClientHandler()
             {
-                using (HttpResponseMessage response = client.GetAsync(url).Result)
+                Proxy = new System.Net.WebProxy("http://64.124.38.142:8080"),
+                UseProxy = true,
+            })
+            {
+                using (HttpClient client = new HttpClient(handler))
                 {
-                    using (HttpContent content = response.Content)
+
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
-                        result = content.ReadAsStringAsync().Result;
+                        using (HttpContent content = response.Content)
+                        {
+                            result = content.ReadAsStringAsync().Result;
+                        }
                     }
                 }
             }

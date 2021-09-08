@@ -186,10 +186,11 @@ namespace backend.Controllers
         {
             return _context.Manga.Any(e => e.id == id);
         }
-
-        private List<string> getImgUrl(string url)
+        [HttpGet("getImgUrl/{url}")]
+        public List<string> getImgUrl(string url)
         {
-            
+            url = url.Replace("@", "/");
+
             var doc = new HtmlWeb().Load(url);
             var nodes = doc.DocumentNode.SelectNodes("//img[@class='lazy']");
             List<string> lists = new List<string>();
@@ -197,39 +198,32 @@ namespace backend.Controllers
             {
                 lists.Add(item.GetAttributeValue("src", ""));
             }
+            lists.ForEach(Console.WriteLine);
             return lists;
         }
         [HttpGet("leecher/{url}")]
-        public async Task<List<byte[]>> leecher(string url)
+        public async Task<byte[]> leecher(string url)
         {
-            url = "http://truyenqqtop.com/truyen-tranh/" + url;
-            List<string> lists = getImgUrl(url);
-            List<byte[]> result = new List<byte[]>();
-            int i = 0;
-            foreach (var item in lists)
+            url = url.Replace("@", "/");
+            using (HttpClient client = new HttpClient())
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    i++;
-                    client.DefaultRequestHeaders.Add("access-control-allow-origin", "*");
-                    client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
-                    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
-                    client.DefaultRequestHeaders.Add("Pragma", "no-cache");
-                    client.DefaultRequestHeaders.Add("Connection", "keep-alive");
-                    client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
-                    client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
-                    client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
-                    //2 thằng này quan trọng nhất
-                    client.DefaultRequestHeaders.Add("Referer", "http://truyenqqtop.com/");
-                    client.DefaultRequestHeaders.Add("Host", lists[1].Split("//")[1].Split("/")[0]);
-                    //
-                    HttpResponseMessage response = await client.GetAsync(item);
-                    byte[] content = await response.Content.ReadAsByteArrayAsync();
-                    result.Add(content);
-                    // System.IO.File.WriteAllBytes(Environment.CurrentDirectory + "/wwwroot/" + i + ".jpg", content);
-                }
+                client.DefaultRequestHeaders.Add("access-control-allow-origin", "*");
+                client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64; rv:33.0) Gecko/20100101 Firefox/33.0");
+                client.DefaultRequestHeaders.Add("Pragma", "no-cache");
+                client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
+                client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+                //2 thằng này quan trọng nhất
+                client.DefaultRequestHeaders.Add("Referer", "http://truyenqqtop.com/");
+                client.DefaultRequestHeaders.Add("Host", url.Split("//")[1].Split("/")[0]);
+
+                HttpResponseMessage response = await client.GetAsync(url);
+                byte[] content = await response.Content.ReadAsByteArrayAsync();
+                // System.IO.File.WriteAllBytes(Environment.CurrentDirectory + "/wwwroot/" + i + ".jpg", content);
+                return content;
             }
-            return result;
         }
     }
 }

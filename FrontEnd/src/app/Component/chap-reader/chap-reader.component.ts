@@ -23,7 +23,7 @@ export class ChapReaderComponent implements OnInit {
 
     this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
     this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap', '');
-    this.loadManga("http://truyenqq.net/truyen-tranh/vo-kiem-tieu-tu-9421-chap-79.html");
+    this.loadManga("http://truyenqqtop.com/truyen-tranh/kingdom-vuong-gia-thien-ha-245-chap-690.html");
   }
   ngOnInit(): void {
     this.createBeforeContentHeader();
@@ -45,19 +45,23 @@ export class ChapReaderComponent implements OnInit {
   counter(i: number) {
     return new Array(i);
   }
-  loadManga(url:string) {
+  loadManga(url: string) {
     // this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + this.manga).subscribe((data: any) =>
     //   data["chaps"].forEach((element: any) => {
     //     if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`${this.baseUrl}${ApiPaths.Storage}/${element["id"]}`, 1, element["pageCount"]) };
     //   }
     //   ));
-    var realUrl = url.split("//")[1].split("/")[2];
-    this.http.get(`http://localhost:5001/api/manga/leecher/${realUrl}`).subscribe((data: any) => {
+    var realUrl = url.split('/').join('@');
+    this.http.get(`http://localhost:5001/api/manga/getImgUrl/${realUrl}`).subscribe((data: any) => {
+    var i = 0;
       data.forEach((element: any) => {
-        var image: any;
-        let objectURL = 'data:image/png;base64,' + element;
-        image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        this.list.push(image)
+        this.http.get(`http://localhost:5001/api/manga/leecher/${element.split('/').join('@')}`).subscribe(data1 => {
+          var image: any;
+          let objectURL = 'data:image/png;base64,' + data1;
+          image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+          this.list[i] = image;
+          i++;
+        })
       });
     });
   }

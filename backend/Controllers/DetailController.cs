@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using Microsoft.AspNetCore.Authorization;
-
+using System.Net.Http;
 namespace backend.Controllers
 {
     [Route("api/[controller]")]
@@ -21,28 +21,31 @@ namespace backend.Controllers
         {
             _context = context;
         }
-
-        // GET: api/Detail
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Detail>>> GetDetail()
+        [HttpGet("{mangaName}")]
+        public ActionResult<string> getLeechMangaDetail(string mangaName)
         {
-            return await _context.Detail.ToListAsync();
-        }
+            string url = "http://truyenqqtop.com/truyen-tranh/" + mangaName;
 
-        // GET: api/Detail/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Detail>> GetDetail(string id)
-        {
-            var detail = await _context.Detail.FindAsync(id);
-
-            if (detail == null)
+            string result = "";
+            using (System.Net.Http.HttpClientHandler handler = new System.Net.Http.HttpClientHandler()
             {
-                return NotFound();
+                // Proxy = new System.Net.WebProxy("http://64.124.38.142:8080"),
+                // UseProxy = true,
+            })
+            {
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        using (HttpContent content = response.Content)
+                        {
+                            result = content.ReadAsStringAsync().Result;
+                        }
+                    }
+                }
             }
-
-            return detail;
+            return result;
         }
-
         // PUT: api/Detail/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

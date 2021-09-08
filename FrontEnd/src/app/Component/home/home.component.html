@@ -150,7 +150,7 @@
                         <div class="item" *ngFor="let img of listimgURL | slice:0:40;let i = index">
                             <figure>
                                 <div class="image">
-                                    <a [routerLink]="['truyen-tranh',listnameM[i]+'-'+listidM[i]]">
+                                    <a [routerLink]="['truyen-tranh',listNameMandIdM[i]]">
                                         <img [src]="img">
                                     </a>
                                     <div class="view">

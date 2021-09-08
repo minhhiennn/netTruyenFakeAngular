@@ -20,10 +20,11 @@ export class ChapReaderComponent implements OnInit {
   pageCount: number = 0;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer) {
-    console.log('loz');
-    // this.manga = this.route.snapshot.paramMap.get('nameM')?.split("-").pop();
-    // this.chap = this.route.snapshot.paramMap.get('nameC')?.replace('chap', '');
-    this.loadManga("http://truyenqqtop.com/truyen-tranh/anh-sang-cuoi-con-duong-6799-chap-119-5.html");
+    this.route.paramMap.subscribe((para) => {
+      let x = para.get('nameMAndChap');
+      this.loadManga("http://truyenqqtop.com/truyen-tranh/" + x);
+    })
+
   }
   ngOnInit(): void {
     this.createBeforeContentHeader();
@@ -45,7 +46,7 @@ export class ChapReaderComponent implements OnInit {
   counter(i: number) {
     return new Array(i);
   }
-  loadManga(url:string) {
+  loadManga(url: string) {
     // this.http.get(`${this.baseUrl}${ApiPaths.Manga}/` + this.manga).subscribe((data: any) =>
     //   data["chaps"].forEach((element: any) => {
     //     if (element["number"] == this.chap) { this.pageCount = element["pageCount"] + 1; new myTest(`${this.baseUrl}${ApiPaths.Storage}/${element["id"]}`, 1, element["pageCount"]) };
@@ -57,7 +58,6 @@ export class ChapReaderComponent implements OnInit {
         var image: any;
         let objectURL = 'data:image/png;base64,' + element;
         image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-        console.log(image);
         this.list.push(image)
       });
     });

@@ -1,34 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { MangaService } from 'src/app/Service/manga.service';
+import { DetailService } from 'src/app/Service/detail.service';
 @Component({
   selector: 'app-truyen-details',
   templateUrl: './truyen-details.component.html',
   styleUrls: ['./truyen-details.component.scss']
 })
 export class TruyenDetailsComponent implements OnInit {
-
-  constructor(private route: ActivatedRoute, private mangaService: MangaService) { }
   baseUrl = environment.baseUrl;
-  chap: any;
-  chapID: number = 0;
-  chapNumber: number = 0;
   name: any;
   imgURL: any;
-  routerPara: any;
+  listChap: string[] = [];
+  listLinkHref: string[] = [];
+  listUpdateChap: string[] = [];
+
+  constructor(private route: ActivatedRoute, private detailService: DetailService) { }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((para) => {
-      this.routerPara = para.get('nameM');
-      let id = para.get('nameM')?.split("-").pop();
-      this.mangaService.getMangaById(id).subscribe((data: any) => {
-        this.imgURL = `${this.baseUrl}/icon/${id}.jpg`;
-        this.name = data.detail.title;
-        this.chap = data['chaps'][0];
-        this.chapID = this.chap['id'];
-        this.chapNumber = this.chap['number'];
+      let nameM = para.get('nameM') as string;
+      this.detailService.getDetailsLeechManga(nameM).subscribe((data) => {
+        let parser = new DOMParser();
+        let x = parser.parseFromString(data, "text/html");
+        this.imgURL = x.body.getElementsByClassName('left')[0].getElementsByTagName('img')[0].src;
+        this.name = x.body.getElementsByClassName('center')[0].getElementsByTagName('h1')[0].textContent;
+        // thằng y là thằng giữ list chap vs list update
+        let y = x.body.getElementsByClassName('works-chapter-list')[0];
+        let childOfy = y.getElementsByClassName('works-chapter-item');
+        for (let i = 0; i < childOfy.length; i++) {
+          let z1 = childOfy[i].getElementsByTagName('div')[0].getElementsByTagName('a')[0].href.split('//')[1].split('/')[2];
+          let z2 = childOfy[i].getElementsByTagName('div')[0].getElementsByTagName('a')[0].textContent as string;
+          let z3 = childOfy[i].getElementsByTagName('div')[1].textContent as string;
+          this.listLinkHref.push(z1);
+          this.listChap.push(z2);
+          this.listUpdateChap.push(z3);
+        }
       });
-    })
+    });
 
     let x = document.getElementsByClassName("breadcrumb")[0];
     let y = x.getElementsByTagName("li");

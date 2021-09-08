@@ -102,70 +102,12 @@
                                     <div class="col-xs-4 no-wrap text-center">Cập nhật</div>
                                     <div class="col-xs-3 no-wrap text-center">Lượt xem</div>
                                 </li>
-                                <li class="row">
+                                <li class="row" *ngFor="let ele of listChap;let i = index">
                                     <div class="col-xs-5 chapter">
-                                        <a href="#"
-                                            [routerLink]="['/truyen-tranh', routerPara,'chap'+chapNumber,chapID]">Chapter
-                                            {{chapNumber}}</a>
+                                        <a [routerLink]="['/truyen-tranh','truyen',listLinkHref[i]]">{{ele}}</a>
                                     </div>
-                                    <div class=" col-xs-4 text-center small">11 giờ trước
+                                    <div class=" col-xs-4 text-center small">{{listUpdateChap[i]}}
                                     </div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
-                                    <div class="col-xs-3 text-center small">29.341</div>
-                                </li>
-                                <li class="row">
-                                    <div class="col-xs-5 chapter">
-                                        <a href="#">Chapter 742</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center small">11 giờ trước</div>
                                     <div class="col-xs-3 text-center small">29.341</div>
                                 </li>
                             </ul>

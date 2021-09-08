@@ -40,11 +40,11 @@ export class UploadMangaComponent implements OnInit {
       let manga = new Manga(mangaID);
       let detail = new Detail(detailsID, title, Author, genre, stars, views, follows, summary, mangaID);
       console.log(detail);
-      this.mangaService.postManga(manga).subscribe(() => {
-        this.detailService.postDetail(detail).subscribe(() => {
-          alert('update thành công');
-        });
-      });
+      // this.mangaService.postManga(manga).subscribe(() => {
+      //   this.detailService.postDetail(detail).subscribe(() => {
+      //     alert('update thành công');
+      //   });
+      // });
       alert('update thành công');
     } else {
       alert('ghi ngu như cc');

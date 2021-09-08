@@ -168,6 +168,7 @@ namespace backend.Controllers
 
         private List<string> getImgUrl(string url)
         {
+            
             var doc = new HtmlWeb().Load(url);
             var nodes = doc.DocumentNode.SelectNodes("//img[@class='lazy']");
             List<string> lists = new List<string>();

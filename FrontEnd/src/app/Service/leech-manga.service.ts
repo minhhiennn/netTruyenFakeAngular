@@ -8,12 +8,14 @@ export class LeechMangaService {
   listImgUrl: string[] = [];
   listTitle: string[] = [];
   listfinalChap: string[] = [];
+  listaHref:string[] = [];
   constructor(private mangaService: MangaService) { }
 
   leechManga(i: number) {
     this.listTitle = [];
     this.listImgUrl = [];
     this.listfinalChap = [];
+    this.listaHref = [];
     this.mangaService.getMangaByPage(i).subscribe((data) => {
       let y = this.parser.parseFromString(data, "text/html");
       let y1 = y.body.getElementsByClassName('outsite ')[0].getElementsByClassName('main-content')[0].getElementsByTagName('div')[0].getElementsByTagName('div')[2].getElementsByTagName('div')[0].getElementsByTagName('ul')[0].getElementsByTagName('li');
@@ -21,9 +23,11 @@ export class LeechMangaService {
         const title = y1[index].getElementsByTagName('div')[0].getElementsByTagName('a')[0].title;
         const imgSrc = y1[index].getElementsByTagName('div')[0].getElementsByTagName('a')[0].getElementsByTagName('img')[0].src;
         const chap = y1[index].getElementsByTagName('div')[0].getElementsByClassName('episode-book')[0].getElementsByTagName('a')[0].text.split(' ')[2];
+        const aHref = y1[index].getElementsByTagName('div')[0].getElementsByTagName('a')[0].href.split('//')[1].split('/')[2];
         this.listTitle.push(title);
         this.listImgUrl.push(imgSrc);
         this.listfinalChap.push(chap);
+        this.listaHref.push(aHref);
       }
     })
   }

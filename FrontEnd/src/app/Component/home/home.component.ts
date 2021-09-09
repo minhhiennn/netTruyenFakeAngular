@@ -14,7 +14,7 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
 })
 
 export class HomeComponent implements OnInit {
-  defaultImage = 'https://www.placecage.com/1000/1000';
+  defaultImage = 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fjaypanda.in%2Fwp-content%2Fuploads%2F2016%2F10%2Fblank-img.jpg&imgrefurl=https%3A%2F%2Fjaypanda.in%2Fblank-img%2F&tbnid=KczDA8lIEwUxgM&vet=12ahUKEwiMkIPw__HyAhWJL6YKHdsODQ4QMygDegUIARCgAQ..i&docid=b1kLK9cYnbsv0M&w=330&h=200&itg=1&q=blank%20img&ved=2ahUKEwiMkIPw__HyAhWJL6YKHdsODQ4QMygDegUIARCgAQ';
   pageMax: number = 0;
   back: boolean = false;
   count: number = 0;

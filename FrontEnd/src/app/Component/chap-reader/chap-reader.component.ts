@@ -57,7 +57,6 @@ export class ChapReaderComponent implements OnInit {
     this.http.get(`http://localhost:5001/api/manga/getImgUrl/${realUrl}`).subscribe((data: any) => {
       data.forEach((element1: any) => {
         this.list.push(element1)
-        console.log(element1)
       });
       data.forEach((element: any) => {
         this.http.get(`http://localhost:5001/api/manga/leecher/${element.split('/').join('@')}`).subscribe(data1 => {

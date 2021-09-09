@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  // baseUrl: 'http://f1a8-116-102-136-56.ngrok.io'
+  //baseUrl: 'http://652c-116-102-136-56.ngrok.io'
   //baseUrl: 'https://nettruyenfake4.azurewebsites.net'
   baseUrl: 'http://localhost:5001'
 };

@@ -311,3 +311,11 @@ main .container .row .divRight {
 /* end of div-right */
 /* */
 /* End of Body */
+
+img.ng-lazyloaded {
+  animation: fadein 3.5s;
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

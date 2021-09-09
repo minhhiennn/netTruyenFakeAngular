@@ -1,5 +1,5 @@
 <main>
-    <img src="" alt="">
+
     <div class="container">
         <div id="ctl00_divAlt1" class="altcontent1 cmszone">
             <div class="top-comics">
@@ -151,7 +151,9 @@
                             <figure>
                                 <div class="image">
                                     <a [routerLink]="['truyen-tranh',listNameMandIdM[i]]">
-                                        <img [src]="img">
+                                        <!-- <img class="lazy" data-src="{{img}}" src="" /> -->
+                                        <!-- <img [src]="img"> -->
+                                        <img  id="image" [defaultImage]="defaultImage" [lazyLoad]="img" />
                                     </a>
                                     <div class="view">
                                         <span>

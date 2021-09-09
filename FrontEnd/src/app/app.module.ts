@@ -11,14 +11,12 @@ import { UploadImgComponent } from './Component/upload-img/upload-img.component'
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
-
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     UploadImgComponent
   ],
-
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,7 +24,7 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: [environment.baseUrl.replace("http://","")]
+        whitelistedDomains: [environment.baseUrl.replace("http://", "")]
       }
     })
   ],

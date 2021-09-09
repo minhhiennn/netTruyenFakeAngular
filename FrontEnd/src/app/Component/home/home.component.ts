@@ -4,20 +4,24 @@ import { MangaService } from 'src/app/Service/manga.service';
 import { LeechMangaService } from 'src/app/Service/leech-manga.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
+
 @Component({
   selector: 'app-home',
+  
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 
 export class HomeComponent implements OnInit {
+  defaultImage = 'https://www.placecage.com/1000/1000';
   pageMax: number = 0;
   back: boolean = false;
   count: number = 0;
   wait: boolean = false;
   baseUrl = environment.baseUrl;
   listName: any = [];
-  listimgURL: any = [];
+  listimgURL: string[] = [];
   listChap: any = [];
   listPage: number[] = [];
   listNameMandIdM: string[] = []
@@ -57,6 +61,7 @@ export class HomeComponent implements OnInit {
         this.listNameMandIdM = this.leechMangaService.listaHref;
       }, 500);
     });
+    
   }
   TopComicsScrollLeft() {
     let y = document.getElementsByClassName("owl-wrapper-outer")[0];

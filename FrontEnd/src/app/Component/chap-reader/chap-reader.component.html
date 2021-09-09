@@ -10,15 +10,15 @@
                     <a class="itemcrumb" href="#">Thể loại</a>
                 </li>
                 <li>
-                    <a class="itemcrumb" href="#">Toàn Chức Pháp Sư</a>
+                    <a class="itemcrumb" href="#">{{this.mangaName}}</a>
                 </li>
                 <li>
-                    <a class="itemcrumb" href="#">Chapter 746</a>
+                    <a class="itemcrumb" href="#">Chapter {{this.chap}}</a>
                 </li>
             </ul>
             <h1 class="txt-primary">
-                <a href="#">Toàn Chức Pháp Sư </a>
-                <span> - Chapter 746</span>
+                <a href="#">{{this.mangaName}} </a>
+                <span> - Chapter {{this.chap}}</span>
                 <i>[Cập nhật lúc: 06:01 24/08/2021]</i>
             </h1>
         </div>
@@ -48,22 +48,13 @@
                 <a class="home changeserver" style="color: #ff0000;">
                     <i class="fa fa-undo error"><span style="color: #ae4ad9;">1</span></i>
                 </a>
-                <a class="a_prev">
+                <a class="a_prev" (click)="prevChap()">
                     <i class="fa fa-angle-left"></i>
                 </a>
-                <select class="select-chapter">
-                    <option>Chap 746</option>
-                    <option>Chap 745</option>
-                    <option>Chap 744</option>
-                    <option>Chap 743</option>
-                    <option>Chap 742</option>
-                    <option>Chap 741</option>
-                    <option>Chap 740</option>
-                    <option>Chap 739</option>
-                    <option>Chap 738</option>
-                    <option>Chap 737</option>
+                <select class="select-chapter" #selectChap (change)="changeChapter(selectChap)">
+                    <option *ngFor="let ele of listChap;let i = index" [selected]="checkSelected(ele)" [value]="listLinkHref[i]">{{ele}}</option>
                 </select>
-                <a class="a_next">
+                <a class="a_next" (click)="nextChap()">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 <a class="follow-link btn btn-success" href="javascript:void(0)">
@@ -74,9 +65,6 @@
         </div>
 
         <div style="text-align: center;">
-            <!-- <div *ngFor='let in of counter(pageCount) ;let i = index'>    
-            <img id="img{{i}}" src="" alt=""> -->
-            <!-- </div> -->
             <div *ngFor="let item of list">
                 <img [src]="item" />
             </div>

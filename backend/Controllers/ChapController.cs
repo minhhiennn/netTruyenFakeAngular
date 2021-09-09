@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
+using System.Net.Http;
+using HtmlAgilityPack;
 
 namespace backend.Controllers
 {
@@ -19,28 +21,41 @@ namespace backend.Controllers
         {
             _context = context;
         }
-
-        // GET: api/Chap
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Chap>>> GetChap()
+        [HttpGet("{nameMAndChap}")]
+        public ActionResult<string> getNameLeeachMangaChap(string nameMAndChap)
         {
-            return await _context.Chap.ToListAsync();
+            string url = "http://truyenqqtop.com/truyen-tranh/" + nameMAndChap;
+            var web = new HtmlWeb();
+            var doc = web.Load(url);
+            var nodes = doc.DocumentNode.SelectNodes("//h1[@class='detail-title']")[0].Descendants("a").First();
+            string x = nodes.InnerText;
+            return x;
         }
-
-        // GET: api/Chap/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Chap>> GetChap(string id)
+        [HttpGet("all/{nameMAndChap}")]
+        public ActionResult<string> getLeechMangaChap(string nameMAndChap)
         {
-            var chap = await _context.Chap.FindAsync(id);
+            string url = "http://truyenqqtop.com/truyen-tranh/" + nameMAndChap;
 
-            if (chap == null)
+            string result = "";
+            using (System.Net.Http.HttpClientHandler handler = new System.Net.Http.HttpClientHandler()
             {
-                return NotFound();
+                // Proxy = new System.Net.WebProxy("http://64.124.38.142:8080"),
+                // UseProxy = true,
+            })
+            {
+                using (HttpClient client = new HttpClient(handler))
+                {
+                    using (HttpResponseMessage response = client.GetAsync(url).Result)
+                    {
+                        using (HttpContent content = response.Content)
+                        {
+                            result = content.ReadAsStringAsync().Result;
+                        }
+                    }
+                }
             }
-
-            return chap;
+            return result;
         }
-
         // PUT: api/Chap/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

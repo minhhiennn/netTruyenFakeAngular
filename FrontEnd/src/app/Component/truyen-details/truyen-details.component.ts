@@ -18,7 +18,9 @@ export class TruyenDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private detailService: DetailService) { }
 
   ngOnInit(): void {
+    console.log('loz');
     this.route.paramMap.subscribe((para) => {
+      console.log(para.get('nameM'));
       let nameM = para.get('nameM') as string;
       this.detailService.getDetailsLeechManga(nameM).subscribe((data) => {
         let parser = new DOMParser();

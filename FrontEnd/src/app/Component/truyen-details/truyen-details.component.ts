@@ -14,13 +14,13 @@ export class TruyenDetailsComponent implements OnInit {
   listChap: string[] = [];
   listLinkHref: string[] = [];
   listUpdateChap: string[] = [];
+  detailsManga:string = "";
 
   constructor(private route: ActivatedRoute, private detailService: DetailService) { }
 
   ngOnInit(): void {
     console.log('loz');
     this.route.paramMap.subscribe((para) => {
-      console.log(para.get('nameM'));
       let nameM = para.get('nameM') as string;
       this.detailService.getDetailsLeechManga(nameM).subscribe((data) => {
         let parser = new DOMParser();
@@ -38,6 +38,8 @@ export class TruyenDetailsComponent implements OnInit {
           this.listChap.push(z2);
           this.listUpdateChap.push(z3);
         }
+        let z4 = x.body.getElementsByClassName('story-detail-info')[0].getElementsByTagName('p')[0].textContent as string;
+        this.detailsManga = z4;
       });
     });
 

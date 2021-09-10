@@ -18,8 +18,15 @@ export function matcherTruyenDetail(url: UrlSegment[]) {
 }
 
 export function matcherChapReader(url: UrlSegment[]) {
+  let id: string = '';
+  if (Number.isInteger(parseInt(url[1].path.toString().split('-')[url[1].path.split('-').length - 2]))) {
+    id = url[1].path.toString().split('-')[url[1].path.split('-').length - 4];
+  } else {
+    id = url[1].path.toString().split('-')[url[1].path.split('-').length - 3];
+  }
+  let urlGetImage = url[1].path.toString().substring(0, url[1].path.toString().indexOf(id))+id;
   if (url.length === 2 && url[1].path.toString().includes(".html")) {
-    return { consumed: url, posParams: { nameMAndChap: new UrlSegment(url[1].path, {}) } }
+    return { consumed: url, posParams: { nameMAndChap: new UrlSegment(url[1].path, {}), idM: new UrlSegment(id, {}), img: new UrlSegment(urlGetImage, {}) } }
   } else {
     return null;
   }

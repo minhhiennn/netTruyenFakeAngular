@@ -1,5 +1,4 @@
 <main>
-
     <div class="container">
         <div id="ctl00_divAlt1" class="altcontent1 cmszone">
             <div class="top-comics">
@@ -153,7 +152,7 @@
                                     <a [routerLink]="['truyen-tranh',listNameMandIdM[i]]">
                                         <!-- <img class="lazy" data-src="{{img}}" src="" /> -->
                                         <!-- <img [src]="img"> -->
-                                        <img  id="image" [defaultImage]="defaultImage" [lazyLoad]="img" />
+                                        <img id="image" [defaultImage]="defaultImage" [lazyLoad]="img" />
                                     </a>
                                     <div class="view">
                                         <span>
@@ -185,18 +184,42 @@
                     </div>
                     <div class="divPager">
                         <ul class="pagination">
-                            <li>«</li>
+                            <li #liminimun (click)="goToMinimunPage()">«</li>
                             <li [class.active]="checkActive(index)" [class.moveoverandout]="checkMoveOverAndOut(index)"
                                 *ngFor="let index of listPage;let i = index" #li (click)="changeCurrentPage(index)">
                                 <a>{{index}}</a>
                             </li>
-                            <li>»</li>
+                            <li #limaximun (click)="goToMaxPage()">»</li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="divRight">
-
+                <div class="visited-comics">
+                    <div class="box darkBox">
+                        <h2>Lịch sử đọc truyện <a class="view-all">Xem tất cả</a></h2>
+                        <ul class="list-unstyled">
+                            <li class="clearfix" *ngFor="let ele of listVisitedComics;let i = index">
+                                <div class="t-item">
+                                    <a class="thumb" [routerLink]="['truyen-tranh',ele.chapterUrl]">
+                                        <img [src]="ele.image">
+                                    </a>
+                                    <h3 class="title" [routerLink]="['truyen-tranh',ele.chapterUrl]">
+                                        <a>{{ele.name}}</a>
+                                    </h3>
+                                    <p class="chapter">
+                                        <a [routerLink]="['truyen-tranh',ele.chapterUrl]">Đọc tiếp {{ele.chapterName}} </a>
+                                        <span class="view pull-right">
+                                            <a class="visited-remove" href="#">
+                                                <i class="fa fa-times"> Xóa</i>
+                                            </a>
+                                        </span>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

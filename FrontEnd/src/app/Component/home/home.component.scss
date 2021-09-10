@@ -307,15 +307,99 @@ main .container .row .divCenter .divCenter-main-container .divPager .pagination 
 /* div-right */
 main .container .row .divRight {
     width: 310px;
+    padding-top: 12px;
+    .visited-comics {
+        padding: 10px;
+        border: 1px solid #dedede;
+        .box {
+            h2 {
+                font-size: 16px;
+                margin: 0;
+                margin-bottom: 10px;
+                font-weight: 400;
+                color: #2980b9;
+                .view-all {
+                    float: right;
+                    font-size: 13px;
+                    line-height: 18px;
+                    font-style: italic;
+                    color: black;
+                }
+                .view-all:hover{
+                    color: blue;
+                    text-decoration: underline;
+                }
+            }
+            ul {
+                padding-left: 0;
+                margin: 0;
+                li {
+                    margin: 0;
+                    padding: 10px 0 10px 0;
+                    border-top: 1px solid #dedede;
+                    .t-item {
+                        .thumb {
+                            overflow: hidden;
+                            width: 70px;
+                            height: 60px;
+                            float: left;
+                            margin-right: 10px;
+                            img {
+                                max-width: 100%;
+                            }
+                        }
+                        .title {
+                            font-size: 14px;
+                            font-weight: 400;
+                            margin: 0;
+                            margin-bottom: 5px;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            a {
+                                color: black;
+                            }
+                            a:hover {
+                                color: blue;
+                            }
+                        }
+                        .chapter {
+                            margin: 0;
+                            a {
+                                font-size: 13px;
+                                color: #c0c4d1;
+                            }
+                            a:hover {
+                                color: blue;
+                            }
+                            span {
+                                margin-right: 5px;
+                                .visited-remove {
+                                    color: black;
+                                }
+                                .visited-remove:hover {
+                                    color: blue;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 /* end of div-right */
 /* */
 /* End of Body */
 
 img.ng-lazyloaded {
-  animation: fadein 3.5s;
+    animation: fadein 1s;
 }
 @keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

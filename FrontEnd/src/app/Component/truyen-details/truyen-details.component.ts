@@ -14,15 +14,22 @@ export class TruyenDetailsComponent implements OnInit {
   listChap: string[] = [];
   listLinkHref: string[] = [];
   listUpdateChap: string[] = [];
-  detailsManga:string = "";
+  detailsManga: string = "";
+  idM: string = "";
+  listVisitedChap: string[] = [];
 
   constructor(private route: ActivatedRoute, private detailService: DetailService) { }
 
   ngOnInit(): void {
-    console.log('loz');
     this.route.paramMap.subscribe((para) => {
-      console.log(para);
+      this.idM = para.get('idM') as string;
       let nameM = para.get('nameM') as string;
+      /////////////////////////////////////////////////
+      let listvisitedChap: string[] = JSON.parse(localStorage.getItem('listvisitedChap') as string) as string[];
+      if (listvisitedChap != null) {
+        this.listVisitedChap = listvisitedChap;
+      }
+      /////////////////////////////////////////////////
       this.detailService.getDetailsLeechManga(nameM).subscribe((data) => {
         let parser = new DOMParser();
         let x = parser.parseFromString(data, "text/html");
@@ -71,5 +78,15 @@ export class TruyenDetailsComponent implements OnInit {
       eleA.classList.remove('less');
       eleA.textContent = 'Xem thêm ' + '\u203a';
     }
+  }
+  checkVisitedChap(ele: string) {
+    let visitedChapToCheck = this.idM + "-" + ele.split(' ')[1];
+    console.log(visitedChapToCheck);
+    for (let i = 0; i < this.listVisitedChap.length; i++) {
+      if (this.listVisitedChap[i] == visitedChapToCheck) {
+        return true;
+      }
+    }
+    return false;
   }
 }

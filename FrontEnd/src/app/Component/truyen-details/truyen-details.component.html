@@ -97,7 +97,7 @@
                                 </li>
                                 <li class="row" *ngFor="let ele of listChap;let i = index">
                                     <div class="col-xs-5 chapter">
-                                        <a [routerLink]="['/truyen-tranh',listLinkHref[i]]" [style.color.red]="checkVisitedChap()">{{ele}}</a>
+                                        <a [routerLink]="['/truyen-tranh',listLinkHref[i]]" [style.color]="checkVisitedChap(ele) ? 'grey' : 'black'">{{ele}}</a>
                                     </div>
                                     <div class=" col-xs-4 text-center small">{{listUpdateChap[i]}}
                                     </div>

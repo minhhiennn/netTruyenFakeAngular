@@ -27,6 +27,8 @@ namespace backend.Controllers
         [HttpGet("page")]
         public ActionResult<int> getMaxPageLeech()
         {
+
+            
             string url = "http://truyenqqtop.com/truyen-moi-cap-nhat/trang-" + 1 + ".html";
 
             string result = "";

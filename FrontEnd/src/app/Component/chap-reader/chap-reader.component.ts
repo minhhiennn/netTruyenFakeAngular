@@ -74,6 +74,30 @@ export class ChapReaderComponent implements OnInit {
           }
         })
       })
+      ////////////////////////////////////////////////////
+      let visitedChap: string = id + '-' + this.chap;
+      let listvisitedChap: string[] = JSON.parse(localStorage.getItem('listvisitedChap') as string) as string[];
+      if (listvisitedChap != null) {
+        if (listvisitedChap.length == 0) {
+          listvisitedChap.push(visitedChap);
+          localStorage.setItem('listvisitedChap', JSON.stringify(listvisitedChap));
+        } else {
+          let find: boolean = false;
+          for (let i = 0; i < listvisitedChap.length; i++) {
+            if (listvisitedChap[i] == visitedChap) {
+              find = true;
+              break;
+            }
+          }
+          if (find == false) {
+            listvisitedChap.push(visitedChap);
+            localStorage.setItem('listvisitedChap', JSON.stringify(listvisitedChap));
+          }
+        }
+      } else {
+        localStorage.setItem('listvisitedChap', JSON.stringify([]));
+      }
+      ////////////////////////////////////////////////////
       this.detailService.getChapLeechManga(x).subscribe((data) => {
         let z = parser.parseFromString(data, "text/html");
         let z1 = z.body.getElementsByClassName('selectEpisode')[0].getElementsByTagName('option');
@@ -92,12 +116,11 @@ export class ChapReaderComponent implements OnInit {
           this.linkNextChap = null;
         }
       })
-
-
       ////////////////////////////////////////////////////////////////////////////////
       this.loadManga("http://truyenqqtop.com/truyen-tranh/" + x);
     })
   }
+
   ngOnInit(): void {
     this.createBeforeContentHeader();
   }

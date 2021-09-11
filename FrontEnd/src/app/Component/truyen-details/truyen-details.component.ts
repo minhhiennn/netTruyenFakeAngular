@@ -39,6 +39,7 @@ export class TruyenDetailsComponent implements OnInit {
           this.listChap.push(z2);
           this.listUpdateChap.push(z3);
         }
+        console.log(this.listChap);
         let z4 = x.body.getElementsByClassName('story-detail-info')[0].getElementsByTagName('p')[0].textContent as string;
         this.detailsManga = z4;
       });

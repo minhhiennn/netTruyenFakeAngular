@@ -35,6 +35,16 @@ namespace backend.Controllers
             {
                 using (HttpClient client = new HttpClient(handler))
                 {
+                    client.DefaultRequestHeaders.Add("access-control-allow-origin", "*");
+                    client.DefaultRequestHeaders.Add("X-Requested-With", "XMLHttpRequest");
+                    client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36");
+                    client.DefaultRequestHeaders.Add("Pragma", "no-cache");
+                    client.DefaultRequestHeaders.Add("Connection", "keep-alive");
+                    client.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
+                    client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+                    client.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+                    client.DefaultRequestHeaders.Add("Cookie", "VinaHost-Shield=efa70ae99f5e01d51b6bdad49d60c6b0; QiQiSession=hfrm0f9pn48riquodajmibbta2; visit-read=613c23c35c931-613c23c35c933; preload_ads=0; bet_top_pc=1; bet_top_pc_2=1; right_ads=0; _ga_1W7VSZ38QC=GS1.1.1631326711.18.1.1631331266.0; _ga=GA1.1.206877333.1631331266; preload_banner=1");
+                    client.DefaultRequestHeaders.Add("Referer", "http://truyenqqtop.com/");
                     using (HttpResponseMessage response = client.GetAsync(url).Result)
                     {
                         using (HttpContent content = response.Content)

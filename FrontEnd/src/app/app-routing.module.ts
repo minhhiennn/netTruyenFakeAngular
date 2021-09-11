@@ -10,8 +10,11 @@ import { UploadImgComponent } from './Component/upload-img/upload-img.component'
 import { UploadMangaComponent } from './Component/upload-manga/upload-manga.component';
 
 export function matcherTruyenDetail(url: UrlSegment[]) {
+  let id = url[1].path.toString().split('-')[url[1].path.split('-').length - 1];
   if (url.length === 2 && !url[1].path.toString().includes(".html")) {
-    return { consumed: url, posParams: { nameM: new UrlSegment(url[1].path, {}) } };
+    return {
+      consumed: url, posParams: { nameM: new UrlSegment(url[1].path, {}), idM: new UrlSegment(id, {}) }
+    };
   } else {
     return null;
   }
@@ -24,7 +27,7 @@ export function matcherChapReader(url: UrlSegment[]) {
   } else {
     id = url[1].path.toString().split('-')[url[1].path.split('-').length - 3];
   }
-  let urlGetImage = url[1].path.toString().substring(0, url[1].path.toString().indexOf(id))+id;
+  let urlGetImage = url[1].path.toString().substring(0, url[1].path.toString().indexOf(id)) + id;
   if (url.length === 2 && url[1].path.toString().includes(".html")) {
     return { consumed: url, posParams: { nameMAndChap: new UrlSegment(url[1].path, {}), idM: new UrlSegment(id, {}), img: new UrlSegment(urlGetImage, {}) } }
   } else {

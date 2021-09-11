@@ -21,6 +21,7 @@ export class TruyenDetailsComponent implements OnInit {
   ngOnInit(): void {
     console.log('loz');
     this.route.paramMap.subscribe((para) => {
+      console.log(para);
       let nameM = para.get('nameM') as string;
       this.detailService.getDetailsLeechManga(nameM).subscribe((data) => {
         let parser = new DOMParser();

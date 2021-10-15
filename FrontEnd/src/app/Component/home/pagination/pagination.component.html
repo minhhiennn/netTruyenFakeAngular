@@ -1,0 +1,10 @@
+<div class="divPager">
+    <ul class="pagination">
+        <li #liminimun (click)="goToMinimunPage()">«</li>
+        <li [class.active]="checkActive(index)" [class.moveoverandout]="checkMoveOverAndOut(index)"
+            *ngFor="let index of listPage;let i = index" #li (click)="changeCurrentPage(index)">
+            <a>{{index}}</a>
+        </li>
+        <li #limaximun (click)="goToMaxPage()">»</li>
+    </ul>
+</div>

@@ -1,0 +1,38 @@
+.divPager {
+}
+
+.divPager .pagination {
+    padding-top: 10px;
+    border-radius: unset;
+    align-items: center;
+    justify-content: center;
+}
+
+.divPager .pagination .active {
+    border: 1px solid #337ab7;
+    background-color: #00a5f0;
+}
+
+.divPager .pagination .active > a {
+    color: white;
+}
+
+.divPager .pagination .moveoverandout:hover {
+    background-color: #dcdcdc;
+    a {
+        color: blue;
+    }
+}
+
+.divPager .pagination > li {
+    cursor: pointer;
+    border: 1px solid #ddd;
+    display: inline-block;
+    /* top right bottom left */
+    padding: 5px 15px 5px 15px;
+    margin-right: 2px;
+}
+
+.divPager .pagination > li > a {
+    color: darkgray;
+}

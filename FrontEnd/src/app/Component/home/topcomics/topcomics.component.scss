@@ -1,0 +1,113 @@
+/*Top-comics*/
+.top-comics {
+    /* top right bottom left */
+    padding: 10px 0px 0px 0px;
+    /* top right bottom left */
+}
+.top-comics .page-title {
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 400;
+    color: #2980b9;
+    margin: 0 0 4px 0;
+}
+
+.top-comics .items-slide {
+    position: relative;
+}
+
+.top-comics .items-slide .left {
+    position: absolute;
+    left: 8px;
+    top: 80px;
+    border-radius: 4px;
+    cursor: pointer;
+    /* top right bottom left */
+    padding: 0px 14px 0px 14px;
+    background-color: rgba(235, 235, 235, 0.4);
+    color: rgba(73, 58, 64, 0.4);
+}
+
+.top-comics .items-slide .left:hover {
+    background-color: rgba(235, 235, 235, 0.6);
+    color: rgba(73, 58, 64, 0.6);
+}
+
+.top-comics .items-slide .right {
+    position: absolute;
+    right: 8px;
+    top: 80px;
+    border-radius: 4px;
+    cursor: pointer;
+    /* top right bottom left */
+    padding: 0px 14px 0px 14px;
+    background-color: rgba(235, 235, 235, 0.4);
+    color: rgba(73, 58, 64, 0.4);
+}
+
+.top-comics .items-slide .right:hover {
+    background-color: rgba(235, 235, 235, 0.6);
+    color: rgba(73, 58, 64, 0.6);
+}
+
+.top-comics .items-slide .owl-wrapper-outer {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper {
+    display: flex;
+    width: 4000px;
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item {
+    text-align: center;
+    height: 220px;
+    width: 180px;
+    position: relative;
+    /* top right bottom left */
+    margin: 0 14px 0 0px;
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item > a > img {
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item .slide-caption {
+    width: 100%;
+    position: absolute;
+    /* top right bottom left */
+    padding: 5px 0 5px 0;
+    bottom: 0;
+    background-color: rgba(62, 62, 62, 0.8);
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item .slide-caption > a {
+    font-size: 13px;
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item .slide-caption > h3 {
+    /* top right bottom left */
+    margin: 0;
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item .slide-caption > h3 > a {
+    height: 23px;
+    overflow: hidden;
+    font-size: 15px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.top-comics .items-slide .owl-wrapper-outer .owl-wrapper .owl-item .slide-caption .time {
+    font-size: 11px;
+    font-style: italic;
+    padding-left: 10px;
+    color: white;
+}
+
+/* End of Top-comics */

@@ -13,7 +13,6 @@ export class AppComponent {
 
   baseUrl: any;
   constructor(private http: HttpClient) {
-
     // for window scroll
     window.onscroll = () => {
       if (window.pageYOffset >= 60) {
@@ -35,7 +34,6 @@ export class AppComponent {
       }
     }
     // end
-    this.auth();
   }
 
   // back to top
@@ -43,15 +41,10 @@ export class AppComponent {
     window.scroll({ top: 0, behavior: 'smooth' });
   }
   // end
-  auth() {
-    this.http.post(`${environment.baseUrl}${ApiPaths.Auth}/login`, {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      })
-
-    }).subscribe(response => {
-      const token = (<any>response).token;
-      localStorage.setItem("token", token);
-    }, err => { console.log(err) });
+  test() {
+    let x = document.getElementsByClassName('suggestsearch')[0] as HTMLElement;
+    if (x != undefined || x != null) {
+      x.style.display = 'none';
+    }
   }
 }

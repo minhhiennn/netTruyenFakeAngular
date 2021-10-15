@@ -1,143 +1,7 @@
 <main>
     <div class="container">
         <div id="ctl00_divAlt1" class="altcontent1 cmszone">
-            <div class="top-comics">
-                <h2 class="page-title">Truyện đề cử <i class="fa fas fa-angle-right"></i></h2>
-                <div class="items-slide">
-                    <div class="owl-wrapper-outer">
-                        <div class="owl-wrapper">
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img2.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Chung Cực Binh Vương Tại Đô Thị</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img2.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Toàn Chức Pháp Sư</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img3.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Ngạo Thị Thiên Địa</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Mairimashita! Iruma-kun</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img1.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Chung Cực Binh Vương Tại Đô Thị</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img1.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Chung Cực Binh Vương Tại Đô Thị</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img1.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Chung Cực Binh Vương Tại Đô Thị</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img3.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Ngạo Thị Thiên Địa</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="owl-item">
-                                <a href="#">
-                                    <img src="assets/images/img.png" alt="nhu cc">
-                                </a>
-                                <div class="slide-caption">
-                                    <h3>
-                                        <a href="#">Mairimashita! Iruma-kun</a>
-                                    </h3>
-                                    <a href="#">Chap 153</a>
-                                    <span class="time">
-                                        <i class="fa fas fa-history"></i> 27/10/20
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <i class="fa fas fa-angle-left left fa-3x" (click)="TopComicsScrollLeft()"></i>
-                    <i class="fa fas fa-angle-right right fa-3x" (click)="TopComicsScrollRight()"></i>
-                </div>
-            </div>
+            <app-topcomics [listTopComics]='listTopComics'></app-topcomics>
         </div>
         <div class="row">
             <div class="divCenter">
@@ -146,52 +10,33 @@
                         <h2>Truyện mới cập nhật <i class="fa fas fa-angle-right"></i></h2>
                     </div>
                     <div class="body-divCenter-main-container">
-                        <div class="item" *ngFor="let img of listimgURL | slice:0:40;let i = index">
+                        <div class="item" *ngFor="let newUpdateComic of listNewUpdateComics;let i = index">
                             <figure>
                                 <div class="image">
                                     <a [routerLink]="['truyen-tranh',listNameMandIdM[i]]">
-                                        <!-- <img class="lazy" data-src="{{img}}" src="" /> -->
-                                        <!-- <img [src]="img"> -->
-                                        <img id="image" [defaultImage]="defaultImage" [lazyLoad]="img" />
+                                        <img id="image" [defaultImage]="defaultImage" [lazyLoad]="newUpdateComic.img" />
                                     </a>
                                     <div class="view">
                                         <span>
-                                            <i class="fa fas fa-eye"></i> 143.979
-                                            <i class="fa fas fa-comment"></i> 103
-                                            <i class="fa fas fa-heart"></i> 3.555
+                                            <i class="fa fas fa-eye"></i> {{newUpdateComic.view}}
+                                            <i class="fa fas fa-comment"></i> {{newUpdateComic.comment}}
+                                            <i class="fa fas fa-heart"></i> {{newUpdateComic.heart}}
                                         </span>
                                     </div>
                                 </div>
                                 <figcaption>
-                                    <h3>{{listName[i]}}</h3>
+                                    <h3>{{newUpdateComic.title}}</h3>
                                     <ul>
-                                        <li>
-                                            <a href="#" style="color: black">Chương {{listChap[i]}}</a>
-                                            <i>1 giờ trước</i>
-                                        </li>
-                                        <li>
-                                            <a href="#" style="color: black">Chương {{listChap[i] - 1}}</a>
-                                            <i>1 giờ trước</i>
-                                        </li>
-                                        <li>
-                                            <a href="#" style="color: black">Chương {{listChap[i] - 2}}</a>
-                                            <i>1 giờ trước</i>
+                                        <li *ngFor="let chap of newUpdateComic.listChap;let i2 = index">
+                                            <a href="#" style="color: black">{{chap}}</a>
+                                            <i>{{newUpdateComic.listTimeUpdate[i2]}}</i>
                                         </li>
                                     </ul>
                                 </figcaption>
                             </figure>
                         </div>
                     </div>
-                    <div class="divPager">
-                        <ul class="pagination">
-                            <li #liminimun (click)="goToMinimunPage()">«</li>
-                            <li [class.active]="checkActive(index)" [class.moveoverandout]="checkMoveOverAndOut(index)"
-                                *ngFor="let index of listPage;let i = index" #li (click)="changeCurrentPage(index)">
-                                <a>{{index}}</a>
-                            </li>
-                            <li #limaximun (click)="goToMaxPage()">»</li>
-                        </ul>
-                    </div>
+                    <app-pagination [currentPage]='currentPage'></app-pagination>
                 </div>
             </div>
             <div class="divRight">
@@ -208,7 +53,8 @@
                                         <a>{{ele.name}}</a>
                                     </h3>
                                     <p class="chapter">
-                                        <a [routerLink]="['truyen-tranh',ele.chapterUrl]">Đọc tiếp {{ele.chapterName}} </a>
+                                        <a [routerLink]="['truyen-tranh',ele.chapterUrl]">Đọc tiếp {{ele.chapterName}}
+                                        </a>
                                         <span class="view pull-right">
                                             <a class="visited-remove" href="#">
                                                 <i class="fa fa-times"> Xóa</i>

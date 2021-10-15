@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using backend.Data;
-using backend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -29,9 +27,6 @@ namespace backend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DataBase")));
-            //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("Server=tcp:nettruyenfake.database.windows.net,1433;Database=coreDB;Persist Security Info=False;User ID=shegga;Password=123456789pP"));
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

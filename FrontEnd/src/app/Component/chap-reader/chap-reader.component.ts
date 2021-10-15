@@ -26,28 +26,27 @@ export class ChapReaderComponent implements OnInit {
     this.activeroute.paramMap.subscribe((para) => {
       let parser = new DOMParser();
       //////////////////////////
-      let id = para.get('idM') as string;
-      let Linkimg = para.get('img') as string;
+      let chapName = para.get('chapName') as string;
+      let chapNumber = para.get('chapNumber') as string;
+      let chapId = para.get('idChap') as string;
       ////////////////////////
+      // reset lại thời điểm ban đầu
       this.listLinkHref = [];
       this.listChap = [];
       this.list = [];
       this.linkNextChap = "";
       this.linkPrevChap = "";
-      let x = para.get('nameMAndChap') as string;
-      let maybeChap = x.split('-')[x.split('-').length - 2];
-      let alwaysChap = x.split('-')[x.split('-').length - 1].split('.')[0];
-      if (Number.isInteger(parseInt(maybeChap))) {
-        this.chap = maybeChap + "." + alwaysChap;
-      } else {
-        this.chap = alwaysChap;
-      }
-      this.detailService.getNameManga(x).subscribe((nameManga) => {
+      ///////////// lấy được số chap hiện tại
+      this.chap = chapNumber.split('-')[1];
+      let fullLink: any = `${chapName}/${chapNumber}/${chapId}`;
+      this.detailService.getNameManga(fullLink.replaceAll('/', '@')).subscribe((nameManga) => {
         this.mangaName = nameManga;
-        this.detailService.getDetailsLeechManga(Linkimg).subscribe((data) => {
+        this.detailService.getAllNewChap(chapName).subscribe((data) => {
           let qw = parser.parseFromString(data, "text/html");
-          let imgUrl = qw.body.getElementsByClassName('left')[0].getElementsByTagName('img')[0].src;
-          let visitedComic: VisitedComic = new VisitedComic(id, this.mangaName, `Chapter ${this.chap}`, para.get('nameMAndChap') as string, imgUrl);
+          let x = qw.head.querySelector("meta[property='og:url']") as any;
+          let id = x.content.split('//')[1].split('/')[2].split('-')[x.content.split('//')[1].split('/')[2].split('-').length - 1];
+          let imgUrl = qw.body.getElementsByClassName('col-image')[0].getElementsByTagName('img')[0].src
+          let visitedComic: VisitedComic = new VisitedComic(id, this.mangaName, `Chapter ${this.chap}`, fullLink, imgUrl);
           let listvisitedComic: VisitedComic[] = JSON.parse(localStorage.getItem('listvisitedComic') as string) as VisitedComic[];
           if (listvisitedComic != null) {
             if (listvisitedComic.length == 0) {
@@ -75,7 +74,7 @@ export class ChapReaderComponent implements OnInit {
         })
       })
       ////////////////////////////////////////////////////
-      let visitedChap: string = id + '-' + this.chap;
+      let visitedChap: string = chapId;
       let listvisitedChap: string[] = JSON.parse(localStorage.getItem('listvisitedChap') as string) as string[];
       if (listvisitedChap != null) {
         if (listvisitedChap.length == 0) {
@@ -98,26 +97,26 @@ export class ChapReaderComponent implements OnInit {
         localStorage.setItem('listvisitedChap', JSON.stringify([]));
       }
       ////////////////////////////////////////////////////
-      this.detailService.getChapLeechManga(x).subscribe((data) => {
+      this.detailService.getChapLeechManga(chapName).subscribe((data) => {
         let z = parser.parseFromString(data, "text/html");
-        let z1 = z.body.getElementsByClassName('selectEpisode')[0].getElementsByTagName('option');
-        for (let i = 0; i < z1.length; i++) {
-          this.listLinkHref.push(z1[i].value);
-          this.listChap.push(z1[i].textContent as string);
+        let z1 = z.body.getElementsByClassName('list-chapter')[0].getElementsByClassName('row');
+        for (let i = 1; i < z1.length; i++) {
+          this.listLinkHref.push(z1[i].getElementsByTagName('a')[0].href);
+          this.listChap.push(z1[i].getElementsByTagName('a')[0].textContent as string);
         }
-        if (z.body.getElementsByClassName('prev level-left')[0] != null) {
-          this.linkPrevChap = z.body.getElementsByClassName('prev level-left')[0].getElementsByTagName('a')[0].href;
-        } else {
-          this.linkPrevChap = null;
-        }
-        if (z.body.getElementsByClassName('next level-right')[0] != null) {
-          this.linkNextChap = z.body.getElementsByClassName('next level-right')[0].getElementsByTagName('a')[0].href;
-        } else {
-          this.linkNextChap = null;
-        }
+        // if (z.body.getElementsByClassName('prev level-left')[0] != null) {
+        //   this.linkPrevChap = z.body.getElementsByClassName('prev level-left')[0].getElementsByTagName('a')[0].href;
+        // } else {
+        //   this.linkPrevChap = null;
+        // }
+        // if (z.body.getElementsByClassName('next level-right')[0] != null) {
+        //   this.linkNextChap = z.body.getElementsByClassName('next level-right')[0].getElementsByTagName('a')[0].href;
+        // } else {
+        //   this.linkNextChap = null;
+        // }
       })
       ////////////////////////////////////////////////////////////////////////////////
-      this.loadManga("http://truyenqqtop.com/truyen-tranh/" + x);
+      this.loadManga(`http://www.nettruyenpro.com/truyen-tranh/${chapName}/${chapNumber}/${chapId}`);
     })
   }
 
@@ -142,32 +141,39 @@ export class ChapReaderComponent implements OnInit {
     return new Array(i);
   }
   loadManga(url: string) {
-    var realUrl = url.split('/').join('@');
-    this.http.get(`http://localhost:5001/api/manga/getImgUrl/${realUrl}`).subscribe((data: any) => {
-      data.forEach((element1: any) => {
+    let doBase64 = true;
+    this.detailService.getUrlImgChapReader(url).subscribe((data: any) => {
+      data.listLinkImg.forEach((element1: any) => {
         this.list.push(element1)
+        console.log(element1.length);
+        if (doBase64 == true && element1.length > 100) {
+          doBase64 = false;
+        }
       });
-      data.forEach((element: any) => {
-        this.http.get(`http://localhost:5001/api/manga/leecher/${element.split('/').join('@')}`).subscribe(data1 => {
-          var image: any;
-          let objectURL = 'data:image/png;base64,' + data1;
-          image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          var index = this.list.indexOf(element);
-          this.list[index] = image;
-        })
-      });
+      if (doBase64 == true) {
+        data.listLinkImg.forEach((element: any) => {
+          this.http.get(`http://localhost:5001/api/manga/leecher/${element.replaceAll('/', '@')}`).subscribe(data1 => {
+            var image: any;
+            let objectURL = 'data:image/png;base64,' + data1;
+            image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            var index = this.list.indexOf(element);
+            this.list[index] = image;
+          })
+        });
+      }
     });
   }
   checkSelected(ele: string): boolean {
-    if (parseInt(ele.split(' ')[1]) == parseInt(this.chap)) {
+    if (ele.split(' ')[1] === this.chap) {
       return true;
     } else {
       return false;
     }
   }
   changeChapter(ele: any) {
-    console.log('cac');
-    let url = ele.value.split('//')[1].split('/')[1] + "/" + ele.value.split('//')[1].split('/')[2];
+    console.log(ele.value);
+    let urlSplit = ele.value.split('//')[1].split('/');
+    let url = urlSplit[1] + "/" + urlSplit[2] + "/" + urlSplit[3] + "/" + urlSplit[4];
     this.router.navigateByUrl('/' + url, { skipLocationChange: false });
   }
   prevChap() {

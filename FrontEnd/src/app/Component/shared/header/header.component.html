@@ -7,9 +7,25 @@
                 </a>
             </div>
             <div class="search">
-                <input type="text" class="" placeholder="Tìm truyện...">
+                <input #search type="text" class="" placeholder="Tìm truyện..." [(ngModel)]="inputSearch"
+                    (ngModelChange)="this.inputSearchUpdate.next(search.value)">
                 <div class="search-btn">
                     <i class="fa fas fa-search fa-lg"></i>
+                </div>
+                <div class="suggestsearch" *ngIf="object.listName !== undefined">
+                    <ul>
+                        <li *ngFor="let name of object.listName;index as i">
+                            <a [href]="object.listHref[i]">
+                                <img [src]="object.listImg[i]" alt="">
+                                <h3>{{name}}</h3>
+                                <h4>
+                                    <i>{{object.listChapter[i]}}</i>
+                                    <i *ngIf="object.listNameEng[i] != ''">{{object.listNameEng[i]}}</i>
+                                    <i>{{object.listCategory[i]}}</i>
+                                </h4>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="notification">

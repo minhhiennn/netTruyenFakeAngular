@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiPaths } from 'src/app/Enum/ApiPaths.enum';
 import { environment } from 'src/environments/environment';
-import { Manga } from '../Model/manga';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,8 +27,8 @@ export class MangaService {
     return this.http.get(this.url + "/leechManga/" + page, { responseType: 'text' });
   }
 
-  postManga(manga: Manga) {
-    return this.http.post(this.url, manga);
+  getSuccessSearch(search: string) {
+    return this.http.get(`http://www.nettruyenpro.com/Comic/Services/SuggestSearch.ashx?q=${search}`, { responseType: 'text' });
   }
 
 }

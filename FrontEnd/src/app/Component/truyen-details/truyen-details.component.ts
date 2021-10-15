@@ -11,12 +11,9 @@ export class TruyenDetailsComponent implements OnInit {
   baseUrl = environment.baseUrl;
   name: any;
   imgURL: any;
-  listChap: string[] = [];
-  listLinkHref: string[] = [];
-  listUpdateChap: string[] = [];
-  detailsManga: string = "";
   idM: string = "";
   listVisitedChap: string[] = [];
+  detailComics: any = {};
 
   constructor(private route: ActivatedRoute, private detailService: DetailService) { }
 
@@ -24,34 +21,17 @@ export class TruyenDetailsComponent implements OnInit {
     this.route.paramMap.subscribe((para) => {
       this.idM = para.get('idM') as string;
       let nameM = para.get('nameM') as string;
+      console.log(this.idM + "-" + nameM);
       /////////////////////////////////////////////////
       let listvisitedChap: string[] = JSON.parse(localStorage.getItem('listvisitedChap') as string) as string[];
       if (listvisitedChap != null) {
         this.listVisitedChap = listvisitedChap;
       }
       /////////////////////////////////////////////////
-      this.detailService.getDetailsLeechManga(nameM).subscribe((data) => {
-        let parser = new DOMParser();
-        let x = parser.parseFromString(data, "text/html");
-        this.imgURL = x.body.getElementsByClassName('left')[0].getElementsByTagName('img')[0].src;
-        this.name = x.body.getElementsByClassName('center')[0].getElementsByTagName('h1')[0].textContent;
-        // thằng y là thằng giữ list chap vs list update
-        let y = x.body.getElementsByClassName('works-chapter-list')[0];
-        let childOfy = y.getElementsByClassName('works-chapter-item');
-        for (let i = 0; i < childOfy.length; i++) {
-          let z1 = childOfy[i].getElementsByTagName('div')[0].getElementsByTagName('a')[0].href.split('//')[1].split('/')[2];
-          let z2 = childOfy[i].getElementsByTagName('div')[0].getElementsByTagName('a')[0].textContent as string;
-          let z3 = childOfy[i].getElementsByTagName('div')[1].textContent as string;
-          this.listLinkHref.push(z1);
-          this.listChap.push(z2);
-          this.listUpdateChap.push(z3);
-        }
-        console.log(this.listChap);
-        let z4 = x.body.getElementsByClassName('story-detail-info')[0].getElementsByTagName('p')[0].textContent as string;
-        this.detailsManga = z4;
+      this.detailService.getDetailsLeechManga(nameM).subscribe((obj) => {
+        this.detailComics = obj;
       });
     });
-
     let x = document.getElementsByClassName("breadcrumb")[0];
     let y = x.getElementsByTagName("li");
     for (let i = 0; i < y.length; i++) {
@@ -79,11 +59,21 @@ export class TruyenDetailsComponent implements OnInit {
       eleA.textContent = 'Xem thêm ' + '\u203a';
     }
   }
-  checkVisitedChap(ele: string) {
-    let visitedChapToCheck = this.idM + "-" + ele.split(' ')[1];
-    console.log(visitedChapToCheck);
+
+  checkHeight(p: HTMLElement): boolean {
+    if (p.offsetHeight != 0) {
+      if (p.offsetHeight >= 60) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    return true;
+  }
+  checkVisitedChap(ele: HTMLElement) {
+    let idChap = ele.id.split('/')[4];  
     for (let i = 0; i < this.listVisitedChap.length; i++) {
-      if (this.listVisitedChap[i] == visitedChapToCheck) {
+      if (this.listVisitedChap[i] == idChap) {
         return true;
       }
     }

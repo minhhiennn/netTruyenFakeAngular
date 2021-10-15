@@ -1,0 +1,25 @@
+<div class="top-comics">
+    <h2 class="page-title">Truyện đề cử <i class="fa fas fa-angle-right"></i></h2>
+    <div class="items-slide">
+        <div class="owl-wrapper-outer">
+            <div class="owl-wrapper">
+                <div class="owl-item" *ngFor='let comic of listTopComics;let i = index'>
+                    <a href="#">
+                        <img [src]="comic.img" alt="nhu cc">
+                    </a>
+                    <div class="slide-caption">
+                        <h3>
+                            <a href="#" style="color: white;">{{comic.name}}</a>
+                        </h3>
+                        <a href="#" style="color: white;">{{comic.chap}}</a>
+                        <span class="time">
+                            <i class="fa fas fa-history"></i>{{comic.timeUpdate}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <i class="fa fas fa-angle-left left fa-3x" (click)="TopComicsScrollLeft()"></i>
+        <i class="fa fas fa-angle-right right fa-3x" (click)="TopComicsScrollRight()"></i>
+    </div>
+</div>

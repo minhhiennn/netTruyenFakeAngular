@@ -188,4 +188,10 @@ export class ChapReaderComponent implements OnInit {
       this.router.navigateByUrl('/' + url, { skipLocationChange: false });
     }
   }
+  hiddenSuggestSearch(){
+    let x = document.getElementsByClassName('suggestsearch')[0] as HTMLElement;
+    if (x != undefined || x != null) {
+      x.style.display = 'none';
+    }
+  }
 }

@@ -79,4 +79,10 @@ export class TruyenDetailsComponent implements OnInit {
     }
     return false;
   }
+  hiddenSuggestSearch(){
+    let x = document.getElementsByClassName('suggestsearch')[0] as HTMLElement;
+    if (x != undefined || x != null) {
+      x.style.display = 'none';
+    }
+  }
 }

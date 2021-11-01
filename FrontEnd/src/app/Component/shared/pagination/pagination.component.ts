@@ -10,6 +10,7 @@ import { MangaService } from 'src/app/Service/manga.service';
 })
 export class PaginationComponent implements OnInit, OnChanges {
   @Input() currentPage: any;
+  @Input() typePage: any;
   pageMax: number = 0;
   listPage: number[] = [];
 
@@ -17,7 +18,8 @@ export class PaginationComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(): void {
-    this.mangaService.getPage().subscribe((data) => {
+    this.mangaService.getPage(this.typePage).subscribe((data) => {
+      console.log(data);
       this.listPage = [];
       this.pageMax = data as number;
       let x = this.currentPage - 2;
@@ -49,13 +51,25 @@ export class PaginationComponent implements OnInit, OnChanges {
     }
   }
   changeCurrentPage(index: number) {
-    this.router.navigateByUrl('/?page=' + index);
+    if (this.typePage == 'mainPage') {
+      this.router.navigateByUrl('/?page=' + index);
+    } else {
+      this.router.navigate(['/tim-truyen'], { queryParams: { keyword: this.typePage, page: index } });
+    }
   }
   goToMinimunPage() {
-    this.router.navigateByUrl('/?page=' + 1);
+    if (this.typePage == 'mainPage') {
+      this.router.navigateByUrl('/?page=' + 1);
+    } else {
+      this.router.navigate(['/tim-truyen'], { queryParams: { keyword: this.typePage, page: 1 } });
+    }
   }
   goToMaxPage() {
-    this.router.navigateByUrl('/?page=' + this.pageMax);
+    if (this.typePage == 'mainPage') {
+      this.router.navigateByUrl('/?page=' + this.pageMax);
+    } else {
+      this.router.navigate(['/tim-truyen'], { queryParams: { keyword: this.typePage, page: this.pageMax } });
+    }
   }
   checkMoveOverAndOut(index: number) {
     if (this.currentPage != index) {

@@ -41,7 +41,7 @@ export class AppComponent {
     window.scroll({ top: 0, behavior: 'smooth' });
   }
   // end
-  test() {
+  hiddenSuggestSearch() {
     let x = document.getElementsByClassName('suggestsearch')[0] as HTMLElement;
     if (x != undefined || x != null) {
       x.style.display = 'none';

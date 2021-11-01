@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MangaService } from 'src/app/Service/manga.service';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -9,13 +10,15 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit {
 
+  isLoading: boolean = false;
+
   inputSearch: string = '';
 
   inputSearchUpdate = new Subject<string>();
 
   object: any = {};
 
-  constructor(private mangaService: MangaService) {
+  constructor(private mangaService: MangaService,private router:Router) {
 
   }
 
@@ -44,7 +47,6 @@ export class HeaderComponent implements OnInit {
       })
     }
     ///////////////////////
-    console.log(this.object);
 
     // Debounce search.
     this.inputSearchUpdate
@@ -52,7 +54,9 @@ export class HeaderComponent implements OnInit {
       .subscribe((value) => {
         this.object = {};
         if (value != "") {
+          this.isLoading = true;
           this.mangaService.getSuccessSearch(value).subscribe(data => {
+            this.isLoading = false;
             let parser = new DOMParser();
             let x = parser.parseFromString(data, 'text/html');
             let listHref: string[] = [];
@@ -63,8 +67,8 @@ export class HeaderComponent implements OnInit {
             let listCategory: string[] = [];
             let x1 = x.body.getElementsByTagName('ul')[0].getElementsByTagName('li');
             for (let i = 0; i < x1.length; i++) {
-              console.log(x1[i]);
-              listHref.push(x1[i].getElementsByTagName('a')[0].href);
+              let href = x1[i].getElementsByTagName('a')[0].href;
+              listHref.push(href.split("//")[1].substr(34));
               listImg.push(x1[i].getElementsByTagName('a')[0].getElementsByTagName('img')[0].src);
               listName.push(x1[i].getElementsByTagName('a')[0].getElementsByTagName('h3')[0].textContent as string);
               listChapter.push(x1[i].getElementsByTagName('a')[0].getElementsByTagName('h4')[0].getElementsByTagName('i')[0].textContent as string);
@@ -81,5 +85,11 @@ export class HeaderComponent implements OnInit {
           })
         }
       });
+  }
+
+  searchPage(ele: HTMLInputElement) {
+    if(ele.value != ''){
+      this.router.navigate(['/tim-truyen'], { queryParams: { keyword: ele.value } });
+    }
   }
 }

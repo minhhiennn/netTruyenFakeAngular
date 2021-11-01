@@ -1,0 +1,213 @@
+/* Body */
+main {
+}
+
+main .container {
+}
+
+/*Top-comics*/
+/* nếu mún thêm lại thì thêm main .container .altcontent1 trước css thằng topcomics */
+main .container .altcontent1 {
+    width: 990px;
+    /* top right bottom left */
+    padding: 0 15px 0 15px;
+}
+
+/* End of Top-comics */
+/* */
+main .container .row {
+    margin-left: 0;
+    width: 990px;
+    display: flex;
+}
+
+/* new-update */
+main .container .row .divCenter {
+    width: 680px;
+}
+
+main .container .row .divCenter .divCenter-main-container {
+}
+
+main .container .row .divCenter .divCenter-main-container .header-divCenter-main-container {
+    /* top right bottom left */
+    padding: 10px 0 6px 13px;
+}
+
+main .container .row .divCenter .divCenter-main-container .header-divCenter-main-container > h2 {
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: 400;
+    color: #2980b9;
+    /* top right bottom left */
+    margin: 0;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container {
+    padding-left: 13px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item {
+    margin-right: 15px;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure {
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure .image {
+    position: relative;
+    text-align: center;
+    height: 190px;
+    width: 150px;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure .image > a > img {
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure .image .view {
+    position: absolute;
+    overflow: hidden;
+    bottom: 0;
+    width: 100%;
+    max-height: 21px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+main
+    .container
+    .row
+    .divCenter
+    .divCenter-main-container
+    .body-divCenter-main-container
+    .item
+    figure
+    .image
+    .view
+    > span {
+    font-size: 12px;
+    color: white;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure figcaption {
+    width: 150px;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure figcaption > h3 {
+    overflow: hidden;
+    font-size: 16px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+main .container .row .divCenter .divCenter-main-container .body-divCenter-main-container .item figure figcaption > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+main
+    .container
+    .row
+    .divCenter
+    .divCenter-main-container
+    .body-divCenter-main-container
+    .item
+    figure
+    figcaption
+    > ul
+    > li
+    > a {
+    font-size: 13px;
+}
+
+main
+    .container
+    .row
+    .divCenter
+    .divCenter-main-container
+    .body-divCenter-main-container
+    .item
+    figure
+    figcaption
+    > ul
+    > li
+    > i {
+    color: silver;
+    font-size: 11px;
+    line-height: 20px;
+    font-style: italic;
+    float: right;
+    margin-right: 5px;
+    white-space: nowrap;
+}
+
+/* End of new-update */
+// main .container .row .divCenter .divCenter-main-container .divPager {
+// }
+
+// main .container .row .divCenter .divCenter-main-container .divPager .pagination {
+//     padding-top: 10px;
+//     border-radius: unset;
+//     align-items: center;
+//     justify-content: center;
+// }
+
+// main .container .row .divCenter .divCenter-main-container .divPager .pagination .active {
+//     border: 1px solid #337ab7;
+//     background-color: #00a5f0;
+// }
+
+// main .container .row .divCenter .divCenter-main-container .divPager .pagination .active > a {
+//     color: white;
+// }
+
+// main .container .row .divCenter .divCenter-main-container .divPager .pagination .moveoverandout:hover {
+//     background-color: #dcdcdc;
+//     a {
+//         color: blue;
+//     }
+// }
+
+// main .container .row .divCenter .divCenter-main-container .divPager .pagination > li {
+//     cursor: pointer;
+//     border: 1px solid #ddd;
+//     display: inline-block;
+//     /* top right bottom left */
+//     padding: 5px 15px 5px 15px;
+//     margin-right: 2px;
+// }
+
+// main .container .row .divCenter .divCenter-main-container .divPager .pagination > li > a {
+//     color: darkgray;
+// }
+
+/* div-right */
+main .container .row .divRight {
+    width: 310px;
+    padding-top: 12px;
+    
+}
+/* end of div-right */
+/* */
+/* End of Body */
+
+img.ng-lazyloaded {
+    animation: fadein 1s;
+}
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -1,4 +1,4 @@
-<main>
+<main (click)="hiddenSuggestSearch()">
     <div class="container">
         <div id="ctl00_divAlt1" class="altcontent1 cmszone">
             <app-topcomics [listTopComics]='listTopComics'></app-topcomics>
@@ -36,7 +36,7 @@
                             </figure>
                         </div>
                     </div>
-                    <app-pagination [currentPage]='currentPage'></app-pagination>
+                    <app-pagination [currentPage]='currentPage' [typePage]="'mainPage'"></app-pagination>
                 </div>
             </div>
             <div class="divRight">
@@ -44,7 +44,7 @@
                     <div class="box darkBox">
                         <h2>Lịch sử đọc truyện <a class="view-all">Xem tất cả</a></h2>
                         <ul class="list-unstyled">
-                            <li class="clearfix" *ngFor="let ele of listVisitedComics;let i = index">
+                            <li class="clearfix" *ngFor="let ele of listVisitedComics | slice:0:3;let i = index">
                                 <div class="t-item">
                                     <a class="thumb" [routerLink]="['truyen-tranh',ele.chapterUrl]">
                                         <img [src]="ele.image">

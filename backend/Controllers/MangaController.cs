@@ -17,16 +17,33 @@ namespace backend.Controllers
         {
 
         }
-        [HttpGet("page")]
-        public ActionResult<int> getMaxPageLeech()
+        [HttpGet("page/{urlPage}")]
+        public ActionResult<int> getMaxPageLeech(string urlPage)
         {
-            string url = "http://www.nettruyenpro.com/?page=1";
+            string url;
+            if (urlPage == "mainPage")
+            {
+                url = "http://www.nettruyenpro.com/?page=1";
+            }
+            else
+            {
+                url = "http://www.nettruyenpro.com/tim-truyen?keyword=" + urlPage + "&page=1";
+            }
             var doc = new HtmlDocument();
             doc.LoadHtml(Custom.leechWithUrl(url));
             var nodes = doc.DocumentNode.SelectNodes("//ul[@class='pagination']")[0].SelectNodes("//a[@title='Trang cuối']")[0];
-            string x = nodes.GetAttributeValue("href", "nhu cc").Split("=")[1];
-            return Int32.Parse(x);
+            if (nodes != null)
+            {
+                string x = nodes.GetAttributeValue("href", "nhu cc").Split("page=")[1];
+                return Int32.Parse(x);
+            }
+            else
+            {
+                return 0;
+            }
+
         }
+
         [HttpGet("leechManga/{page}")]
         public ActionResult<string> leechMangaByPage(string page)
         {

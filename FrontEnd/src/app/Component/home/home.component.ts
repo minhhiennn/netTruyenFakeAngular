@@ -43,4 +43,10 @@ export class HomeComponent implements OnInit {
   linkChapInManga(ele: string) {
 
   }
+  hiddenSuggestSearch(){
+    let x = document.getElementsByClassName('suggestsearch')[0] as HTMLElement;
+    if (x != undefined || x != null) {
+      x.style.display = 'none';
+    }
+  }
 }

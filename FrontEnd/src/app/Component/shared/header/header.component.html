@@ -8,14 +8,15 @@
             </div>
             <div class="search">
                 <input #search type="text" class="" placeholder="Tìm truyện..." [(ngModel)]="inputSearch"
-                    (ngModelChange)="this.inputSearchUpdate.next(search.value)">
-                <div class="search-btn">
+                    (ngModelChange)="this.inputSearchUpdate.next(search.value)" (keyup.enter)="searchPage(search)">
+                    <i class="load fa fas fa-spinner" [style.visibility]="isLoading ? 'visible' : 'collapse'"></i>
+                <div class="search-btn" (click)="searchPage(search)">
                     <i class="fa fas fa-search fa-lg"></i>
                 </div>
                 <div class="suggestsearch" *ngIf="object.listName !== undefined">
                     <ul>
                         <li *ngFor="let name of object.listName;index as i">
-                            <a [href]="object.listHref[i]">
+                            <a [routerLink]="['truyen-tranh',object.listHref[i]]"> 
                                 <img [src]="object.listImg[i]" alt="">
                                 <h3>{{name}}</h3>
                                 <h4>

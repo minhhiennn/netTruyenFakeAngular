@@ -4,5 +4,6 @@ export enum ApiPaths {
     Manga = '/api/manga', 
     Detail = '/api/detail', 
     File = '/api/file',
-    Storage = '/storage'
+    Storage = '/storage',
+    Timtruyen= '/api/Timtruyen'
 }

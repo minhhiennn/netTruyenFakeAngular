@@ -1,0 +1,44 @@
+<main (click)="hiddenSuggestSearch()">
+    <div class="container">
+        <div class="row">
+            <div class="divCenter">
+                <div class="divCenter-main-container">
+                    <div class="header-divCenter-main-container">
+                        <h2>Tìm truyện tranh <i class="fa fas fa-angle-right"></i></h2>
+                    </div>
+                    <div class="body-divCenter-main-container">
+                        <div class="item" *ngFor="let truyen of listSearchTruyen;let i = index">
+                            <figure>
+                                <div class="image">
+                                    <a href="#">
+                                        <img id="image" [defaultImage]="defaultImage" [lazyLoad]="truyen.img" />
+                                    </a>
+                                    <div class="view">
+                                        <span>
+                                            <i class="fa fas fa-eye"></i> {{truyen.view}}
+                                            <i class="fa fas fa-comment"></i> {{truyen.comment}}
+                                            <i class="fa fas fa-heart"></i> {{truyen.heart}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <figcaption>
+                                    <h3>{{truyen.title}}</h3>
+                                    <ul>
+                                        <li *ngFor="let chap of truyen.listChap;let i2 = index">
+                                            <a href="#" style="color: black">{{chap}}</a>
+                                            <i>{{truyen.listTimeUpdate[i2]}}</i>
+                                        </li>
+                                    </ul>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    <app-pagination [currentPage]='currentPage' [typePage]="typePage"></app-pagination>
+                </div>
+            </div>
+            <div class="divRight">
+               
+            </div>
+        </div>
+    </div>
+</main>
